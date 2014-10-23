@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block bspline cblas cdf cheb combination complex" 
+dirs="gsl blas block bspline cblas cdf cheb combination complex const deriv dht diff eigen err" 
 
 for d in $dirs; do
 	d=$src/$d
@@ -45,6 +45,8 @@ mv cblas_hypot.c cblas_hypot.c.inc
 for f in *_inc.c; do
 		mv $f $f.inc;
 done;
+
+mv eigen_qrstep.c eigen_qrstep.c.inc
 
 rm *_test_*.c *_test.c
 
