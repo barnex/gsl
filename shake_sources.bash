@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block bspline cblas cdf cheb combination" 
+dirs="gsl blas block bspline cblas cdf cheb combination complex" 
 
 for d in $dirs; do
 	d=$src/$d
@@ -49,6 +49,7 @@ done;
 rm *_test_*.c *_test.c
 
 cp build.h combination_build.h
+cp build.h complex_build.h
 
 )
 
