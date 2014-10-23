@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block bspline cblas" 
+dirs="gsl blas block bspline cblas cdf" 
 
 for d in $dirs; do
 	d=$src/$d
@@ -40,7 +40,11 @@ done
 #quirks
 mv $dst/cblas_hypot.c $dst/cblas_hypot.c.inc
 
+for f in $dst/*_inc.c; do
+		mv $f $f.inc;
+done;
+
 rm $dst/*_test_*.c $dst/*_test.c
 
 
-(cd $dst && gcc -c -w *.c)
+(cd $dst && gcc -pipe -fPIC -c -w *.c)
