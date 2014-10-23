@@ -14,12 +14,14 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block" 
+dirs="gsl blas block bspline" 
 
 for d in $dirs; do
 	d=$src/$d
 	for f in $d/*.c $d/*.h; do
-			sed -r 's/#include "([a-z|_|\.]*)_source.c"/#include "'$(basename $d)'_\1_source.c.inc"/g' $f | \
+			sed -r 's/#include "([a-z|_]*)\.h"/#include "'$(basename $d)'_\1\.h"/g' $f | \
+			sed -r 's/#include "[a-z]*_templates_([o|f|n]*)\.h"/#include "templates_\1\.h"/g'  | \
+			sed -r 's/#include "([a-z|_|\.]*)_source.c"/#include "'$(basename $d)'_\1_source.c.inc"/g' | \
 			sed -r 's/#include <gsl\/([a-z|_|\.]*)>/#include "gsl_\1"/g'  | \
 			sed -r 's/#include <(config|gsl_version|gsl_types)\.h>/#include "\1\.h"/g' > $dst/$(basename $d)_$(basename $f)
 	done
