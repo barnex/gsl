@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block bspline cblas cdf" 
+dirs="gsl blas block bspline cblas cdf cheb combination" 
 
 for d in $dirs; do
 	d=$src/$d
@@ -24,7 +24,7 @@ for d in $dirs; do
 			sed -r 's/#include "[a-z]*_templates_([o|f|n]*)\.h"/#include "templates_\1\.h"/g'  | \
 			sed -r 's/#include "([a-z|_|\.]*)\.c"/#include "'$bd'_\1.c.inc"/g' | \
 			sed -r 's/#include <gsl\/([a-z|_|\.]*)>/#include "gsl_\1"/g'  | \
-			sed -r 's/#include <(config|gsl_version|gsl_types)\.h>/#include "\1\.h"/g' > $dst/$bd'_'$(basename $f)
+			sed -r 's/#include <(config|gsl_version|gsl_types|build)\.h>/#include "\1\.h"/g' > $dst/$bd'_'$(basename $f)
 	done
 done
 
@@ -38,13 +38,19 @@ for f in $dst/*_source.c; do
 done
 
 #quirks
-mv $dst/cblas_hypot.c $dst/cblas_hypot.c.inc
+(cd $dst
 
-for f in $dst/*_inc.c; do
+mv cblas_hypot.c cblas_hypot.c.inc
+
+for f in *_inc.c; do
 		mv $f $f.inc;
 done;
 
-rm $dst/*_test_*.c $dst/*_test.c
+rm *_test_*.c *_test.c
+
+cp build.h combination_build.h
+
+)
 
 
 (cd $dst && gcc -pipe -fPIC -c -w *.c)
