@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl blas block bspline cblas cdf cheb combination complex const deriv dht diff eigen err" 
+dirs="gsl cblas math"
 
 for d in $dirs; do
 	d=$src/$d
@@ -30,6 +30,8 @@ done
 
 
 rm $dst/*_\*.* # stray files
+
+rm $dst/gsl-histogram.c
 
 # some people think it's a good idea to include .c files.
 # move them aside so they don't get compiled twice
@@ -48,12 +50,18 @@ done;
 
 mv eigen_qrstep.c eigen_qrstep.c.inc
 
-rm *_test_*.c *_test.c
+rm *_test_*.c *_test.c *_tests.c
 
 cp build.h combination_build.h
 cp build.h complex_build.h
+cp build.h vector_build.h
+cp build.h matrix_build.h
 
+
+rm gsl-historgram.c
+rm gsl-randist.c
 )
 
 
-(cd $dst && gcc -pipe -fPIC -c -w *.c)
+#(cd $dst && gcc -pipe -fPIC -c -w *.c)
+cp wrapper.go $dst
