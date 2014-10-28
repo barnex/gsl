@@ -83,6 +83,32 @@ func (*TData) TrimComma(s string) string {
 	return strings.Trim(s, ",")
 }
 
+func (*TData) Cast(ctype, arg string) string {
+	switch {
+	default:
+		return cast(ctype) + "(" + arg + ")"
+	case strings.HasPrefix(ctype, "CBLAS_"):
+		return "uint32(" + arg + ")"
+	}
+}
+
+var castm = map[string]string{
+	"int":     "C.int",
+	"float":   "C.float",
+	"float*":  "(*C.float)",
+	"double":  "C.double",
+	"double*": "(*C.double)",
+	"void*":   "",
+}
+
+func cast(t string) string {
+	if c, ok := castm[t]; ok {
+		return c
+	} else {
+		panic("cannot cast " + t)
+	}
+}
+
 type arg struct {
 	GoType, CType, Name string
 }
@@ -96,6 +122,9 @@ func parseArgs(token []string, i *int) []arg {
 	for {
 		tok := token[*i]
 		if tok == ")" {
+			if token[*i-1] != ")" {
+				args = append(args, newArg(token[*i-2], token[*i-1]))
+			}
 			return args
 		}
 		if tok == "," {
@@ -118,9 +147,9 @@ func typemap(ctype string) string {
 
 var tm = map[string]string{
 	"float":           "float32",
-	"float*":          "[]float32",
+	"float*":          "*float32",
 	"double":          "float64",
-	"double*":         "[]float64",
+	"double*":         "*float64",
 	"int":             "int",
 	"void*":           "unsafe.Pointer",
 	"void":            "",
@@ -143,7 +172,7 @@ package cblas
 */
 
 //#cgo LDFLAGS: -lm
-//#cgo CFLAGS: -O0 -lm
+//#cgo CFLAGS: -O3
 //#include "gsl_gsl_cblas.h"
 import "C"
 
@@ -159,8 +188,9 @@ type Side int
 
 {{range $k,$v:=.Funcs}}
 func {{$k}} ( {{range $i,$a := $v.Args}} {{if ne $i 0}},{{end}} {{$a.Name}} {{$a.GoType}} {{end}}  ) {{$v.GoType}}{
-
-{{with $v.GoType}} return {{.}} ( {{end}} C.{{$v.CName}}() {{with $v.GoType}} ) {{end}}
+{{with $v.GoType}} return {{.}} ( {{end}} C.{{$v.CName}}(
+	{{range $i,$v := .Args}} {{if ne $i 0}},
+{{end}} {{$.Cast .CType .Name}} {{end}}) {{with $v.GoType}} ) {{end}}
 }
 {{end}}
 
