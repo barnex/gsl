@@ -65,14 +65,28 @@ func cuda2go(fname string) {
 		}
 	}
 
-	out, errOut := os.Create("cblas_wrapper.go")
-	if errOut != nil {
-		log.Fatal(errOut)
+	{
+		out, errOut := os.Create("cblas_wrapper.go")
+		if errOut != nil {
+			log.Fatal(errOut)
+		}
+		errT := templ.Execute(out, &TData{funcs})
+		if errT != nil {
+			log.Fatal(errT)
+		}
 	}
-	errT := templ.Execute(out, &TData{funcs})
-	if errT != nil {
-		log.Fatal(errT)
+
+	{
+		out, errOut := os.Create("blas_wrapper.go")
+		if errOut != nil {
+			log.Fatal(errOut)
+		}
+		errT := templateSafe.Execute(out, &TData{funcs})
+		if errT != nil {
+			log.Fatal(errT)
+		}
 	}
+
 }
 
 type TData struct {
@@ -88,6 +102,17 @@ func (*TData) Cast(ctype, arg string) string {
 	default:
 		return cast(ctype) + "(" + arg + ")"
 	case strings.HasPrefix(ctype, "CBLAS_"):
+		return "uint32(" + arg + ")"
+	case ctype == "void*":
+		return arg
+	}
+}
+
+func (*TData) CBlasCast(gotype, arg string) string {
+	switch {
+	default:
+		return arg
+	case gotype == "Order" || gotype == "Transpose":
 		return "uint32(" + arg + ")"
 	}
 }
@@ -153,23 +178,21 @@ var tm = map[string]string{
 	"int":             "int",
 	"void*":           "unsafe.Pointer",
 	"void":            "",
-	"CBLAS_ORDER":     "Order",
-	"CBLAS_TRANSPOSE": "Transpose",
-	"CBLAS_UPLO":      "Uplo",
-	"CBLAS_DIAG":      "Diag",
-	"CBLAS_SIDE":      "Side",
+	"CBLAS_ORDER":     "uint32",
+	"CBLAS_TRANSPOSE": "uint32",
+	"CBLAS_UPLO":      "uint32",
+	"CBLAS_DIAG":      "uint32",
+	"CBLAS_SIDE":      "uint32",
 	"CBLAS_INDEX":     "int",
 }
 
 // wrapper code template text
-const templText = `
-
+const templText = `//Package cblas provides an unsafe, low-level C interface used by package blas.
+//Users should use package blas directly.
 package cblas
 
-/*
- THIS FILE IS AUTO-GENERATED
- EDITING IS FUTILE.
-*/
+
+//THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
 
 //#cgo LDFLAGS: -lm
 //#cgo CFLAGS: -O3
@@ -177,6 +200,21 @@ package cblas
 import "C"
 
 import(
+	"unsafe"
+)
+
+{{range $k,$v:=.Funcs}}
+func {{$k}} ( {{range $i,$a := $v.Args}} {{if ne $i 0}},{{end}} {{$a.Name}} {{$a.GoType}} {{end}}  ) {{$v.GoType}}{
+{{with $v.GoType}} return {{.}} ( {{end}} C.{{$v.CName}}( {{range $i,$v := .Args}} {{if ne $i 0}}, {{end}} {{$.Cast .CType .Name}} {{end}}) {{with $v.GoType}} ) {{end}}
+}
+{{end}}
+
+`
+
+const templSafe = ` package blas
+
+import(
+	"cblas"
 	"unsafe"
 )
 
@@ -190,7 +228,7 @@ type Side int
 func {{$k}} ( {{range $i,$a := $v.Args}} {{if ne $i 0}},{{end}} {{$a.Name}} {{$a.GoType}} {{end}}  ) {{$v.GoType}}{
 {{with $v.GoType}} return {{.}} ( {{end}} C.{{$v.CName}}(
 	{{range $i,$v := .Args}} {{if ne $i 0}},
-{{end}} {{$.Cast .CType .Name}} {{end}}) {{with $v.GoType}} ) {{end}}
+{{end}} {{$.CBlasCast .GoType .Name}} {{end}}) {{with $v.GoType}} ) {{end}}
 }
 {{end}}
 
@@ -198,6 +236,7 @@ func {{$k}} ( {{range $i,$a := $v.Args}} {{if ne $i 0}},{{end}} {{$a.Name}} {{$a
 
 // wrapper code template
 var templ = template.Must(template.New("wrap").Parse(templText))
+var templateSafe = template.Must(template.New("wrap").Parse(templSafe))
 
 // should token be filtered out of stream?
 var filter = map[string]bool{
