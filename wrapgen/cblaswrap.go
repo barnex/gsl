@@ -16,14 +16,14 @@ func main() {
 	CtoGoType["CBLAS_UPLO"] = "uint32"
 	CtoGoType["CBLAS_DIAG"] = "uint32"
 	CtoGoType["CBLAS_SIDE"] = "uint32"
-	CtoGoType["CBLAS_INDEX"] = "uint32"
+	CtoGoType["CBLAS_INDEX"] = "int"
 
 	CtoCgoType["CBLAS_ORDER"] = "uint32"
 	CtoCgoType["CBLAS_TRANSPOSE"] = "uint32"
 	CtoCgoType["CBLAS_UPLO"] = "uint32"
 	CtoCgoType["CBLAS_DIAG"] = "uint32"
 	CtoCgoType["CBLAS_SIDE"] = "uint32"
-	CtoCgoType["CBLAS_INDEX"] = "uint32"
+	CtoCgoType["CBLAS_INDEX"] = "int"
 
 	funcs := ParseFuncs(tokens)
 
