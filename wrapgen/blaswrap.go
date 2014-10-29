@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"strings"
+	"unicode"
 
 	. "."
 )
@@ -77,22 +78,28 @@ func (x *TData2) CBlasFunc(blasFname string) Func {
 }
 
 func (*TData2) Make(typ string) string {
+	if strings.HasPrefix(typ, "[][]") {
+		return "Make" + camel(typ[len("[][]"):]) + "Matrix(2, 2)"
+	}
 	if strings.HasPrefix(typ, "[]") {
 		return typ + "{0, 0, 0}"
 	}
 
-	n = 1
 	if strings.HasPrefix(typ, "complex") {
 		return typ + "(complex(" + num() + "," + num() + "))"
 	}
 	return typ + "(" + num() + ")"
 }
 
+func camel(s string) string {
+	return string(unicode.ToUpper(rune(s[0]))) + s[1:]
+}
+
 var n = 0.0
 
 func num() string {
 	n++
-	return fmt.Sprintf("%.1f",n)
+	return fmt.Sprintf("%.1f", n)
 }
 
 // wrapper code template text

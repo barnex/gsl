@@ -9,7 +9,7 @@ import (
 func SDSDOT(alpha float32, X []float32, incX int, Y []float32, incY int) float32 {
 	checkSizeS(X, Y)
 	var N_ int = len(X)
-	var X_ *float32 = &X[0] 
+	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
 	return cblas.CBLAS_SDSDOT(N_, alpha, X_, incX, Y_, incY)
 }
