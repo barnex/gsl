@@ -4,6 +4,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"strings"
 
 	. "."
 )
@@ -43,10 +45,10 @@ func main() {
 	blasFuncs := ParseFuncs(tokens)
 
 	// remove "result *something" arg
-	for i,f:=range blasFuncs{
-			args := f.Args
-		if args[len(args)-1].Name == "result"{
-				blasFuncs[i].Args = args[:len(args)-1]
+	for i, f := range blasFuncs {
+		args := f.Args
+		if args[len(args)-1].Name == "result" {
+			blasFuncs[i].Args = args[:len(args)-1]
 		}
 	}
 
@@ -54,6 +56,8 @@ func main() {
 	cblasFuncs := ParseFuncs(tokens)
 
 	Render(flag.Arg(2), templText, &TData2{TData{blasFuncs}, cblasFuncs})
+
+	Render(flag.Arg(3), testTempl, &TData2{TData{blasFuncs}, cblasFuncs})
 }
 
 type TData2 struct {
@@ -72,6 +76,25 @@ func (x *TData2) CBlasFunc(blasFname string) Func {
 	return Func{}
 }
 
+func (*TData2) Make(typ string) string {
+	if strings.HasPrefix(typ, "[]") {
+		return typ + "{0, 0, 0}"
+	}
+
+	n = 1
+	if strings.HasPrefix(typ, "complex") {
+		return typ + "(complex(" + num() + "," + num() + "))"
+	}
+	return typ + "(" + num() + ")"
+}
+
+var n = 0.0
+
+func num() string {
+	n++
+	return fmt.Sprintf("%.1f",n)
+}
+
 // wrapper code template text
 const templText = `package blas
 
@@ -86,6 +109,29 @@ import(
 	func {{$.Strip ($.GoName .CName) "GSL_BLAS_"}}({{range $i,$a:=.Args}}{{if ne $i 0}},{{end}}{{$a.Name}} {{$.GoType $a.CType}}{{end}}) {{$.GoType $cf.CType}}{ {{range $cf.Args}}
 				var {{.Name}}_ {{$.GoType .CType}} = 0 {{end}}
 		{{with $cf.CName | $.GoName}}cblas.{{.}}( {{range $i,$a:=$cf.Args}}{{if ne $i 0}},{{end}}{{$a.Name}}_ {{end}} ){{end}}
+	}
+{{end}}
+
+`
+
+const testTempl = `
+package blas
+
+//THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
+
+import(
+	"fmt"
+)
+
+{{range .Funcs}}
+	{{$f:=$.Strip ($.GoName .CName) "GSL_BLAS_"}}
+	func Example{{$f}}() { {{range .Args}}
+			{{.Name}} := {{$.Make ($.GoType .CType)}} {{end}} {{$ret:=$.GoType .CType}}
+			{{with $ret}} result:= {{end}} {{$f}}( {{range $i,$a:=.Args}}{{if ne $i 0}},{{end}}{{$a.Name}} {{end}} )
+			{{with $ret}} fmt.Println(result) {{else}} fmt.Println() {{end}}
+
+			//Output:
+			//
 	}
 {{end}}
 
