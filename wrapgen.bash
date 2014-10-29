@@ -5,3 +5,4 @@
 go run wrapgen/cblaswrap.go cblas/gsl_gsl_cblas.h cblas/cblas.go
 gofmt -w cblas/cblas.go
 
+go run wrapgen/blaswrap.go cblas/gsl_gsl_blas.h blas.go

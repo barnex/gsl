@@ -81,14 +81,16 @@ func parseArgs(token []string, i *int) []Arg {
 	var args []Arg
 	for {
 		tok := token[*i]
-		if tok == ")" {
-			if token[*i-1] != ")" {
-				args = append(args, Arg{token[*i-2], token[*i-1]})
+		if tok == "," || (tok == ")" && token[*i-1] != "("){
+			a := Arg{token[*i-2], token[*i-1]}
+			if a.CType == "["{
+				a =	Arg{token[*i-4] + "*", token[*i-3]}
+
 			}
-			return args
+			args = append(args, a)
 		}
-		if tok == "," {
-			args = append(args, Arg{token[*i-2], token[*i-1]})
+		if tok == ")" {
+			return args
 		}
 		*i++
 	}
@@ -153,6 +155,12 @@ var CtoCgoType = map[string]string{
 		"void*":"unsafe.Pointer",
 }
 
+func(*TData)Strip(s, prefix string)string{
+	if strings.HasPrefix(s, prefix){
+			return s[len(prefix):]	
+	}
+	return s
+}
 
 
 // Turn C function name into idiomatic, exported Go name.
