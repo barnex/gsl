@@ -2,14 +2,15 @@
 
 package main
 
-import(
-		. "."
-		"flag"
+import (
+	"flag"
+
+	. "."
 )
 
 func main() {
 	flag.Parse()
-	tokens:= Tokenize(flag.Arg(0))
+	tokens := Tokenize(flag.Arg(0))
 
 	CtoGoType["CBLAS_ORDER"] = "uint32"
 	CtoGoType["CBLAS_TRANSPOSE"] = "uint32"
@@ -29,7 +30,6 @@ func main() {
 
 	Render(flag.Arg(1), templText, &TData{funcs})
 }
-
 
 // wrapper code template text
 const templText = `//Package cblas provides an unsafe, low-level C interface used by package blas.
