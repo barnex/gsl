@@ -542,9 +542,11 @@ func ExampleSGEMV() {
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 3)
 	X := []float32{0, 0, 0}
+	incX := 1
 	beta := float32(0.0)
 	Y := []float32{0, 0, 0}
-	SGEMV(NoTrans, alpha, A, X, beta, Y)
+	incY := 1
+	SGEMV(NoTrans, alpha, A, X, incX, beta, Y, incY)
 	fmt.Println(Y)
 
 	//Output:
