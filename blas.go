@@ -339,11 +339,12 @@ func SROTMG(d1 float32, d2 float32, b1 float32, b2 float32) [5]float32 {
 	return P
 }
 
-// Applies a plane rotation to the two vectors X and Y.
+// Applies a plane rotation to the two vectors X and Y,
 // This routine computes:
 //
 //    [ x_i ]   [ c s ] [ x_i ]
 //    [ y_i ] = [-s c ] [ y_i ]
+//
 // for all i with strides incX and incY.
 func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
 	var N int = checkIncS(X, incX, Y, incY)
@@ -352,17 +353,19 @@ func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
 	cblas.CBLAS_SROT(N, X_, incX, Y_, incY, c, s)
 }
 
-/*
-func SROTM(X []float32, Y []float32, P *float32) {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	var P_ *float32 = 0
-	cblas.CBLAS_SROTM(N_, X_, incX_, Y_, incY_, P_)
+// Applies the modified-Givens rotation of the vectors X and Y:
+// 
+//      [ x_i ]   [ h_11 h_12 ] [ x_i ]
+//      [ y_i ] = [ h_21 h_22 ] [ y_i ]
+// for all i.
+//
+// H  stored in P according to the encoding used by SROTMG.
+func SROTM(X []float32, incX int, Y []float32,incY int, P [5]float32) {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	cblas.CBLAS_SROTM(N, X_, incX, Y_, incY, &P[0])
 }
-*/
 
 // Constructs a Givens rotation matrix.
 // Computes the values of c and s so that:
@@ -425,17 +428,22 @@ func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
 	cblas.CBLAS_DROT(N, X_, incX, Y_, incY, c, s)
 }
 
+// Applies the modified-Givens rotation of the vectors X and Y:
+// 
+//      [ x_i ]   [ h_11 h_12 ] [ x_i ]
+//      [ y_i ] = [ h_21 h_22 ] [ y_i ]
+// for all i.
+//
+// H  stored in P according to the encoding used by DROTMG.
+func DROTM(X []float64, incX int, Y []float64,incY int, P [5]float64) {
+	var N int = checkIncD(X, incX, Y, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DROTM(N, X_, incX, Y_, incY, &P[0])
+}
+
 /*
 
-func DROTM(X []float64, Y []float64, P *float64) {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
-	var P_ *float64 = 0
-	cblas.CBLAS_DROTM(N_, X_, incX_, Y_, incY_, P_)
-}
 
 func SSCAL(alpha float32, X []float32) {
 	var N_ int = 0

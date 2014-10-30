@@ -409,18 +409,26 @@ func ExampleSROT() {
 	//[0.70710677 0.70710677 1.4142135] [-0.70710677 0.70710677 0]
 }
 
-/*
+
 func ExampleSROTM() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	P := *float32(2.0)
-	result := SROTM(X, Y, P)
-	fmt.Println(result)
+	d1 := float32(1.0)
+	d2 := float32(1.0)
+	b1 := float32(1.0)
+	b2 := float32(1.0)
+	P := SROTMG(d1, d2, b1, b2)
+
+	X := []float32{1}
+	incX := 1
+	Y := []float32{1}
+	incY := 1
+	SROTM(X, incX, Y, incY, P)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[2] [0]
 }
 
+/*
 func ExampleDROTG() {
 	a := *float64(2.0)
 	b := *float64(2.0)
@@ -461,19 +469,25 @@ func ExampleDROT() {
 	//[0.7071067811865476 0.7071067811865475 1.414213562373095] [-0.7071067811865475 0.7071067811865476 1.1102230246251565e-16]
 }
 
-/*
 
 func ExampleDROTM() {
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	P := *float64(2.0)
-	result := DROTM(X, Y, P)
-	fmt.Println(result)
+	d1 := 1.0
+	d2 := 1.0
+	b1 := 1.0
+	b2 := 1.0
+	P := DROTMG(d1, d2, b1, b2)
+
+	X := []float64{1}
+	incX := 1
+	Y := []float64{1}
+	incY := 1
+	DROTM(X, incX, Y, incY, P)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[2] [0]
 }
-
+/*
 func ExampleSSCAL() {
 	alpha := float32(2.0)
 	X := []float32{0, 0, 0}
