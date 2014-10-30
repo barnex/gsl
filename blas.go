@@ -489,8 +489,6 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 	cblas.CBLAS_ZDSCAL(N, alpha, X_, incX)
 }
 
-
-
 // Matrix-vector multiplication
 // 	Y = alpha*AX + beta*Y
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {

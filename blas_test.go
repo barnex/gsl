@@ -427,20 +427,6 @@ func ExampleSROTM() {
 	//[2] [0]
 }
 
-/*
-func ExampleDROTG() {
-	a := *float64(2.0)
-	b := *float64(2.0)
-	c := *float64(2.0)
-	s := *float64(2.0)
-	result := DROTG(a, b, c, s)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
-*/
 func ExampleDROTMG() {
 	d1 := 1.0
 	d2 := 1.0
@@ -552,28 +538,27 @@ func ExampleZDSCAL() {
 	//[(2+0i) (666+0i) (4+0i) (666+0i)]
 }
 
-/*
 func ExampleSGEMV() {
-	TransA := Transpose(2.0)
 	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
+	A := MakeFloat32Matrix(2, 3)
 	X := []float32{0, 0, 0}
-	beta := float32(2.0)
+	beta := float32(0.0)
 	Y := []float32{0, 0, 0}
-	result := SGEMV(TransA, alpha, A, X, beta, Y)
-	fmt.Println(result)
+	SGEMV(NoTrans, alpha, A, X, beta, Y)
+	fmt.Println(Y)
 
 	//Output:
 	//
 }
 
+/*
 func ExampleSTRMV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	X := []float32{0, 0, 0}
-	result := STRMV(Uplo, TransA, Diag, A, X)
+	result := STRMV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -582,11 +567,11 @@ func ExampleSTRMV() {
 
 func ExampleSTRSV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	X := []float32{0, 0, 0}
-	result := STRSV(Uplo, TransA, Diag, A, X)
+	result := STRSV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -594,13 +579,13 @@ func ExampleSTRSV() {
 }
 
 func ExampleDGEMV() {
-	TransA := Transpose(2.0)
+	
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	X := []float64{0, 0, 0}
 	beta := float64(2.0)
 	Y := []float64{0, 0, 0}
-	result := DGEMV(TransA, alpha, A, X, beta, Y)
+	result := DGEMV(NoTrans, alpha, A, X, beta, Y)
 	fmt.Println(result)
 
 	//Output:
@@ -609,11 +594,11 @@ func ExampleDGEMV() {
 
 func ExampleDTRMV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	X := []float64{0, 0, 0}
-	result := DTRMV(Uplo, TransA, Diag, A, X)
+	result := DTRMV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -622,11 +607,11 @@ func ExampleDTRMV() {
 
 func ExampleDTRSV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	X := []float64{0, 0, 0}
-	result := DTRSV(Uplo, TransA, Diag, A, X)
+	result := DTRSV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -634,13 +619,13 @@ func ExampleDTRSV() {
 }
 
 func ExampleCGEMV() {
-	TransA := Transpose(2.0)
+	
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	X := []complex64{0, 0, 0}
 	beta := complex64(complex(2.0, 3.0))
 	Y := []complex64{0, 0, 0}
-	result := CGEMV(TransA, alpha, A, X, beta, Y)
+	result := CGEMV(NoTrans, alpha, A, X, beta, Y)
 	fmt.Println(result)
 
 	//Output:
@@ -649,11 +634,11 @@ func ExampleCGEMV() {
 
 func ExampleCTRMV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeComplex64Matrix(2, 2)
 	X := []complex64{0, 0, 0}
-	result := CTRMV(Uplo, TransA, Diag, A, X)
+	result := CTRMV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -662,11 +647,11 @@ func ExampleCTRMV() {
 
 func ExampleCTRSV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeComplex64Matrix(2, 2)
 	X := []complex64{0, 0, 0}
-	result := CTRSV(Uplo, TransA, Diag, A, X)
+	result := CTRSV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -674,13 +659,13 @@ func ExampleCTRSV() {
 }
 
 func ExampleZGEMV() {
-	TransA := Transpose(2.0)
+	
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	X := []complex128{0, 0, 0}
 	beta := complex128(complex(2.0, 3.0))
 	Y := []complex128{0, 0, 0}
-	result := ZGEMV(TransA, alpha, A, X, beta, Y)
+	result := ZGEMV(NoTrans, alpha, A, X, beta, Y)
 	fmt.Println(result)
 
 	//Output:
@@ -689,11 +674,11 @@ func ExampleZGEMV() {
 
 func ExampleZTRMV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeComplex128Matrix(2, 2)
 	X := []complex128{0, 0, 0}
-	result := ZTRMV(Uplo, TransA, Diag, A, X)
+	result := ZTRMV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -702,11 +687,11 @@ func ExampleZTRMV() {
 
 func ExampleZTRSV() {
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	A := MakeComplex128Matrix(2, 2)
 	X := []complex128{0, 0, 0}
-	result := ZTRSV(Uplo, TransA, Diag, A, X)
+	result := ZTRSV(Uplo, NoTrans, Diag, A, X)
 	fmt.Println(result)
 
 	//Output:
@@ -942,14 +927,14 @@ func ExampleZHER2() {
 }
 
 func ExampleSGEMM() {
-	TransA := Transpose(2.0)
+	
 	TransB := Transpose(2.0)
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	B := MakeFloat32Matrix(2, 2)
 	beta := float32(2.0)
 	C := MakeFloat32Matrix(2, 2)
-	result := SGEMM(TransA, TransB, alpha, A, B, beta, C)
+	result := SGEMM(NoTrans, TransB, alpha, A, B, beta, C)
 	fmt.Println(result)
 
 	//Output:
@@ -1003,12 +988,12 @@ func ExampleSSYR2K() {
 func ExampleSTRMM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	B := MakeFloat32Matrix(2, 2)
-	result := STRMM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := STRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1018,12 +1003,12 @@ func ExampleSTRMM() {
 func ExampleSTRSM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	B := MakeFloat32Matrix(2, 2)
-	result := STRSM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := STRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1031,14 +1016,14 @@ func ExampleSTRSM() {
 }
 
 func ExampleDGEMM() {
-	TransA := Transpose(2.0)
+	
 	TransB := Transpose(2.0)
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	B := MakeFloat64Matrix(2, 2)
 	beta := float64(2.0)
 	C := MakeFloat64Matrix(2, 2)
-	result := DGEMM(TransA, TransB, alpha, A, B, beta, C)
+	result := DGEMM(NoTrans, TransB, alpha, A, B, beta, C)
 	fmt.Println(result)
 
 	//Output:
@@ -1092,12 +1077,12 @@ func ExampleDSYR2K() {
 func ExampleDTRMM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	B := MakeFloat64Matrix(2, 2)
-	result := DTRMM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := DTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1107,12 +1092,12 @@ func ExampleDTRMM() {
 func ExampleDTRSM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	B := MakeFloat64Matrix(2, 2)
-	result := DTRSM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := DTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1120,14 +1105,14 @@ func ExampleDTRSM() {
 }
 
 func ExampleCGEMM() {
-	TransA := Transpose(2.0)
+	
 	TransB := Transpose(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
 	beta := complex64(complex(2.0, 3.0))
 	C := MakeComplex64Matrix(2, 2)
-	result := CGEMM(TransA, TransB, alpha, A, B, beta, C)
+	result := CGEMM(NoTrans, TransB, alpha, A, B, beta, C)
 	fmt.Println(result)
 
 	//Output:
@@ -1181,12 +1166,12 @@ func ExampleCSYR2K() {
 func ExampleCTRMM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
-	result := CTRMM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := CTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1196,12 +1181,12 @@ func ExampleCTRMM() {
 func ExampleCTRSM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
-	result := CTRSM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := CTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1209,14 +1194,14 @@ func ExampleCTRSM() {
 }
 
 func ExampleZGEMM() {
-	TransA := Transpose(2.0)
+	
 	TransB := Transpose(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
 	beta := complex128(complex(2.0, 3.0))
 	C := MakeComplex128Matrix(2, 2)
-	result := ZGEMM(TransA, TransB, alpha, A, B, beta, C)
+	result := ZGEMM(NoTrans, TransB, alpha, A, B, beta, C)
 	fmt.Println(result)
 
 	//Output:
@@ -1270,12 +1255,12 @@ func ExampleZSYR2K() {
 func ExampleZTRMM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
-	result := ZTRMM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := ZTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
@@ -1285,12 +1270,12 @@ func ExampleZTRMM() {
 func ExampleZTRSM() {
 	Side := Side(2.0)
 	Uplo := Uplo(2.0)
-	TransA := Transpose(2.0)
+	
 	Diag := Diag(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
-	result := ZTRSM(Side, Uplo, TransA, Diag, alpha, A, B)
+	result := ZTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
 	fmt.Println(result)
 
 	//Output:
