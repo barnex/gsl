@@ -252,18 +252,18 @@ func ExampleSCOPY() {
 	//[1 666 2 666] [1 2]
 }
 
-/*
 func ExampleSAXPY() {
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := SAXPY(alpha, X, Y)
-	fmt.Println(result)
+	alpha := float32(2)
+	X := []float32{1, 2, 3}
+	incX:=1
+	Y := []float32{4, 5, 6}
+	incY:=1
+	SAXPY(alpha, X,incX, Y, incY)
+	fmt.Println(Y)
 
 	//Output:
-	//
+	//[6 9 12]
 }
-*/
 
 func ExampleDSWAP() {
 	X := []float64{1, 666, 2, 666}
@@ -290,19 +290,19 @@ func ExampleDCOPY() {
 	//[1 666 2 666] [1 2]
 }
 
-/*
+
 func ExampleDAXPY() {
-	alpha := float64(2.0)
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	result := DAXPY(alpha, X, Y)
-	fmt.Println(result)
+	alpha := float64(2)
+	X := []float64{1, 2, 3}
+	incX:=1
+	Y := []float64{4, 5, 6}
+	incY:=1
+	DAXPY(alpha, X,incX, Y, incY)
+	fmt.Println(Y)
 
 	//Output:
-	//
+	//[6 9 12]
 }
-
-*/
 
 func ExampleCSWAP() {
 	X := []complex64{1, 666, 2, 666}
@@ -328,18 +328,20 @@ func ExampleCCOPY() {
 	//[(1+0i) (666+0i) (2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
-/*
+
 func ExampleCAXPY() {
-	alpha := complex64(complex(2.0, 3.0))
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	result := CAXPY(alpha, X, Y)
-	fmt.Println(result)
+	alpha := complex64(complex(0, 1))
+	X := []complex64{1, 2, 3}
+	incX:=1
+	Y := []complex64{4, 5, 6}
+	incY:=1
+	CAXPY(alpha, X,incX, Y, incY)
+	fmt.Println(Y)
 
 	//Output:
-	//
+	//[(4+1i) (5+2i) (6+3i)]
 }
-*/
+
 func ExampleZSWAP() {
 	X := []complex128{1, 666, 2, 666}
 	incX := 2
@@ -364,18 +366,20 @@ func ExampleZCOPY() {
 	//[(1+0i) (666+0i) (2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
-/*
 func ExampleZAXPY() {
-	alpha := complex128(complex(2.0, 3.0))
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	result := ZAXPY(alpha, X, Y)
-	fmt.Println(result)
+	alpha := complex128(complex(0, 1))
+	X := []complex128{1, 2, 3}
+	incX:=1
+	Y := []complex128{4, 5, 6}
+	incY:=1
+	ZAXPY(alpha, X,incX, Y, incY)
+	fmt.Println(Y)
 
 	//Output:
-	//
+	//[(4+1i) (5+2i) (6+3i)]
 }
 
+/*
 func ExampleSROTG() {
 	a := *float32(2.0)
 	b := *float32(2.0)

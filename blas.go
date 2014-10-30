@@ -205,17 +205,14 @@ func SCOPY(X []float32, incX int, Y []float32, incY int) {
 	cblas.CBLAS_SCOPY(N, X_, incX, Y_, incY)
 }
 
-/*
-func SAXPY(alpha float32, X []float32, Y []float32) {
-	var N_ int = 0
-	var alpha_ float32 = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	cblas.CBLAS_SAXPY(N_, alpha_, X_, incX_, Y_, incY_)
+// Replaces Y by (alpha*X) + Y.
+// Every incX'th and incY'th element is used.
+func SAXPY(alpha float32, X []float32, incX int, Y []float32, incY int) {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	cblas.CBLAS_SAXPY(N, alpha, X_, incX, Y_, incY)
 }
-*/
 
 // Exchanges the elements of vectors X and Y.
 // Every incX'th and incY'th element is used.
@@ -235,17 +232,16 @@ func DCOPY(X []float64, incX int, Y []float64, incY int) {
 	cblas.CBLAS_DCOPY(N, X_, incX, Y_, incY)
 }
 
-/*
-func DAXPY(alpha float64, X []float64, Y []float64) {
-	var N_ int = 0
-	var alpha_ float64 = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
-	cblas.CBLAS_DAXPY(N_, alpha_, X_, incX_, Y_, incY_)
+
+// Replaces Y by (alpha*X) + Y.
+// Every incX'th and incY'th element is used.
+func DAXPY(alpha float64, X []float64, incX int, Y []float64, incY int) {
+	var N int = checkIncD(X, incX, Y, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DAXPY(N, alpha, X_, incX, Y_, incY)
 }
-*/
+
 
 // Exchanges the elements of vectors X and Y.
 // Every incX'th and incY'th element is used.
@@ -265,17 +261,14 @@ func CCOPY(X []complex64, incX int, Y []complex64, incY int) {
 	cblas.CBLAS_CCOPY(N, X_, incX, Y_, incY)
 }
 
-/*
-func CAXPY(alpha complex64, X []complex64, Y []complex64) {
-	var N_ int = 0
-	var alpha_ unsafe.Pointer = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	var Y_ unsafe.Pointer = 0
-	var incY_ int = 0
-	cblas.CBLAS_CAXPY(N_, alpha_, X_, incX_, Y_, incY_)
+// Replaces Y by (alpha*X) + Y.
+// Every incX'th and incY'th element is used.
+func CAXPY(alpha complex64, X []complex64, incX int, Y []complex64, incY int) {
+	var N int = checkIncC(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_CAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
 }
-*/
 
 // Exchanges the elements of vectors X and Y.
 // Every incX'th and incY'th element is used.
@@ -295,17 +288,16 @@ func ZCOPY(X []complex128, incX int, Y []complex128, incY int) {
 	cblas.CBLAS_ZCOPY(N, X_, incX, Y_, incY)
 }
 
-/*
-func ZAXPY(alpha complex128, X []complex128, Y []complex128) {
-	var N_ int = 0
-	var alpha_ unsafe.Pointer = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	var Y_ unsafe.Pointer = 0
-	var incY_ int = 0
-	cblas.CBLAS_ZAXPY(N_, alpha_, X_, incX_, Y_, incY_)
+// Replaces Y by (alpha*X) + Y.
+// Every incX'th and incY'th element is used.
+func ZAXPY(alpha complex128, X []complex128, incX int, Y []complex128, incY int) {
+	var N int = checkIncZ(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_ZAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
 }
 
+/*
 func SROTG(a *float32, b *float32, c *float32, s *float32) {
 	var a_ *float32 = 0
 	var b_ *float32 = 0
