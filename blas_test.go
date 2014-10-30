@@ -7,46 +7,54 @@ import (
 )
 
 func ExampleSDSDOT() {
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := SDSDOT(alpha, X, Y)
+	alpha := float32(4)
+	X := []float32{2, 0}
+	incX := 1
+	Y := []float32{3, 5}
+	incY := 1
+	result := SDSDOT(alpha, X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//10
 }
 
 func ExampleDSDOT() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := DSDOT(X, Y)
+	X := []float32{2, 0}
+	incX := 1
+	Y := []float32{3, 5}
+	incY := 1
+	result := DSDOT(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//6
 }
 
 func ExampleSDOT() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := SDOT(X, Y)
+	X := []float32{2, 0}
+	incX := 1
+	Y := []float32{3, 5}
+	incY := 1
+	result := SDOT(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//6
 }
 
 func ExampleDDOT() {
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	result := DDOT(X, Y)
+	X := []float64{2, 0}
+	incX := 1
+	Y := []float64{3, 5}
+	incY := 1
+	result := DDOT(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//6
 }
-
+/*
 func ExampleCDOTU() {
 	X := []complex64{0, 0, 0}
 	Y := []complex64{0, 0, 0}
@@ -1310,3 +1318,4 @@ func ExampleZHER2K() {
 	//Output:
 	//
 }
+*/

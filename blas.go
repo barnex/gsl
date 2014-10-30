@@ -6,42 +6,39 @@ import (
 	"github.com/barnex/blas/cblas"
 )
 
+// Computes the dot product of vectors X and Y plus an initial value alpha.
 func SDSDOT(alpha float32, X []float32, incX int, Y []float32, incY int) float32 {
-	checkSizeS(X, Y)
-	var N_ int = len(X)
+	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	return cblas.CBLAS_SDSDOT(N_, alpha, X_, incX, Y_, incY)
+	return cblas.CBLAS_SDSDOT(N, alpha, X_, incX, Y_, incY)
+}
+
+// Computes the dot product of vectors X and Y.
+func DSDOT(X []float32, incX int, Y []float32, incY int) float64 {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	return cblas.CBLAS_DSDOT(N, X_, incX, Y_, incY)
+}
+
+// Computes the dot product of vectors X and Y.
+func SDOT(X []float32, incX int, Y []float32, incY int) float32 {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	return cblas.CBLAS_SDOT(N, X_, incX, Y_, incY)
+}
+
+// Computes the dot product of vectors X and Y.
+func DDOT(X []float64, incX int, Y []float64, incY int) float64 {
+	var N int = checkIncD(X, incX, Y, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	return cblas.CBLAS_DDOT(N, X_, incX, Y_, incY)
 }
 
 /*
-func DSDOT(X []float32, Y []float32) float64 {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	cblas.CBLAS_DSDOT(N_, X_, incX_, Y_, incY_)
-}
-
-func SDOT(X []float32, Y []float32) float32 {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	cblas.CBLAS_SDOT(N_, X_, incX_, Y_, incY_)
-}
-
-func DDOT(X []float64, Y []float64) float64 {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
-	cblas.CBLAS_DDOT(N_, X_, incX_, Y_, incY_)
-}
-
 func CDOTU(X []complex64, Y []complex64, dotu *complex64) {
 
 }

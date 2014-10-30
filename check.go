@@ -4,11 +4,19 @@ import (
 	"fmt"
 )
 
-func checkSizeS(s ...[]float32) {
-	N := len(s[0])
-	for _, other := range s {
-		if len(other) != N {
-			panic(fmt.Sprintf("slice length mismatch: %v != %v", N, len(other)))
-		}
+func  checkIncS(X []float32, incX int, Y []float32, incY int) int{
+	N := len(X)/incX
+	if len(Y)/incY != N{
+			panic(fmt.Sprintf("blas: unmatched vector sizes: len(X)=%v, incX=%v, len(Y)=%v, incY=%v", len(X), incX, len(Y), incY))
 	}
+	return N
+}
+
+
+func  checkIncD(X []float64, incX int, Y []float64, incY int) int{
+	N := len(X)/incX
+	if len(Y)/incY != N{
+			panic(fmt.Sprintf("blas: unmatched vector sizes: len(X)=%v, incX=%v, len(Y)=%v, incY=%v", len(X), incX, len(Y), incY))
+	}
+	return N
 }
