@@ -4,6 +4,7 @@ package blas
 
 import (
 	"fmt"
+	"math"
 )
 
 func ExampleSDSDOT() {
@@ -389,32 +390,33 @@ func ExampleSROTG() {
 	//1.4142135 0.70710677 0.70710677
 }
 
-/*
 func ExampleSROTMG() {
-	d1 := *float32(2.0)
-	d2 := *float32(2.0)
-	b1 := *float32(2.0)
-	b2 := float32(2.0)
-	P := *float32(2.0)
-	result := SROTMG(d1, d2, b1, b2, P)
+	d1 := float32(1)
+	d2 := float32(1)
+	b1 := float32(1)
+	b2 := float32(1)
+	result := SROTMG(d1, d2, b1, b2)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//[1 1 0 0 1]
 }
 
 func ExampleSROT() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	c := float32(2.0)
-	s := float32(2.0)
-	result := SROT(X, Y, c, s)
-	fmt.Println(result)
+	X := []float32{1, 0, 1}
+	incX := 1
+	Y := []float32{0, 1, 1}
+	incY := 1
+	theta := math.Pi/4
+	c := float32(math.Cos(theta))
+	s := float32(math.Sin(theta))
+	SROT(X, incX, Y,incY, c, s)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[0.70710677 0.70710677 1.4142135] [-0.70710677 0.70710677 0]
 }
-
+/*
 func ExampleSROTM() {
 	X := []float32{0, 0, 0}
 	Y := []float32{0, 0, 0}
@@ -438,30 +440,36 @@ func ExampleDROTG() {
 	//
 }
 
+*/
 func ExampleDROTMG() {
-	d1 := *float64(2.0)
-	d2 := *float64(2.0)
-	b1 := *float64(2.0)
-	b2 := float64(2.0)
-	P := *float64(2.0)
-	result := DROTMG(d1, d2, b1, b2, P)
+	d1 := 1.0
+	d2 := 1.0
+	b1 := 1.0
+	b2 := 1.0
+	result := DROTMG(d1, d2, b1, b2)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//[1 1 0 0 1]
 }
+
 
 func ExampleDROT() {
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	c := float64(2.0)
-	s := float64(2.0)
-	result := DROT(X, Y, c, s)
-	fmt.Println(result)
+	X := []float64{1, 0, 1}
+	incX := 1
+	Y := []float64{0, 1, 1}
+	incY := 1
+	theta := math.Pi/4
+	c := math.Cos(theta)
+	s := math.Sin(theta)
+	DROT(X, incX, Y,incY, c, s)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[0.7071067811865476 0.7071067811865475 1.414213562373095] [-0.7071067811865475 0.7071067811865476 1.1102230246251565e-16]
 }
+
+/*
 
 func ExampleDROTM() {
 	X := []float64{0, 0, 0}

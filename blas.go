@@ -313,27 +313,52 @@ func SROTG(a float32, b float32) (r, c, s float32) {
 	return a_, c_, s_
 }
 
+// Constructs a modified Givens rotation matrix.
+// The input scalars d1, d2, x1 and y1 define a 2-vector [a1 a2]' such that
+//
+//    [ b1 ]   [ d1^{1/2}  0      ] [ x1 ]
+//    [ b2 ] = [   0     d2^{1/2} ] [ y1 ].
+//
+// This subroutine determines the modified Givens rotation matrix H that
+// transforms y1 and thus a2 to zero. 
+// A representation of this matrix is returned:
+//
+// P[0]: defines the form of matrix H:
+// 	-2.0: matrix H contains the identity matrix.
+// 	-1.0: matrix H is identical to matrix SH (defined by the remaining values in the vector).
+// 	 0.0: H[1,2] and H[2,1] are obtained from matrix SH. The remaining values are both 1.0.
+// 	 1.0: H[1,1] and H[2,2] are obtained from matrix SH. H[1,2] is 1.0. H[2,1] is -1.0.
+//
+// The other elements contain SH:
+//
+// 	P[1]	contains SH[1,1].
+// 	P[2]	contains SH[2,1].
+// 	P[3]	contains SH[1,2].
+// 	P[4]	contains SH[2,2].
+//
+func SROTMG(d1 float32, d2 float32, b1 float32, b2 float32) [5]float32 {
+	var d1_ float32 = d1
+	var d2_ float32 =d2 
+	var b1_ float32 =b1 
+	var P [5]float32
+	cblas.CBLAS_SROTMG(&d1_, &d2_, &b1_, b2, &P[0])
+	return P
+}
+
+// Applies a plane rotation to the two vectors X and Y.  
+// This routine computes:
+//
+//    [ x_i ]   [ c s ] [ x_i ]
+//    [ y_i ] = [-s c ] [ y_i ] 
+// for all i with strides incX and incY.
+func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	cblas.CBLAS_SROT(N, X_, incX, Y_, incY, c, s)
+}
+
 /*
-func SROTMG(d1 *float32, d2 *float32, b1 *float32, b2 float32, P *float32) {
-	var d1_ *float32 = 0
-	var d2_ *float32 = 0
-	var b1_ *float32 = 0
-	var b2_ float32 = 0
-	var P_ *float32 = 0
-	cblas.CBLAS_SROTMG(d1_, d2_, b1_, b2_, P_)
-}
-
-func SROT(X []float32, Y []float32, c float32, s float32) {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	var c_ float32 = 0
-	var s_ float32 = 0
-	cblas.CBLAS_SROT(N_, X_, incX_, Y_, incY_, c_, s_)
-}
-
 func SROTM(X []float32, Y []float32, P *float32) {
 	var N_ int = 0
 	var X_ *float32 = 0
@@ -343,34 +368,72 @@ func SROTM(X []float32, Y []float32, P *float32) {
 	var P_ *float32 = 0
 	cblas.CBLAS_SROTM(N_, X_, incX_, Y_, incY_, P_)
 }
+*/
 
-func DROTG(a *float64, b *float64, c *float64, s *float64) {
-	var a_ *float64 = 0
-	var b_ *float64 = 0
-	var c_ *float64 = 0
-	var s_ *float64 = 0
-	cblas.CBLAS_DROTG(a_, b_, c_, s_)
-}
-
-func DROTMG(d1 *float64, d2 *float64, b1 *float64, b2 float64, P *float64) {
-	var d1_ *float64 = 0
-	var d2_ *float64 = 0
-	var b1_ *float64 = 0
-	var b2_ float64 = 0
-	var P_ *float64 = 0
-	cblas.CBLAS_DROTMG(d1_, d2_, b1_, b2_, P_)
-}
-
-func DROT(X []float64, Y []float64, c float64, s float64) {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
+// Constructs a Givens rotation matrix.
+// Computes the values of c and s so that:
+//
+//    [ c  s ] [ a ]    [ r ]
+//    [ -s c ] [ b ] =  [ 0 ].
+//
+// Returns r, c and s.
+func DROTG(a float64, b float64) (r,c,s float64) {
+	var a_ float64 = a
+	var b_ float64 = b
 	var c_ float64 = 0
 	var s_ float64 = 0
-	cblas.CBLAS_DROT(N_, X_, incX_, Y_, incY_, c_, s_)
+	cblas.CBLAS_DROTG(&a_, &b_, &c_, &s_)
+	return a_, c_, s_
 }
+
+
+
+// Constructs a modified Givens rotation matrix.
+// The input scalars d1, d2, x1 and y1 define a 2-vector [a1 a2]' such that
+//
+//    [ b1 ]   [ d1^{1/2}  0      ] [ x1 ]
+//    [ b2 ] = [   0     d2^{1/2} ] [ y1 ].
+//
+// This subroutine determines the modified Givens rotation matrix H that
+// transforms y1 and thus a2 to zero. 
+// A representation of this matrix is returned:
+//
+// P[0]: defines the form of matrix H:
+// 	-2.0: matrix H contains the identity matrix.
+// 	-1.0: matrix H is identical to matrix SH (defined by the remaining values in the vector).
+// 	 0.0: H[1,2] and H[2,1] are obtained from matrix SH. The remaining values are both 1.0.
+// 	 1.0: H[1,1] and H[2,2] are obtained from matrix SH. H[1,2] is 1.0. H[2,1] is -1.0.
+//
+// The other elements contain SH:
+//
+// 	P[1]	contains SH[1,1].
+// 	P[2]	contains SH[2,1].
+// 	P[3]	contains SH[1,2].
+// 	P[4]	contains SH[2,2].
+//
+func DROTMG(d1 float64, d2 float64, b1 float64, b2 float64) [5]float64 {
+	var d1_ float64 = d1
+	var d2_ float64 =d2 
+	var b1_ float64 =b1 
+	var P [5]float64
+	cblas.CBLAS_DROTMG(&d1_, &d2_, &b1_, b2, &P[0])
+	return P
+}
+
+// Applies a plane rotation to the two vectors X and Y.  
+// This routine computes:
+//
+//    [ x_i ]   [ c s ] [ x_i ]
+//    [ y_i ] = [-s c ] [ y_i ] 
+// for all i with strides incX and incY.
+func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
+	var N int = checkIncD(X, incX, Y, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DROT(N, X_, incX, Y_, incY, c, s)
+}
+
+/*
 
 func DROTM(X []float64, Y []float64, P *float64) {
 	var N_ int = 0
