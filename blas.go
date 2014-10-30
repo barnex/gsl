@@ -297,15 +297,23 @@ func ZAXPY(alpha complex128, X []complex128, incX int, Y []complex128, incY int)
 	cblas.CBLAS_ZAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
 }
 
-/*
-func SROTG(a *float32, b *float32, c *float32, s *float32) {
-	var a_ *float32 = 0
-	var b_ *float32 = 0
-	var c_ *float32 = 0
-	var s_ *float32 = 0
-	cblas.CBLAS_SROTG(a_, b_, c_, s_)
+// Constructs a Givens rotation matrix.
+// Computes the values of c and s so that:
+//
+//    [ c  s ] [ a ]    [ r ]
+//    [ -s c ] [ b ] =  [ 0 ].
+//
+// Returns r, c and s.
+func SROTG(a float32, b float32) (r, c, s float32) {
+	var a_ float32 = a
+	var b_ float32 = b
+	var c_ float32 = 0
+	var s_ float32 = 0
+	cblas.CBLAS_SROTG(&a_, &b_, &c_, &s_)
+	return a_, c_, s_
 }
 
+/*
 func SROTMG(d1 *float32, d2 *float32, b1 *float32, b2 float32, P *float32) {
 	var d1_ *float32 = 0
 	var d2_ *float32 = 0

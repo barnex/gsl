@@ -379,19 +379,17 @@ func ExampleZAXPY() {
 	//[(4+1i) (5+2i) (6+3i)]
 }
 
-/*
 func ExampleSROTG() {
-	a := *float32(2.0)
-	b := *float32(2.0)
-	c := *float32(2.0)
-	s := *float32(2.0)
-	result := SROTG(a, b, c, s)
-	fmt.Println(result)
+	a := float32(1)
+	b := float32(1)
+	r, c, s := SROTG(a,b)
+	fmt.Println(r, c, s)
 
 	//Output:
-	//
+	//1.4142135 0.70710677 0.70710677
 }
 
+/*
 func ExampleSROTMG() {
 	d1 := *float32(2.0)
 	d2 := *float32(2.0)
