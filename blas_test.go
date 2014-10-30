@@ -189,7 +189,7 @@ func ExampleDZASUM() {
 }
 
 func ExampleISAMAX() {
-	X := []float32{1, 999, 2, 3}
+	X := []float32{1, -999, 2, 3, 999}
 	incX := 1
 	result := ISAMAX(X, incX)
 	fmt.Println(result)
@@ -199,7 +199,7 @@ func ExampleISAMAX() {
 }
 
 func ExampleIDAMAX() {
-	X := []float32{1, 999, 2, 3}
+	X := []float32{1, -999, 2, 3, 999}
 	incX := 1
 	result := ISAMAX(X, incX)
 	fmt.Println(result)
@@ -228,17 +228,19 @@ func ExampleIZAMAX() {
 	//1
 }
 
-/*
 func ExampleSSWAP() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := SSWAP(X, Y)
-	fmt.Println(result)
+	X := []float32{1, 666, 2, 666}
+	incX := 2
+	Y := []float32{-1, -2}
+	incY := 1
+	SSWAP(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[-1 666 -2 666] [1 2]
 }
 
+/*
 func ExampleSCOPY() {
 	X := []float32{0, 0, 0}
 	Y := []float32{0, 0, 0}
@@ -259,16 +261,21 @@ func ExampleSAXPY() {
 	//Output:
 	//
 }
+*/
 
 func ExampleDSWAP() {
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	result := DSWAP(X, Y)
-	fmt.Println(result)
+	X := []float64{1, 666, 2, 666}
+	incX := 2
+	Y := []float64{-1, -2}
+	incY := 1
+	DSWAP(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[-1 666 -2 666] [1 2]
 }
+
+/*
 
 func ExampleDCOPY() {
 	X := []float64{0, 0, 0}
@@ -291,16 +298,20 @@ func ExampleDAXPY() {
 	//
 }
 
+*/
+
 func ExampleCSWAP() {
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	result := CSWAP(X, Y)
-	fmt.Println(result)
+	X := []complex64{1, 666, 2, 666}
+	incX := 2
+	Y := []complex64{-1, -2}
+	incY := 1
+	CSWAP(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[(-1+0i) (666+0i) (-2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
-
+/*
 func ExampleCCOPY() {
 	X := []complex64{0, 0, 0}
 	Y := []complex64{0, 0, 0}
@@ -321,17 +332,20 @@ func ExampleCAXPY() {
 	//Output:
 	//
 }
-
+*/
 func ExampleZSWAP() {
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	result := ZSWAP(X, Y)
-	fmt.Println(result)
+	X := []complex128{1, 666, 2, 666}
+	incX := 2
+	Y := []complex128{-1, -2}
+	incY := 1
+	ZSWAP(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[(-1+0i) (666+0i) (-2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
+/*
 func ExampleZCOPY() {
 	X := []complex128{0, 0, 0}
 	Y := []complex128{0, 0, 0}
