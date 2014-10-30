@@ -89,43 +89,48 @@ func ZDOTC(X []complex128,incX int, Y []complex128, incY int)complex128 {
 }
 
 
+
+// Computes the L2 norm (Euclidian length) of vector X.
+// Every incX'th element is used.
+func SNRM2(X []float32, incX int) float32 {
+	var N int = len(X)/incX
+	var X_ *float32 = &X[0]
+	return cblas.CBLAS_SNRM2(N, X_, incX)
+}
+
+// Computes the sum of the absolute values of the elements in vector X.
+// Every incX'th element is used.
+func SASUM(X []float32, incX int) float32 {
+	var N int = len(X)/incX
+	var X_ *float32 = &X[0]
+	return cblas.CBLAS_SASUM(N, X_, incX)
+}
+
+// Computes the L2 norm (Euclidian length) of vector X.
+// Every incX'th element is used.
+func DNRM2(X []float64, incX int) float64 {
+	var N int = len(X)/incX
+	var X_ *float64 = &X[0]
+	return cblas.CBLAS_DNRM2(N, X_, incX)
+}
+
+// Computes the sum of the absolute values of the elements in vector X.
+// Every incX'th element is used.
+func DASUM(X []float64, incX int) float64 {
+	var N int = len(X)/incX
+	var X_ *float64 = &X[0]
+	return cblas.CBLAS_DASUM(N, X_, incX)
+}
+
+// Computes the unitary norm of a vector.
+// Every incX'th element is used.
+func SCNRM2(X []complex64, incX int) float32 {
+	var N int = len(X)/incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	return cblas.CBLAS_SCNRM2(N, X_, incX)
+}
+
 /*
-
-func SNRM2(X []float32) float32 {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	cblas.CBLAS_SNRM2(N_, X_, incX_)
-}
-
-func SASUM(X []float32) float32 {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	cblas.CBLAS_SASUM(N_, X_, incX_)
-}
-
-func DNRM2(X []float64) float64 {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	cblas.CBLAS_DNRM2(N_, X_, incX_)
-}
-
-func DASUM(X []float64) float64 {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	cblas.CBLAS_DASUM(N_, X_, incX_)
-}
-
-func SCNRM2(X []complex64) float32 {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_SCNRM2(N_, X_, incX_)
-}
-
 func SCASUM(X []complex64) float32 {
 	var N_ int = 0
 	var X_ unsafe.Pointer = 0
@@ -147,6 +152,7 @@ func DZASUM(X []complex128) float64 {
 	cblas.CBLAS_DZASUM(N_, X_, incX_)
 }
 
+/*
 func ISAMAX(X []float32) int {
 	var N_ int = 0
 	var X_ *float32 = 0

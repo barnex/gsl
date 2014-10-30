@@ -106,43 +106,49 @@ func ExampleZDOTC() {
 	//(2-2i)
 }
 
-/*
 func ExampleSNRM2() {
-	X := []float32{0, 0, 0}
-	result := SNRM2(X)
+	X := []float32{1, 666, 1, 666}
+	incX := 2
+	result := SNRM2(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1.4142135
 }
 
 func ExampleSASUM() {
-	X := []float32{0, 0, 0}
-	result := SASUM(X)
+	X := []float32{1, 666, 2, 666}
+	incX := 2
+	result := SASUM(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//3
 }
 
 func ExampleDNRM2() {
-	X := []float64{0, 0, 0}
-	result := DNRM2(X)
+	X := []float64{1, 666, 1, 666}
+	incX := 2
+	result := DNRM2(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1.4142135623730951
 }
+
 
 func ExampleDASUM() {
-	X := []float64{0, 0, 0}
-	result := DASUM(X)
+	X := []float64{1, 666, 2, 666}
+	incX := 2
+	result := DASUM(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//3
 }
 
+
+/*
 func ExampleSCNRM2() {
 	X := []complex64{0, 0, 0}
 	result := SCNRM2(X)
