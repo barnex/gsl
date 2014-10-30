@@ -148,25 +148,27 @@ func ExampleDASUM() {
 }
 
 
-/*
 func ExampleSCNRM2() {
-	X := []complex64{0, 0, 0}
-	result := SCNRM2(X)
+	X := []complex64{complex(1,0), complex(0,1)}
+	incX := 1
+	result := SCNRM2(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1.4142135
 }
 
 func ExampleSCASUM() {
-	X := []complex64{0, 0, 0}
-	result := SCASUM(X)
+	X := []complex64{complex(1,0), complex(1,1)}
+	incX := 1
+	result := SCASUM(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//3
 }
 
+/*
 func ExampleDZNRM2() {
 	X := []complex128{0, 0, 0}
 	result := DZNRM2(X)
