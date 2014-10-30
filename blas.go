@@ -196,16 +196,16 @@ func SSWAP(X []float32, incX int, Y []float32, incY int) {
 	cblas.CBLAS_SSWAP(N, X_, incX, Y_, incY)
 }
 
-/*
-func SCOPY(X []float32, Y []float32) {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	var Y_ *float32 = 0
-	var incY_ int = 0
-	cblas.CBLAS_SCOPY(N_, X_, incX_, Y_, incY_)
+// Copies X to Y.
+// Every incX'th and incY'th element is used.
+func SCOPY(X []float32, incX int, Y []float32, incY int) {
+	var N int = checkIncS(X, incX, Y, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	cblas.CBLAS_SCOPY(N, X_, incX, Y_, incY)
 }
 
+/*
 func SAXPY(alpha float32, X []float32, Y []float32) {
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -226,16 +226,16 @@ func DSWAP(X []float64, incX int, Y []float64, incY int) {
 	cblas.CBLAS_DSWAP(N, X_, incX, Y_, incY)
 }
 
-/*
-func DCOPY(X []float64, Y []float64) {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
-	cblas.CBLAS_DCOPY(N_, X_, incX_, Y_, incY_)
+// Copies X to Y.
+// Every incX'th and incY'th element is used.
+func DCOPY(X []float64, incX int, Y []float64, incY int) {
+	var N int = checkIncD(X, incX, Y, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DCOPY(N, X_, incX, Y_, incY)
 }
 
+/*
 func DAXPY(alpha float64, X []float64, Y []float64) {
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -256,16 +256,16 @@ func CSWAP(X []complex64,incX int, Y []complex64, incY int) {
 	cblas.CBLAS_CSWAP(N, X_, incX, Y_, incY)
 }
 
-/*
-func CCOPY(X []complex64, Y []complex64) {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	var Y_ unsafe.Pointer = 0
-	var incY_ int = 0
-	cblas.CBLAS_CCOPY(N_, X_, incX_, Y_, incY_)
+// Copies X to Y.
+// Every incX'th and incY'th element is used.
+func CCOPY(X []complex64, incX int, Y []complex64, incY int) {
+	var N int = checkIncC(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_CCOPY(N, X_, incX, Y_, incY)
 }
 
+/*
 func CAXPY(alpha complex64, X []complex64, Y []complex64) {
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -286,16 +286,16 @@ func ZSWAP(X []complex128,incX int, Y []complex128, incY int) {
 	cblas.CBLAS_ZSWAP(N, X_, incX, Y_, incY)
 }
 
-/*
-func ZCOPY(X []complex128, Y []complex128) {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	var Y_ unsafe.Pointer = 0
-	var incY_ int = 0
-	cblas.CBLAS_ZCOPY(N_, X_, incX_, Y_, incY_)
+// Copies X to Y.
+// Every incX'th and incY'th element is used.
+func ZCOPY(X []complex128, incX int, Y []complex128, incY int) {
+	var N int = checkIncZ(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_ZCOPY(N, X_, incX, Y_, incY)
 }
 
+/*
 func ZAXPY(alpha complex128, X []complex128, Y []complex128) {
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0

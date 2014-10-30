@@ -240,17 +240,19 @@ func ExampleSSWAP() {
 	//[-1 666 -2 666] [1 2]
 }
 
-/*
 func ExampleSCOPY() {
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	result := SCOPY(X, Y)
-	fmt.Println(result)
+	X := []float32{1, 666, 2, 666}
+	incX := 2
+	Y := []float32{-1, -2}
+	incY := 1
+	SCOPY(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[1 666 2 666] [1 2]
 }
 
+/*
 func ExampleSAXPY() {
 	alpha := float32(2.0)
 	X := []float32{0, 0, 0}
@@ -275,18 +277,20 @@ func ExampleDSWAP() {
 	//[-1 666 -2 666] [1 2]
 }
 
-/*
 
 func ExampleDCOPY() {
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	result := DCOPY(X, Y)
-	fmt.Println(result)
+	X := []float64{1, 666, 2, 666}
+	incX := 2
+	Y := []float64{-1, -2}
+	incY := 1
+	DCOPY(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[1 666 2 666] [1 2]
 }
 
+/*
 func ExampleDAXPY() {
 	alpha := float64(2.0)
 	X := []float64{0, 0, 0}
@@ -311,17 +315,20 @@ func ExampleCSWAP() {
 	//Output:
 	//[(-1+0i) (666+0i) (-2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
-/*
+
 func ExampleCCOPY() {
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	result := CCOPY(X, Y)
-	fmt.Println(result)
+	X := []complex64{1, 666, 2, 666}
+	incX := 2
+	Y := []complex64{-1, -2}
+	incY := 1
+	CCOPY(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[(1+0i) (666+0i) (2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
+/*
 func ExampleCAXPY() {
 	alpha := complex64(complex(2.0, 3.0))
 	X := []complex64{0, 0, 0}
@@ -345,17 +352,19 @@ func ExampleZSWAP() {
 	//[(-1+0i) (666+0i) (-2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
-/*
 func ExampleZCOPY() {
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	result := ZCOPY(X, Y)
-	fmt.Println(result)
+	X := []complex128{1, 666, 2, 666}
+	incX := 2
+	Y := []complex128{-1, -2}
+	incY := 1
+	ZCOPY(X,incX, Y, incY)
+	fmt.Println(X, Y)
 
 	//Output:
-	//
+	//[(1+0i) (666+0i) (2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
+/*
 func ExampleZAXPY() {
 	alpha := complex128(complex(2.0, 3.0))
 	X := []complex128{0, 0, 0}
