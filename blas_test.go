@@ -54,29 +54,33 @@ func ExampleDDOT() {
 	//Output:
 	//6
 }
-/*
+
 func ExampleCDOTU() {
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	dotu := *complex64(2.0)
-	result := CDOTU(X, Y, dotu)
+	X := []complex64{complex(1,0), complex(1,1)}
+	incX := 1
+	Y := []complex64{complex(0,0), complex(2,0)}
+	incY := 1
+	result := CDOTU(X,incX, Y,incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//(2+2i)
 }
+
 
 func ExampleCDOTC() {
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	dotc := *complex64(2.0)
-	result := CDOTC(X, Y, dotc)
+	X := []complex64{complex(1,0), complex(1,1)}
+	incX := 1
+	Y := []complex64{complex(0,0), complex(2,0)}
+	incY := 1
+	result := CDOTC(X,incX, Y,incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//(2-2i)
 }
 
+/*
 func ExampleZDOTU() {
 	X := []complex128{0, 0, 0}
 	Y := []complex128{0, 0, 0}

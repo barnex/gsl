@@ -4,9 +4,11 @@ package blas
 
 import (
 	"github.com/barnex/blas/cblas"
+	"unsafe"
 )
 
 // Computes the dot product of vectors X and Y plus an initial value alpha.
+// Every incX'th and incY'th element is used.
 func SDSDOT(alpha float32, X []float32, incX int, Y []float32, incY int) float32 {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
@@ -15,6 +17,7 @@ func SDSDOT(alpha float32, X []float32, incX int, Y []float32, incY int) float32
 }
 
 // Computes the dot product of vectors X and Y.
+// Every incX'th and incY'th element is used.
 func DSDOT(X []float32, incX int, Y []float32, incY int) float64 {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
@@ -23,6 +26,7 @@ func DSDOT(X []float32, incX int, Y []float32, incY int) float64 {
 }
 
 // Computes the dot product of vectors X and Y.
+// Every incX'th and incY'th element is used.
 func SDOT(X []float32, incX int, Y []float32, incY int) float32 {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
@@ -31,6 +35,7 @@ func SDOT(X []float32, incX int, Y []float32, incY int) float32 {
 }
 
 // Computes the dot product of vectors X and Y.
+// Every incX'th and incY'th element is used.
 func DDOT(X []float64, incX int, Y []float64, incY int) float64 {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
@@ -38,15 +43,28 @@ func DDOT(X []float64, incX int, Y []float64, incY int) float64 {
 	return cblas.CBLAS_DDOT(N, X_, incX, Y_, incY)
 }
 
+// Computes the dot product of vectors X and Y.
+// Every incX'th and incY'th element is used.
+func CDOTU(X []complex64, incX int, Y []complex64, incY int) complex64 {
+	var result complex64
+	var N int = checkIncC(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	return result
+}
+
+// Calculates the dot product of the complex conjugate of X with Y.
+func CDOTC(X []complex64,incX int, Y []complex64, incY int)complex64 {
+	var result complex64
+	var N int = checkIncC(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	return result
+}
+
 /*
-func CDOTU(X []complex64, Y []complex64, dotu *complex64) {
-
-}
-
-func CDOTC(X []complex64, Y []complex64, dotc *complex64) {
-
-}
-
 func ZDOTU(X []complex128, Y []complex128, dotu *complex128) {
 
 }
