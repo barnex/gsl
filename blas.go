@@ -1,7 +1,5 @@
 package blas
 
-//THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
-
 import (
 	"github.com/barnex/blas/cblas"
 	"unsafe"
@@ -491,10 +489,11 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 	cblas.CBLAS_ZDSCAL(N, alpha, X_, incX)
 }
 
-/*
 
+
+// Matrix-vector multiplication
+// 	Y = alpha*AX + beta*Y
 func SGEMV(TransA Transpose, alpha float32, A [][]float32, X []float32, beta float32, Y []float32) {
-	var order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -509,8 +508,8 @@ func SGEMV(TransA Transpose, alpha float32, A [][]float32, X []float32, beta flo
 	cblas.CBLAS_SGEMV(order_, TransA_, M_, N_, alpha_, A_, lda_, X_, incX_, beta_, Y_, incY_)
 }
 
+/*
 func STRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float32, X []float32) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -523,7 +522,6 @@ func STRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float32, X []float32) {
 }
 
 func STRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float32, X []float32) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -536,7 +534,6 @@ func STRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float32, X []float32) {
 }
 
 func DGEMV(TransA Transpose, alpha float64, A [][]float64, X []float64, beta float64, Y []float64) {
-	var order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -552,7 +549,6 @@ func DGEMV(TransA Transpose, alpha float64, A [][]float64, X []float64, beta flo
 }
 
 func DTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float64, X []float64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -565,7 +561,6 @@ func DTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float64, X []float64) {
 }
 
 func DTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float64, X []float64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -578,7 +573,6 @@ func DTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]float64, X []float64) {
 }
 
 func CGEMV(TransA Transpose, alpha complex64, A [][]complex64, X []complex64, beta complex64, Y []complex64) {
-	var order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -594,7 +588,6 @@ func CGEMV(TransA Transpose, alpha complex64, A [][]complex64, X []complex64, be
 }
 
 func CTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex64, X []complex64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -607,7 +600,6 @@ func CTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex64, X []complex6
 }
 
 func CTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex64, X []complex64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -620,7 +612,6 @@ func CTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex64, X []complex6
 }
 
 func ZGEMV(TransA Transpose, alpha complex128, A [][]complex128, X []complex128, beta complex128, Y []complex128) {
-	var order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -636,7 +627,6 @@ func ZGEMV(TransA Transpose, alpha complex128, A [][]complex128, X []complex128,
 }
 
 func ZTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex128, X []complex128) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -649,7 +639,6 @@ func ZTRMV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex128, X []complex
 }
 
 func ZTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex128, X []complex128) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
 	var Diag_ uint32 = 0
@@ -662,7 +651,6 @@ func ZTRSV(Uplo Uplo, TransA Transpose, Diag Diag, A [][]complex128, X []complex
 }
 
 func SSYMV(Uplo Uplo, alpha float32, A [][]float32, X []float32, beta float32, Y []float32) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -677,7 +665,6 @@ func SSYMV(Uplo Uplo, alpha float32, A [][]float32, X []float32, beta float32, Y
 }
 
 func SGER(alpha float32, X []float32, Y []float32, A [][]float32) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -691,7 +678,6 @@ func SGER(alpha float32, X []float32, Y []float32, A [][]float32) {
 }
 
 func SSYR(Uplo Uplo, alpha float32, X []float32, A [][]float32) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -703,7 +689,6 @@ func SSYR(Uplo Uplo, alpha float32, X []float32, A [][]float32) {
 }
 
 func SSYR2(Uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -717,7 +702,6 @@ func SSYR2(Uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
 }
 
 func DSYMV(Uplo Uplo, alpha float64, A [][]float64, X []float64, beta float64, Y []float64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -732,7 +716,6 @@ func DSYMV(Uplo Uplo, alpha float64, A [][]float64, X []float64, beta float64, Y
 }
 
 func DGER(alpha float64, X []float64, Y []float64, A [][]float64) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -746,7 +729,6 @@ func DGER(alpha float64, X []float64, Y []float64, A [][]float64) {
 }
 
 func DSYR(Uplo Uplo, alpha float64, X []float64, A [][]float64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -758,7 +740,6 @@ func DSYR(Uplo Uplo, alpha float64, X []float64, A [][]float64) {
 }
 
 func DSYR2(Uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -772,7 +753,6 @@ func DSYR2(Uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
 }
 
 func CHEMV(Uplo Uplo, alpha complex64, A [][]complex64, X []complex64, beta complex64, Y []complex64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -787,7 +767,6 @@ func CHEMV(Uplo Uplo, alpha complex64, A [][]complex64, X []complex64, beta comp
 }
 
 func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -801,7 +780,6 @@ func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 }
 
 func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -815,7 +793,6 @@ func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 }
 
 func CHER(Uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float32 = 0
@@ -827,7 +804,6 @@ func CHER(Uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
 }
 
 func CHER2(Uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -841,7 +817,6 @@ func CHER2(Uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]compl
 }
 
 func ZHEMV(Uplo Uplo, alpha complex128, A [][]complex128, X []complex128, beta complex128, Y []complex128) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -856,7 +831,6 @@ func ZHEMV(Uplo Uplo, alpha complex128, A [][]complex128, X []complex128, beta c
 }
 
 func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -870,7 +844,6 @@ func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 }
 
 func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
-	var order_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -884,7 +857,6 @@ func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 }
 
 func ZHER(Uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ float64 = 0
@@ -896,7 +868,6 @@ func ZHER(Uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
 }
 
 func ZHER2(Uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
-	var order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var N_ int = 0
 	var alpha_ unsafe.Pointer = 0
@@ -910,7 +881,6 @@ func ZHER2(Uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]co
 }
 
 func SGEMM(TransA Transpose, TransB Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
-	var Order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var TransB_ uint32 = 0
 	var M_ int = 0
@@ -928,7 +898,6 @@ func SGEMM(TransA Transpose, TransB Transpose, alpha float32, A [][]float32, B [
 }
 
 func SSYMM(Side Side, Uplo Uplo, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -945,7 +914,6 @@ func SSYMM(Side Side, Uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 }
 
 func SSYRK(Uplo Uplo, Trans Transpose, alpha float32, A [][]float32, beta float32, C [][]float32) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -960,7 +928,6 @@ func SSYRK(Uplo Uplo, Trans Transpose, alpha float32, A [][]float32, beta float3
 }
 
 func SSYR2K(Uplo Uplo, Trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -977,7 +944,6 @@ func SSYR2K(Uplo Uplo, Trans Transpose, alpha float32, A [][]float32, B [][]floa
 }
 
 func STRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float32, A [][]float32, B [][]float32) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -993,7 +959,6 @@ func STRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float32, A [
 }
 
 func STRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float32, A [][]float32, B [][]float32) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1009,7 +974,6 @@ func STRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float32, A [
 }
 
 func DGEMM(TransA Transpose, TransB Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-	var Order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var TransB_ uint32 = 0
 	var M_ int = 0
@@ -1027,7 +991,6 @@ func DGEMM(TransA Transpose, TransB Transpose, alpha float64, A [][]float64, B [
 }
 
 func DSYMM(Side Side, Uplo Uplo, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -1044,7 +1007,6 @@ func DSYMM(Side Side, Uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 }
 
 func DSYRK(Uplo Uplo, Trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1059,7 +1021,6 @@ func DSYRK(Uplo Uplo, Trans Transpose, alpha float64, A [][]float64, beta float6
 }
 
 func DSYR2K(Uplo Uplo, Trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1076,7 +1037,6 @@ func DSYR2K(Uplo Uplo, Trans Transpose, alpha float64, A [][]float64, B [][]floa
 }
 
 func DTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float64, A [][]float64, B [][]float64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1092,7 +1052,6 @@ func DTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float64, A [
 }
 
 func DTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float64, A [][]float64, B [][]float64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1108,7 +1067,6 @@ func DTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha float64, A [
 }
 
 func CGEMM(TransA Transpose, TransB Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-	var Order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var TransB_ uint32 = 0
 	var M_ int = 0
@@ -1126,7 +1084,6 @@ func CGEMM(TransA Transpose, TransB Transpose, alpha complex64, A [][]complex64,
 }
 
 func CSYMM(Side Side, Uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -1143,7 +1100,6 @@ func CSYMM(Side Side, Uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 }
 
 func CSYRK(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1158,7 +1114,6 @@ func CSYRK(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, beta co
 }
 
 func CSYR2K(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1175,7 +1130,6 @@ func CSYR2K(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, B [][]
 }
 
 func CTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1191,7 +1145,6 @@ func CTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex64, A
 }
 
 func CTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1207,7 +1160,6 @@ func CTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex64, A
 }
 
 func ZGEMM(TransA Transpose, TransB Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-	var Order_ uint32 = 0
 	var TransA_ uint32 = 0
 	var TransB_ uint32 = 0
 	var M_ int = 0
@@ -1225,7 +1177,6 @@ func ZGEMM(TransA Transpose, TransB Transpose, alpha complex128, A [][]complex12
 }
 
 func ZSYMM(Side Side, Uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -1242,7 +1193,6 @@ func ZSYMM(Side Side, Uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 }
 
 func ZSYRK(Uplo Uplo, Trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1257,7 +1207,6 @@ func ZSYRK(Uplo Uplo, Trans Transpose, alpha complex128, A [][]complex128, beta 
 }
 
 func ZSYR2K(Uplo Uplo, Trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1274,7 +1223,6 @@ func ZSYR2K(Uplo Uplo, Trans Transpose, alpha complex128, A [][]complex128, B []
 }
 
 func ZTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1290,7 +1238,6 @@ func ZTRMM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex128, 
 }
 
 func ZTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var TransA_ uint32 = 0
@@ -1306,7 +1253,6 @@ func ZTRSM(Side Side, Uplo Uplo, TransA Transpose, Diag Diag, alpha complex128, 
 }
 
 func CHEMM(Side Side, Uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -1323,7 +1269,6 @@ func CHEMM(Side Side, Uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 }
 
 func CHERK(Uplo Uplo, Trans Transpose, alpha float32, A [][]complex64, beta float32, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1338,7 +1283,6 @@ func CHERK(Uplo Uplo, Trans Transpose, alpha float32, A [][]complex64, beta floa
 }
 
 func CHER2K(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta float32, C [][]complex64) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1355,7 +1299,6 @@ func CHER2K(Uplo Uplo, Trans Transpose, alpha complex64, A [][]complex64, B [][]
 }
 
 func ZHEMM(Side Side, Uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var M_ int = 0
@@ -1372,7 +1315,6 @@ func ZHEMM(Side Side, Uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 }
 
 func ZHERK(Uplo Uplo, Trans Transpose, alpha float64, A [][]complex128, beta float64, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
@@ -1387,7 +1329,6 @@ func ZHERK(Uplo Uplo, Trans Transpose, alpha float64, A [][]complex128, beta flo
 }
 
 func ZHER2K(Uplo Uplo, Trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta float64, C [][]complex128) {
-	var Order_ uint32 = 0
 	var Uplo_ uint32 = 0
 	var Trans_ uint32 = 0
 	var N_ int = 0
