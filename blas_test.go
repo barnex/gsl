@@ -168,25 +168,27 @@ func ExampleSCASUM() {
 	//3
 }
 
-/*
 func ExampleDZNRM2() {
-	X := []complex128{0, 0, 0}
-	result := DZNRM2(X)
+	X := []complex128{complex(1,0), complex(0,1)}
+	incX := 1
+	result := DZNRM2(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1.4142135623730951
 }
 
 func ExampleDZASUM() {
-	X := []complex128{0, 0, 0}
-	result := DZASUM(X)
+	X := []complex128{complex(1,0), complex(1,1)}
+	incX := 1
+	result := DZASUM(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//3
 }
 
+/*
 func ExampleISAMAX() {
 	X := []float32{0, 0, 0}
 	result := ISAMAX(X)

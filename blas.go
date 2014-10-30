@@ -122,7 +122,7 @@ func DASUM(X []float64, incX int) float64 {
 	return cblas.CBLAS_DASUM(N, X_, incX)
 }
 
-// Computes the unitary norm of a vector.
+// Computes the unitary norm of vector X.
 // Every incX'th element is used.
 func SCNRM2(X []complex64, incX int) float32 {
 	var N int = len(X)/incX
@@ -131,25 +131,27 @@ func SCNRM2(X []complex64, incX int) float32 {
 }
 
 // Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
+// Every incX'th element is used.
 func SCASUM(X []complex64, incX int) float32 {
 	var N int = len(X)/incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_SCASUM(N, X_, incX)
 }
 
-/*
-func DZNRM2(X []complex128) float64 {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_DZNRM2(N_, X_, incX_)
+// Computes the unitary norm of vector X.
+// Every incX'th element is used.
+func DZNRM2(X []complex128, incX int) float64 {
+	var N int = len(X)/incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	return cblas.CBLAS_DZNRM2(N, X_, incX)
 }
 
-func DZASUM(X []complex128) float64 {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_DZASUM(N_, X_, incX_)
+// Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
+// Every incX'th element is used.
+func DZASUM(X []complex128, incX int) float64 {
+	var N int = len(X)/incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	return cblas.CBLAS_DZASUM(N, X_, incX)
 }
 
 /*
