@@ -55,6 +55,7 @@ func CDOTU(X []complex64, incX int, Y []complex64, incY int) complex64 {
 }
 
 // Calculates the dot product of the complex conjugate of X with Y.
+// Every incX'th and incY'th element is used.
 func CDOTC(X []complex64,incX int, Y []complex64, incY int)complex64 {
 	var result complex64
 	var N int = checkIncC(X, incX, Y, incY)
@@ -64,14 +65,31 @@ func CDOTC(X []complex64,incX int, Y []complex64, incY int)complex64 {
 	return result
 }
 
+
+// Computes the dot product of vectors X and Y.
+// Every incX'th and incY'th element is used.
+func ZDOTU(X []complex128, incX int, Y []complex128, incY int) complex128 {
+	var result complex128
+	var N int = checkIncZ(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.ZDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	return result
+}
+
+// Calculates the dot product of the complex conjugate of X with Y.
+// Every incX'th and incY'th element is used.
+func ZDOTC(X []complex128,incX int, Y []complex128, incY int)complex128 {
+	var result complex128
+	var N int = checkIncZ(X, incX, Y, incY)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.ZDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	return result
+}
+
+
 /*
-func ZDOTU(X []complex128, Y []complex128, dotu *complex128) {
-
-}
-
-func ZDOTC(X []complex128, Y []complex128, dotc *complex128) {
-
-}
 
 func SNRM2(X []float32) float32 {
 	var N_ int = 0

@@ -80,29 +80,33 @@ func ExampleCDOTC() {
 	//(2-2i)
 }
 
-/*
+
 func ExampleZDOTU() {
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	dotu := *complex128(2.0)
-	result := ZDOTU(X, Y, dotu)
+	X := []complex128{complex(1,0), complex(1,1)}
+	incX := 1
+	Y := []complex128{complex(0,0), complex(2,0)}
+	incY := 1
+	result := ZDOTU(X,incX, Y,incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//(2+2i)
 }
+
 
 func ExampleZDOTC() {
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	dotc := *complex128(2.0)
-	result := ZDOTC(X, Y, dotc)
+	X := []complex128{complex(1,0), complex(1,1)}
+	incX := 1
+	Y := []complex128{complex(0,0), complex(2,0)}
+	incY := 1
+	result := ZDOTC(X,incX, Y,incY)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//(2-2i)
 }
 
+/*
 func ExampleSNRM2() {
 	X := []float32{0, 0, 0}
 	result := SNRM2(X)
