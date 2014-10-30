@@ -154,35 +154,40 @@ func DZASUM(X []complex128, incX int) float64 {
 	return cblas.CBLAS_DZASUM(N, X_, incX)
 }
 
+// Returns the index of the element with the largest absolute value in vector X.
+// Every incX'th element is used.
+func ISAMAX(X []float32, incX int) int {
+	var N int = len(X)/incX
+	var X_ *float32 = &X[0]
+	return cblas.CBLAS_ISAMAX(N, X_, incX)
+}
+
+
+// Returns the index of the element with the largest absolute value in vector X.
+// Every incX'th element is used.
+func IDAMAX(X []float64, incX int) int {
+	var N int = len(X)/incX
+	var X_ *float64 = &X[0]
+	return cblas.CBLAS_IDAMAX(N, X_, incX)
+}
+
+// Returns the index of the element with the largest absolute value in vector X.
+// Every incX'th element is used.
+func ICAMAX(X []complex64, incX int) int {
+	var N int = len(X)/incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	return cblas.CBLAS_ICAMAX(N, X_, incX)
+}
+
+// Returns the index of the element with the largest absolute value in vector X.
+// Every incX'th element is used.
+func IZAMAX(X []complex128, incX int) int {
+	var N int = len(X)/incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	return cblas.CBLAS_IZAMAX(N, X_, incX)
+}
+
 /*
-func ISAMAX(X []float32) int {
-	var N_ int = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	cblas.CBLAS_ISAMAX(N_, X_, incX_)
-}
-
-func IDAMAX(X []float64) int {
-	var N_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	cblas.CBLAS_IDAMAX(N_, X_, incX_)
-}
-
-func ICAMAX(X []complex64) int {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_ICAMAX(N_, X_, incX_)
-}
-
-func IZAMAX(X []complex128) int {
-	var N_ int = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_IZAMAX(N_, X_, incX_)
-}
-
 func SSWAP(X []float32, Y []float32) {
 	var N_ int = 0
 	var X_ *float32 = 0

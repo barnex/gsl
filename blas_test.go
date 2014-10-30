@@ -188,43 +188,47 @@ func ExampleDZASUM() {
 	//3
 }
 
-/*
 func ExampleISAMAX() {
-	X := []float32{0, 0, 0}
-	result := ISAMAX(X)
+	X := []float32{1, 999, 2, 3}
+	incX := 1
+	result := ISAMAX(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1
 }
 
 func ExampleIDAMAX() {
-	X := []float64{0, 0, 0}
-	result := IDAMAX(X)
+	X := []float32{1, 999, 2, 3}
+	incX := 1
+	result := ISAMAX(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1
 }
 
 func ExampleICAMAX() {
-	X := []complex64{0, 0, 0}
-	result := ICAMAX(X)
+	X := []complex64{complex(2,0), complex(2,2), complex(0,2)}
+	incX := 1
+	result := ICAMAX(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1
 }
 
 func ExampleIZAMAX() {
-	X := []complex128{0, 0, 0}
-	result := IZAMAX(X)
+	X := []complex128{complex(2,0), complex(2,2), complex(0,2)}
+	incX := 1
+	result := IZAMAX(X, incX)
 	fmt.Println(result)
 
 	//Output:
-	//
+	//1
 }
 
+/*
 func ExampleSSWAP() {
 	X := []float32{0, 0, 0}
 	Y := []float32{0, 0, 0}
