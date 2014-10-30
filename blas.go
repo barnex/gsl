@@ -354,13 +354,13 @@ func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
 }
 
 // Applies the modified-Givens rotation of the vectors X and Y:
-// 
+//
 //      [ x_i ]   [ h_11 h_12 ] [ x_i ]
 //      [ y_i ] = [ h_21 h_22 ] [ y_i ]
 // for all i.
 //
 // H  stored in P according to the encoding used by SROTMG.
-func SROTM(X []float32, incX int, Y []float32,incY int, P [5]float32) {
+func SROTM(X []float32, incX int, Y []float32, incY int, P [5]float32) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
@@ -420,7 +420,7 @@ func DROTMG(d1 float64, d2 float64, b1 float64, b2 float64) [5]float64 {
 //
 //    [ x_i ]   [ c s ] [ x_i ]
 //    [ y_i ] = [-s c ] [ y_i ]
-// for all i with strides incX and incY.
+// for all i with strides incX, incY.
 func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
@@ -429,69 +429,69 @@ func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
 }
 
 // Applies the modified-Givens rotation of the vectors X and Y:
-// 
+//
 //      [ x_i ]   [ h_11 h_12 ] [ x_i ]
 //      [ y_i ] = [ h_21 h_22 ] [ y_i ]
-// for all i.
+//
+// for all i with strides incX, incY
 //
 // H  stored in P according to the encoding used by DROTMG.
-func DROTM(X []float64, incX int, Y []float64,incY int, P [5]float64) {
+func DROTM(X []float64, incX int, Y []float64, incY int, P [5]float64) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
 	cblas.CBLAS_DROTM(N, X_, incX, Y_, incY, &P[0])
 }
 
+// Multiply X by alpha.
+// Every incX'th element is used.
+func SSCAL(alpha float32, X []float32, incX int) {
+	var N int = len(X) / incX
+	var X_ *float32 = &X[0]
+	cblas.CBLAS_SSCAL(N, alpha, X_, incX)
+}
+
+// Multiply X by alpha.
+// Every incX'th element is used.
+func DSCAL(alpha float64, X []float64, incX int) {
+	var N int = len(X) / incX
+	var X_ *float64 = &X[0]
+	cblas.CBLAS_DSCAL(N, alpha, X_, incX)
+}
+
+// Multiply X by alpha.
+// Every incX'th element is used.
+func CSCAL(alpha complex64, X []complex64, incX int) {
+	var N int = len(X) / incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_CSCAL(N, unsafe.Pointer(&alpha), X_, incX)
+}
+
+// Multiply X by alpha.
+// Every incX'th element is used.
+func ZSCAL(alpha complex128, X []complex128, incX int) {
+	var N int = len(X) / incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_ZSCAL(N, unsafe.Pointer(&alpha), X_, incX)
+}
+
+// Multiply X by alpha.
+// Every incX'th element is used.
+func CSSCAL(alpha float32, X []complex64, incX int) {
+	var N int = len(X) / incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_CSSCAL(N, alpha, X_, incX)
+}
+
+// Multiply X by alpha.
+// Every incX'th element is used.
+func ZDSCAL(alpha float64, X []complex128, incX int) {
+	var N int = len(X) / incX
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_ZDSCAL(N, alpha, X_, incX)
+}
+
 /*
-
-
-func SSCAL(alpha float32, X []float32) {
-	var N_ int = 0
-	var alpha_ float32 = 0
-	var X_ *float32 = 0
-	var incX_ int = 0
-	cblas.CBLAS_SSCAL(N_, alpha_, X_, incX_)
-}
-
-func DSCAL(alpha float64, X []float64) {
-	var N_ int = 0
-	var alpha_ float64 = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	cblas.CBLAS_DSCAL(N_, alpha_, X_, incX_)
-}
-
-func CSCAL(alpha complex64, X []complex64) {
-	var N_ int = 0
-	var alpha_ unsafe.Pointer = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_CSCAL(N_, alpha_, X_, incX_)
-}
-
-func ZSCAL(alpha complex128, X []complex128) {
-	var N_ int = 0
-	var alpha_ unsafe.Pointer = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_ZSCAL(N_, alpha_, X_, incX_)
-}
-
-func CSSCAL(alpha float32, X []complex64) {
-	var N_ int = 0
-	var alpha_ float32 = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_CSSCAL(N_, alpha_, X_, incX_)
-}
-
-func ZDSCAL(alpha float64, X []complex128) {
-	var N_ int = 0
-	var alpha_ float64 = 0
-	var X_ unsafe.Pointer = 0
-	var incX_ int = 0
-	cblas.CBLAS_ZDSCAL(N_, alpha_, X_, incX_)
-}
 
 func SGEMV(TransA Transpose, alpha float32, A [][]float32, X []float32, beta float32, Y []float32) {
 	var order_ uint32 = 0

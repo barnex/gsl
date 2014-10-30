@@ -409,7 +409,6 @@ func ExampleSROT() {
 	//[0.70710677 0.70710677 1.4142135] [-0.70710677 0.70710677 0]
 }
 
-
 func ExampleSROTM() {
 	d1 := float32(1.0)
 	d2 := float32(1.0)
@@ -469,7 +468,6 @@ func ExampleDROT() {
 	//[0.7071067811865476 0.7071067811865475 1.414213562373095] [-0.7071067811865475 0.7071067811865476 1.1102230246251565e-16]
 }
 
-
 func ExampleDROTM() {
 	d1 := 1.0
 	d2 := 1.0
@@ -487,67 +485,74 @@ func ExampleDROTM() {
 	//Output:
 	//[2] [0]
 }
-/*
+
 func ExampleSSCAL() {
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
-	SSCAL(alpha, X)
-	fmt.Println()
+	alpha := float32(2)
+	X := []float32{1, 666, 2, 666}
+	incX := 2
+	SSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[2 666 4 666]
 }
 
 func ExampleDSCAL() {
-	alpha := float64(2.0)
-	X := []float64{0, 0, 0}
-	DSCAL(alpha, X)
-	fmt.Println()
+	alpha := 2.0
+	X := []float64{1, 666, 2, 666}
+	incX := 2
+	DSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[2 666 4 666]
 }
 
 func ExampleCSCAL() {
-	alpha := complex64(complex(2.0, 3.0))
-	X := []complex64{0, 0, 0}
-	CSCAL(alpha, X)
-	fmt.Println()
+	alpha := complex64(complex(0, 1))
+	X := []complex64{1, 666, 2, 666}
+	incX := 2
+	CSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[(0+1i) (666+0i) (0+2i) (666+0i)]
 }
 
 func ExampleZSCAL() {
-	alpha := complex128(complex(2.0, 3.0))
-	X := []complex128{0, 0, 0}
-	ZSCAL(alpha, X)
-	fmt.Println()
+	alpha := complex(0, 1)
+	X := []complex128{1, 666, 2, 666}
+	incX := 2
+	ZSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[(0+1i) (666+0i) (0+2i) (666+0i)]
 }
 
 func ExampleCSSCAL() {
-	alpha := float32(2.0)
-	X := []complex64{0, 0, 0}
-	CSSCAL(alpha, X)
-	fmt.Println()
+	alpha := float32(2)
+	X := []complex64{1, 666, 2, 666}
+	incX := 2
+	CSSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[(2+0i) (666+0i) (4+0i) (666+0i)]
 }
 
 func ExampleZDSCAL() {
-	alpha := float64(2.0)
-	X := []complex128{0, 0, 0}
-	ZDSCAL(alpha, X)
-	fmt.Println()
+	alpha := 2.0
+	X := []complex128{1, 666, 2, 666}
+	incX := 2
+	ZDSCAL(alpha, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[(2+0i) (666+0i) (4+0i) (666+0i)]
 }
 
+/*
 func ExampleSGEMV() {
 	TransA := Transpose(2.0)
 	alpha := float32(2.0)
