@@ -57,50 +57,47 @@ func ExampleDDOT() {
 }
 
 func ExampleCDOTU() {
-	X := []complex64{complex(1,0), complex(1,1)}
+	X := []complex64{complex(1, 0), complex(1, 1)}
 	incX := 1
-	Y := []complex64{complex(0,0), complex(2,0)}
+	Y := []complex64{complex(0, 0), complex(2, 0)}
 	incY := 1
-	result := CDOTU(X,incX, Y,incY)
+	result := CDOTU(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
 	//(2+2i)
 }
 
-
 func ExampleCDOTC() {
-	X := []complex64{complex(1,0), complex(1,1)}
+	X := []complex64{complex(1, 0), complex(1, 1)}
 	incX := 1
-	Y := []complex64{complex(0,0), complex(2,0)}
+	Y := []complex64{complex(0, 0), complex(2, 0)}
 	incY := 1
-	result := CDOTC(X,incX, Y,incY)
+	result := CDOTC(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
 	//(2-2i)
 }
 
-
 func ExampleZDOTU() {
-	X := []complex128{complex(1,0), complex(1,1)}
+	X := []complex128{complex(1, 0), complex(1, 1)}
 	incX := 1
-	Y := []complex128{complex(0,0), complex(2,0)}
+	Y := []complex128{complex(0, 0), complex(2, 0)}
 	incY := 1
-	result := ZDOTU(X,incX, Y,incY)
+	result := ZDOTU(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
 	//(2+2i)
 }
 
-
 func ExampleZDOTC() {
-	X := []complex128{complex(1,0), complex(1,1)}
+	X := []complex128{complex(1, 0), complex(1, 1)}
 	incX := 1
-	Y := []complex128{complex(0,0), complex(2,0)}
+	Y := []complex128{complex(0, 0), complex(2, 0)}
 	incY := 1
-	result := ZDOTC(X,incX, Y,incY)
+	result := ZDOTC(X, incX, Y, incY)
 	fmt.Println(result)
 
 	//Output:
@@ -137,7 +134,6 @@ func ExampleDNRM2() {
 	//1.4142135623730951
 }
 
-
 func ExampleDASUM() {
 	X := []float64{1, 666, 2, 666}
 	incX := 2
@@ -148,9 +144,8 @@ func ExampleDASUM() {
 	//3
 }
 
-
 func ExampleSCNRM2() {
-	X := []complex64{complex(1,0), complex(0,1)}
+	X := []complex64{complex(1, 0), complex(0, 1)}
 	incX := 1
 	result := SCNRM2(X, incX)
 	fmt.Println(result)
@@ -160,7 +155,7 @@ func ExampleSCNRM2() {
 }
 
 func ExampleSCASUM() {
-	X := []complex64{complex(1,0), complex(1,1)}
+	X := []complex64{complex(1, 0), complex(1, 1)}
 	incX := 1
 	result := SCASUM(X, incX)
 	fmt.Println(result)
@@ -170,7 +165,7 @@ func ExampleSCASUM() {
 }
 
 func ExampleDZNRM2() {
-	X := []complex128{complex(1,0), complex(0,1)}
+	X := []complex128{complex(1, 0), complex(0, 1)}
 	incX := 1
 	result := DZNRM2(X, incX)
 	fmt.Println(result)
@@ -180,7 +175,7 @@ func ExampleDZNRM2() {
 }
 
 func ExampleDZASUM() {
-	X := []complex128{complex(1,0), complex(1,1)}
+	X := []complex128{complex(1, 0), complex(1, 1)}
 	incX := 1
 	result := DZASUM(X, incX)
 	fmt.Println(result)
@@ -210,7 +205,7 @@ func ExampleIDAMAX() {
 }
 
 func ExampleICAMAX() {
-	X := []complex64{complex(2,0), complex(2,2), complex(0,2)}
+	X := []complex64{complex(2, 0), complex(2, 2), complex(0, 2)}
 	incX := 1
 	result := ICAMAX(X, incX)
 	fmt.Println(result)
@@ -220,7 +215,7 @@ func ExampleICAMAX() {
 }
 
 func ExampleIZAMAX() {
-	X := []complex128{complex(2,0), complex(2,2), complex(0,2)}
+	X := []complex128{complex(2, 0), complex(2, 2), complex(0, 2)}
 	incX := 1
 	result := IZAMAX(X, incX)
 	fmt.Println(result)
@@ -234,7 +229,7 @@ func ExampleSSWAP() {
 	incX := 2
 	Y := []float32{-1, -2}
 	incY := 1
-	SSWAP(X,incX, Y, incY)
+	SSWAP(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
@@ -246,7 +241,7 @@ func ExampleSCOPY() {
 	incX := 2
 	Y := []float32{-1, -2}
 	incY := 1
-	SCOPY(X,incX, Y, incY)
+	SCOPY(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
@@ -256,10 +251,10 @@ func ExampleSCOPY() {
 func ExampleSAXPY() {
 	alpha := float32(2)
 	X := []float32{1, 2, 3}
-	incX:=1
+	incX := 1
 	Y := []float32{4, 5, 6}
-	incY:=1
-	SAXPY(alpha, X,incX, Y, incY)
+	incY := 1
+	SAXPY(alpha, X, incX, Y, incY)
 	fmt.Println(Y)
 
 	//Output:
@@ -271,34 +266,32 @@ func ExampleDSWAP() {
 	incX := 2
 	Y := []float64{-1, -2}
 	incY := 1
-	DSWAP(X,incX, Y, incY)
+	DSWAP(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
 	//[-1 666 -2 666] [1 2]
 }
 
-
 func ExampleDCOPY() {
 	X := []float64{1, 666, 2, 666}
 	incX := 2
 	Y := []float64{-1, -2}
 	incY := 1
-	DCOPY(X,incX, Y, incY)
+	DCOPY(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
 	//[1 666 2 666] [1 2]
 }
 
-
 func ExampleDAXPY() {
 	alpha := float64(2)
 	X := []float64{1, 2, 3}
-	incX:=1
+	incX := 1
 	Y := []float64{4, 5, 6}
-	incY:=1
-	DAXPY(alpha, X,incX, Y, incY)
+	incY := 1
+	DAXPY(alpha, X, incX, Y, incY)
 	fmt.Println(Y)
 
 	//Output:
@@ -310,7 +303,7 @@ func ExampleCSWAP() {
 	incX := 2
 	Y := []complex64{-1, -2}
 	incY := 1
-	CSWAP(X,incX, Y, incY)
+	CSWAP(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
@@ -322,21 +315,20 @@ func ExampleCCOPY() {
 	incX := 2
 	Y := []complex64{-1, -2}
 	incY := 1
-	CCOPY(X,incX, Y, incY)
+	CCOPY(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
 	//[(1+0i) (666+0i) (2+0i) (666+0i)] [(1+0i) (2+0i)]
 }
 
-
 func ExampleCAXPY() {
 	alpha := complex64(complex(0, 1))
 	X := []complex64{1, 2, 3}
-	incX:=1
+	incX := 1
 	Y := []complex64{4, 5, 6}
-	incY:=1
-	CAXPY(alpha, X,incX, Y, incY)
+	incY := 1
+	CAXPY(alpha, X, incX, Y, incY)
 	fmt.Println(Y)
 
 	//Output:
@@ -348,7 +340,7 @@ func ExampleZSWAP() {
 	incX := 2
 	Y := []complex128{-1, -2}
 	incY := 1
-	ZSWAP(X,incX, Y, incY)
+	ZSWAP(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
@@ -360,7 +352,7 @@ func ExampleZCOPY() {
 	incX := 2
 	Y := []complex128{-1, -2}
 	incY := 1
-	ZCOPY(X,incX, Y, incY)
+	ZCOPY(X, incX, Y, incY)
 	fmt.Println(X, Y)
 
 	//Output:
@@ -370,10 +362,10 @@ func ExampleZCOPY() {
 func ExampleZAXPY() {
 	alpha := complex128(complex(0, 1))
 	X := []complex128{1, 2, 3}
-	incX:=1
+	incX := 1
 	Y := []complex128{4, 5, 6}
-	incY:=1
-	ZAXPY(alpha, X,incX, Y, incY)
+	incY := 1
+	ZAXPY(alpha, X, incX, Y, incY)
 	fmt.Println(Y)
 
 	//Output:
@@ -383,7 +375,7 @@ func ExampleZAXPY() {
 func ExampleSROTG() {
 	a := float32(1)
 	b := float32(1)
-	r, c, s := SROTG(a,b)
+	r, c, s := SROTG(a, b)
 	fmt.Println(r, c, s)
 
 	//Output:
@@ -407,15 +399,16 @@ func ExampleSROT() {
 	incX := 1
 	Y := []float32{0, 1, 1}
 	incY := 1
-	theta := math.Pi/4
+	theta := math.Pi / 4
 	c := float32(math.Cos(theta))
 	s := float32(math.Sin(theta))
-	SROT(X, incX, Y,incY, c, s)
+	SROT(X, incX, Y, incY, c, s)
 	fmt.Println(X, Y)
 
 	//Output:
 	//[0.70710677 0.70710677 1.4142135] [-0.70710677 0.70710677 0]
 }
+
 /*
 func ExampleSROTM() {
 	X := []float32{0, 0, 0}
@@ -453,16 +446,15 @@ func ExampleDROTMG() {
 	//[1 1 0 0 1]
 }
 
-
 func ExampleDROT() {
 	X := []float64{1, 0, 1}
 	incX := 1
 	Y := []float64{0, 1, 1}
 	incY := 1
-	theta := math.Pi/4
+	theta := math.Pi / 4
 	c := math.Cos(theta)
 	s := math.Sin(theta)
-	DROT(X, incX, Y,incY, c, s)
+	DROT(X, incX, Y, incY, c, s)
 	fmt.Println(X, Y)
 
 	//Output:

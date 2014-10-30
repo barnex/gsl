@@ -56,7 +56,7 @@ func CDOTU(X []complex64, incX int, Y []complex64, incY int) complex64 {
 
 // Calculates the dot product of the complex conjugate of X with Y.
 // Every incX'th and incY'th element is used.
-func CDOTC(X []complex64,incX int, Y []complex64, incY int)complex64 {
+func CDOTC(X []complex64, incX int, Y []complex64, incY int) complex64 {
 	var result complex64
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
@@ -64,7 +64,6 @@ func CDOTC(X []complex64,incX int, Y []complex64, incY int)complex64 {
 	cblas.CDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
 	return result
 }
-
 
 // Computes the dot product of vectors X and Y.
 // Every incX'th and incY'th element is used.
@@ -79,7 +78,7 @@ func ZDOTU(X []complex128, incX int, Y []complex128, incY int) complex128 {
 
 // Calculates the dot product of the complex conjugate of X with Y.
 // Every incX'th and incY'th element is used.
-func ZDOTC(X []complex128,incX int, Y []complex128, incY int)complex128 {
+func ZDOTC(X []complex128, incX int, Y []complex128, incY int) complex128 {
 	var result complex128
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
@@ -88,12 +87,10 @@ func ZDOTC(X []complex128,incX int, Y []complex128, incY int)complex128 {
 	return result
 }
 
-
-
 // Computes the L2 norm (Euclidian length) of vector X.
 // Every incX'th element is used.
 func SNRM2(X []float32, incX int) float32 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
 	return cblas.CBLAS_SNRM2(N, X_, incX)
 }
@@ -101,7 +98,7 @@ func SNRM2(X []float32, incX int) float32 {
 // Computes the sum of the absolute values of the elements in vector X.
 // Every incX'th element is used.
 func SASUM(X []float32, incX int) float32 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
 	return cblas.CBLAS_SASUM(N, X_, incX)
 }
@@ -109,7 +106,7 @@ func SASUM(X []float32, incX int) float32 {
 // Computes the L2 norm (Euclidian length) of vector X.
 // Every incX'th element is used.
 func DNRM2(X []float64, incX int) float64 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
 	return cblas.CBLAS_DNRM2(N, X_, incX)
 }
@@ -117,7 +114,7 @@ func DNRM2(X []float64, incX int) float64 {
 // Computes the sum of the absolute values of the elements in vector X.
 // Every incX'th element is used.
 func DASUM(X []float64, incX int) float64 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
 	return cblas.CBLAS_DASUM(N, X_, incX)
 }
@@ -125,7 +122,7 @@ func DASUM(X []float64, incX int) float64 {
 // Computes the unitary norm of vector X.
 // Every incX'th element is used.
 func SCNRM2(X []complex64, incX int) float32 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_SCNRM2(N, X_, incX)
 }
@@ -133,7 +130,7 @@ func SCNRM2(X []complex64, incX int) float32 {
 // Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
 // Every incX'th element is used.
 func SCASUM(X []complex64, incX int) float32 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_SCASUM(N, X_, incX)
 }
@@ -141,7 +138,7 @@ func SCASUM(X []complex64, incX int) float32 {
 // Computes the unitary norm of vector X.
 // Every incX'th element is used.
 func DZNRM2(X []complex128, incX int) float64 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_DZNRM2(N, X_, incX)
 }
@@ -149,7 +146,7 @@ func DZNRM2(X []complex128, incX int) float64 {
 // Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
 // Every incX'th element is used.
 func DZASUM(X []complex128, incX int) float64 {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_DZASUM(N, X_, incX)
 }
@@ -157,16 +154,15 @@ func DZASUM(X []complex128, incX int) float64 {
 // Returns the index of the element with the largest absolute value in vector X.
 // Every incX'th element is used.
 func ISAMAX(X []float32, incX int) int {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
 	return cblas.CBLAS_ISAMAX(N, X_, incX)
 }
 
-
 // Returns the index of the element with the largest absolute value in vector X.
 // Every incX'th element is used.
 func IDAMAX(X []float64, incX int) int {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
 	return cblas.CBLAS_IDAMAX(N, X_, incX)
 }
@@ -174,7 +170,7 @@ func IDAMAX(X []float64, incX int) int {
 // Returns the index of the element with the largest absolute value in vector X.
 // Every incX'th element is used.
 func ICAMAX(X []complex64, incX int) int {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_ICAMAX(N, X_, incX)
 }
@@ -182,7 +178,7 @@ func ICAMAX(X []complex64, incX int) int {
 // Returns the index of the element with the largest absolute value in vector X.
 // Every incX'th element is used.
 func IZAMAX(X []complex128, incX int) int {
-	var N int = len(X)/incX
+	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	return cblas.CBLAS_IZAMAX(N, X_, incX)
 }
@@ -232,7 +228,6 @@ func DCOPY(X []float64, incX int, Y []float64, incY int) {
 	cblas.CBLAS_DCOPY(N, X_, incX, Y_, incY)
 }
 
-
 // Replaces Y by (alpha*X) + Y.
 // Every incX'th and incY'th element is used.
 func DAXPY(alpha float64, X []float64, incX int, Y []float64, incY int) {
@@ -242,10 +237,9 @@ func DAXPY(alpha float64, X []float64, incX int, Y []float64, incY int) {
 	cblas.CBLAS_DAXPY(N, alpha, X_, incX, Y_, incY)
 }
 
-
 // Exchanges the elements of vectors X and Y.
 // Every incX'th and incY'th element is used.
-func CSWAP(X []complex64,incX int, Y []complex64, incY int) {
+func CSWAP(X []complex64, incX int, Y []complex64, incY int) {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
@@ -272,7 +266,7 @@ func CAXPY(alpha complex64, X []complex64, incX int, Y []complex64, incY int) {
 
 // Exchanges the elements of vectors X and Y.
 // Every incX'th and incY'th element is used.
-func ZSWAP(X []complex128,incX int, Y []complex128, incY int) {
+func ZSWAP(X []complex128, incX int, Y []complex128, incY int) {
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
@@ -320,7 +314,7 @@ func SROTG(a float32, b float32) (r, c, s float32) {
 //    [ b2 ] = [   0     d2^{1/2} ] [ y1 ].
 //
 // This subroutine determines the modified Givens rotation matrix H that
-// transforms y1 and thus a2 to zero. 
+// transforms y1 and thus a2 to zero.
 // A representation of this matrix is returned:
 //
 // P[0]: defines the form of matrix H:
@@ -338,18 +332,18 @@ func SROTG(a float32, b float32) (r, c, s float32) {
 //
 func SROTMG(d1 float32, d2 float32, b1 float32, b2 float32) [5]float32 {
 	var d1_ float32 = d1
-	var d2_ float32 =d2 
-	var b1_ float32 =b1 
+	var d2_ float32 = d2
+	var b1_ float32 = b1
 	var P [5]float32
 	cblas.CBLAS_SROTMG(&d1_, &d2_, &b1_, b2, &P[0])
 	return P
 }
 
-// Applies a plane rotation to the two vectors X and Y.  
+// Applies a plane rotation to the two vectors X and Y.
 // This routine computes:
 //
 //    [ x_i ]   [ c s ] [ x_i ]
-//    [ y_i ] = [-s c ] [ y_i ] 
+//    [ y_i ] = [-s c ] [ y_i ]
 // for all i with strides incX and incY.
 func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
 	var N int = checkIncS(X, incX, Y, incY)
@@ -377,7 +371,7 @@ func SROTM(X []float32, Y []float32, P *float32) {
 //    [ -s c ] [ b ] =  [ 0 ].
 //
 // Returns r, c and s.
-func DROTG(a float64, b float64) (r,c,s float64) {
+func DROTG(a float64, b float64) (r, c, s float64) {
 	var a_ float64 = a
 	var b_ float64 = b
 	var c_ float64 = 0
@@ -386,8 +380,6 @@ func DROTG(a float64, b float64) (r,c,s float64) {
 	return a_, c_, s_
 }
 
-
-
 // Constructs a modified Givens rotation matrix.
 // The input scalars d1, d2, x1 and y1 define a 2-vector [a1 a2]' such that
 //
@@ -395,7 +387,7 @@ func DROTG(a float64, b float64) (r,c,s float64) {
 //    [ b2 ] = [   0     d2^{1/2} ] [ y1 ].
 //
 // This subroutine determines the modified Givens rotation matrix H that
-// transforms y1 and thus a2 to zero. 
+// transforms y1 and thus a2 to zero.
 // A representation of this matrix is returned:
 //
 // P[0]: defines the form of matrix H:
@@ -413,18 +405,18 @@ func DROTG(a float64, b float64) (r,c,s float64) {
 //
 func DROTMG(d1 float64, d2 float64, b1 float64, b2 float64) [5]float64 {
 	var d1_ float64 = d1
-	var d2_ float64 =d2 
-	var b1_ float64 =b1 
+	var d2_ float64 = d2
+	var b1_ float64 = b1
 	var P [5]float64
 	cblas.CBLAS_DROTMG(&d1_, &d2_, &b1_, b2, &P[0])
 	return P
 }
 
-// Applies a plane rotation to the two vectors X and Y.  
+// Applies a plane rotation to the two vectors X and Y.
 // This routine computes:
 //
 //    [ x_i ]   [ c s ] [ x_i ]
-//    [ y_i ] = [-s c ] [ y_i ] 
+//    [ y_i ] = [-s c ] [ y_i ]
 // for all i with strides incX and incY.
 func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
 	var N int = checkIncD(X, incX, Y, incY)
