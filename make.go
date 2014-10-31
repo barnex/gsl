@@ -2,16 +2,6 @@ package blas
 
 import "fmt"
 
-func MakeFloat32Matrix(rows, cols int)[][]float32{
-	checkSize(rows, cols)
-	a := make([]float32, rows*cols)
-	return reshapeR2(a, [2]int{rows, cols})
-}
-
-func checkSize(rows, cols int){
-	//TODO
-}
-
 // Re-interpret a contiguous array as a multi-dimensional array of given size.
 // Underlying storage is shared.
 func reshapeR2(array []float32, N [2]int) [][]float32 {

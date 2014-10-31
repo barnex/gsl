@@ -1,8 +1,9 @@
 package blas
 
 import (
-	"github.com/barnex/blas/cblas"
 	"unsafe"
+
+	"github.com/barnex/blas/cblas"
 )
 
 // Computes the dot product of vectors X and Y plus an initial value alpha.
@@ -492,7 +493,7 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 // Matrix-vector multiplication
 // 	Y = alpha*AX + beta*Y
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
-	M, N, lda := checkSMV(A,X,incX,Y,incY)
+	M, N, lda := checkSMV(A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
@@ -861,7 +862,7 @@ func ZHER2(Uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]co
 }
 
 func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
-	
+
 	var M_ int = 0
 	var N_ int = 0
 	var K_ int = 0
@@ -925,7 +926,7 @@ func SSYR2K(Uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 func STRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float32, A [][]float32, B [][]float32) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -940,7 +941,7 @@ func STRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float32, A [
 func STRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float32, A [][]float32, B [][]float32) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -953,8 +954,8 @@ func STRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float32, A [
 }
 
 func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-	
-	
+
+
 	var M_ int = 0
 	var N_ int = 0
 	var K_ int = 0
@@ -1018,7 +1019,7 @@ func DSYR2K(Uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 func DTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float64, A [][]float64, B [][]float64) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -1033,7 +1034,7 @@ func DTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float64, A [
 func DTRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float64, A [][]float64, B [][]float64) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -1046,8 +1047,8 @@ func DTRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha float64, A [
 }
 
 func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-	
-	
+
+
 	var M_ int = 0
 	var N_ int = 0
 	var K_ int = 0
@@ -1111,7 +1112,7 @@ func CSYR2K(Uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 func CTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -1126,7 +1127,7 @@ func CTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex64, A
 func CTRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -1139,8 +1140,8 @@ func CTRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex64, A
 }
 
 func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-	
-	
+
+
 	var M_ int = 0
 	var N_ int = 0
 	var K_ int = 0
@@ -1204,7 +1205,7 @@ func ZSYR2K(Uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 func ZTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0
@@ -1219,7 +1220,7 @@ func ZTRMM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex128, 
 func ZTRSM(Side Side, Uplo Uplo, transA Transpose, Diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
 	var Side_ uint32 = 0
 	var Uplo_ uint32 = 0
-	
+
 	var Diag_ uint32 = 0
 	var M_ int = 0
 	var N_ int = 0

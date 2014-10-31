@@ -49,20 +49,25 @@ func checkIncZ(X []complex128, incX int, Y []complex128, incY int) int {
 }
 
 // check for positive strides.
-func checkInc(inc ...int){
-	for _,n:=range inc{
-		if n<1{panic(fmt.Sprint("blas: invalid stride: %v", n))}
+func checkInc(inc ...int) {
+	for _, n := range inc {
+		if n < 1 {
+			panic(fmt.Sprint("blas: invalid stride: %v", n))
+		}
 	}
 }
 
-func checkSMV(A [][]float32,X[]float32,incX int,Y[]float32,incY int) (M, N, lda int){
-	N = checkIncS(X,incX,Y,incY)
-	m,n := len(A),len(A[0])
-	if n!=N{
+//
+func checkSize(rows, cols int) {
+	//TODO
+}
+
+func checkSMV(A [][]float32, X []float32, incX int, Y []float32, incY int) (M, N, lda int) {
+	N = checkIncS(X, incX, Y, incY)
+	m, n := len(A), len(A[0])
+	if n != N {
 		// TODO: Transpose
 		panic(fmt.Sprint("blas: unmatched matrix*vector sizes: [%v x %v]*[%v]", m, n, N))
 	}
 	return m, N, m
 }
-
-
