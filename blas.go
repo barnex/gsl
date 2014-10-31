@@ -550,18 +550,26 @@ func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, incX int
 	cblas.CBLAS_DGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
-/*
-func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64) {
-	
-	
-	
+
+// Triangular matrix-vector multiplication plus vector with optional matrix transpose. 
+// With uplo == Upper or Lower, the upper or lower triangular part of A is used.
+// diag specifies whether the matrix is unit triangular ().
+// When transA == NoTrans this computes:
+// 	X = A*X
+// When transA == Trans this computes:
+// 	X = (A^T)*X
+// Every incX'th element of X is used.
+// Matrices must be allocated with MakeFloat64Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, incX int) {
+	rows, cols, lda := checkDMV(transA, A, X, incX, X, incX) // TODO: separate func without 2nd X, incX
+	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
-	
-	var X_ *float64 = 0
-	
-	cblas.CBLAS_DTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+	var X_ *float64 = &X[0]
+	cblas.CBLAS_DTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
+/*
 func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64) {
 	
 	
@@ -591,14 +599,25 @@ func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, in
 	cblas.CBLAS_CGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
+// Triangular matrix-vector multiplication plus vector with optional matrix transpose. 
+// With uplo == Upper or Lower, the upper or lower triangular part of A is used.
+// diag specifies whether the matrix is unit triangular ().
+// When transA == NoTrans this computes:
+// 	X = A*X
+// When transA == Trans this computes:
+// 	X = (A^T)*X
+// Every incX'th element of X is used.
+// Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64, incX int) {
+	rows, cols, lda := checkCMV(transA, A, X, incX, X, incX) 
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_CTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+}
 
 /*
-
-func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64) {
-	var A_ unsafe.Pointer = 0
-	var X_ unsafe.Pointer = 0
-	cblas.CBLAS_CTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
-}
 
 func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64) {
 	
@@ -629,17 +648,24 @@ func ZGEMV(transA Transpose, alpha complex128, A [][]complex128, X []complex128,
 }
 
 
-/*
-func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128) {
-	
-	
-	
-	var A_ unsafe.Pointer = 0
-	
-	var X_ unsafe.Pointer = 0
-	
-	cblas.CBLAS_ZTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+// Triangular matrix-vector multiplication plus vector with optional matrix transpose. 
+// With uplo == Upper or Lower, the upper or lower triangular part of A is used.
+// diag specifies whether the matrix is unit triangular ().
+// When transA == NoTrans this computes:
+// 	X = A*X
+// When transA == Trans this computes:
+// 	X = (A^T)*X
+// Every incX'th element of X is used.
+// Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128, incX int) {
+	rows, cols, lda := checkZMV(transA, A, X, incX, X, incX) 
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_ZTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
+/*
 
 func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128) {
 	

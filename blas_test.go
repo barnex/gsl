@@ -623,20 +623,25 @@ func ExampleDGEMV() {
 	//[[0 1 2] [3 0 0]] ^T* [4 -3] = [-9 4 8]
 }
 
-/*
 func ExampleDTRMV() {
-	
-
-	Diag := Diag(2.0)
 	A := MakeFloat64Matrix(2, 2)
-	X := []float64{0, 0, 0}
-	result := DTRMV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 1
+
+	A[0][1] = 2
+
+	X := []float64{-1, 4}
+	incX := 1
+
+	fmt.Println(A, "*", X)
+	DTRMV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println("=", X)
 
 	//Output:
-	//
+	//[[1 2] [0 1]] * [-1 4]
+	//= [7 4]
 }
-
+/*
 func ExampleDTRSV() {
 	
 
@@ -678,20 +683,26 @@ func ExampleCGEMV() {
 	//[[(0+0i) (1+0i) (2+0i)] [(3+0i) (0+0i) (0+0i)]] ^T* [(4+0i) (-3+0i)] = [(-9+0i) (4+0i) (8+0i)]
 }
 
-/*
 func ExampleCTRMV() {
-	
-
-	Diag := Diag(2.0)
 	A := MakeComplex64Matrix(2, 2)
-	X := []complex64{0, 0, 0}
-	result := CTRMV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 1
+
+	A[0][1] = 2
+
+	X := []complex64{-1, 4}
+	incX := 1
+
+	fmt.Println(A, "*", X)
+	CTRMV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println("=", X)
 
 	//Output:
-	//
+	//[[(1+0i) (2+0i)] [(0+0i) (1+0i)]] * [(-1+0i) (4+0i)]
+	//= [(7+0i) (4+0i)]
 }
 
+/*
 func ExampleCTRSV() {
 	
 
@@ -732,33 +743,25 @@ func ExampleZGEMV() {
 }
 
 
-/*
-func ExampleZGEMV() {
-
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	X := []complex128{0, 0, 0}
-	beta := complex128(complex(2.0, 3.0))
-	Y := []complex128{0, 0, 0}
-	result := ZGEMV(NoTrans, alpha, A, X, beta, Y)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
 func ExampleZTRMV() {
-	
-
-	Diag := Diag(2.0)
 	A := MakeComplex128Matrix(2, 2)
-	X := []complex128{0, 0, 0}
-	result := ZTRMV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 1
+
+	A[0][1] = 2
+
+	X := []complex128{-1, 4}
+	incX := 1
+
+	fmt.Println(A, "*", X)
+	ZTRMV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println("=", X)
 
 	//Output:
-	//
+	//[[(1+0i) (2+0i)] [(0+0i) (1+0i)]] * [(-1+0i) (4+0i)]
+	//= [(7+0i) (4+0i)]
 }
+/*
 
 func ExampleZTRSV() {
 	
