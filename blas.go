@@ -493,11 +493,12 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 // Matrix-vector multiplication
 // 	Y = alpha*AX + beta*Y
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
-	M, N, lda := checkSMV(A, X, incX, Y, incY)
+	rows, cols, lda := SSize(A)
+	checkSMV(A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SGEMV(uint32(RowMajor), uint32(transA), M, N, alpha, A_, lda, X_, incX, beta, Y_, incY)
+	cblas.CBLAS_SGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
 /*
