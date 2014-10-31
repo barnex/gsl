@@ -10,6 +10,12 @@ func MakeFloat32Matrix(rows, cols int) [][]float32 {
 	return reshapeR2(a, [2]int{rows, cols})
 }
 
+func MakeFloat64Matrix(rows, cols int) [][]float64 {
+	checkSize(rows, cols)
+	a := make([]float64, rows*cols)
+	return reshapeD2(a, [2]int{rows, cols})
+}
+
 func SSize(A [][]float32) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
@@ -19,11 +25,29 @@ func SSize(A [][]float32) (rows, cols, stride int) {
 	if rows > 1 {
 		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float32
 	}
-	// sanity check that should catch many cases where matrix was not properly constructed
-	if cap(A[0]) < rows*stride || stride < 1 {
+	checkStorage(cap(A[0]), rows, stride)
+	return
+}
+
+func DSize(A [][]float64) (rows, cols, stride int) {
+	rows = len(A)
+	if rows > 0 {
+		cols = len(A[0])
+	}
+	stride = cols // value when there's only one row (stride unknown but irrelevant, cols is safe)
+	if rows > 1 {
+		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float64
+	}
+	checkStorage(cap(A[0]), rows, stride)
+	return
+}
+
+
+// sanity check that should catch many cases where matrix was not properly constructed
+func checkStorage(capacity, rows, stride int){
+	if capacity < rows*stride || stride < 1 {
 		panic("blas: non-contiguous matrix, should have been allocated with MakeFloat32Matrix.")
 	}
-	return
 }
 
 const (

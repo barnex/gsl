@@ -499,8 +499,7 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 // Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
-	rows, cols, lda := SSize(A)
-	checkSMV(transA, A, X, incX, Y, incY)
+	rows, cols, lda := checkSMV(transA, A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
@@ -529,21 +528,26 @@ func STRSV(Uplo Uplo, transA Transpose, Diag Diag, A [][]float32, X []float32) {
 	var incX_ int = 0
 	cblas.CBLAS_STRSV(RowMajor, Uplo_, uint32(transA), Diag_, N_, A_, lda_, X_, incX_)
 }
+*/
 
-func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, beta float64, Y []float64) {
-	var M_ int = 0
-	var N_ int = 0
-	var alpha_ float64 = 0
+
+// Matrix-vector multiplication plus vector with optional matrix transpose. 
+// When transA == NoTrans this computes:
+// 	Y = alpha*A*X + beta*Y
+// When transA == Trans this computes:
+// 	Y = alpha*(A^T)*X + beta*Y
+// Every incX'th element of X and incY'th element of Y is used.
+// Matrices must be allocated with MakeFloat64Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, incX int, beta float64, Y []float64, incY int) {
+		rows, cols, lda := checkDMV(transA, A, X, incX, Y, incY)
 	var A_ *float64 = &A[0][0]
-	var lda_ int = 0
-	var X_ *float64 = 0
-	var incX_ int = 0
-	var beta_ float64 = 0
-	var Y_ *float64 = 0
-	var incY_ int = 0
-	cblas.CBLAS_DGEMV(RowMajor, uint32(transA), M_, N_, alpha_, A_, lda_, X_, incX_, beta_, Y_, incY_)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
+/*
 func DTRMV(Uplo Uplo, transA Transpose, Diag Diag, A [][]float64, X []float64) {
 	var Uplo_ uint32 = 0
 	var Diag_ uint32 = 0

@@ -63,13 +63,27 @@ func checkSize(rows, cols int) {
 }
 
 func checkSMV(trans Transpose, A[][]float32, X []float32, incX int, Y []float32, incY int) (rows, cols, lda int) {
-		// TODO: transpose
-	rows, cols, lda = SSize(A)
+	// TODO: transpose
+	r, c, s := SSize(A)
+	rows, cols, lda = r, c, s
 	if trans == Trans{
-		rows, cols = cols, rows	
+		r, c = c, r	
 	}
-	if len(X)/incX != cols || len(Y)/incY != rows{
-			panic(fmt.Sprintf("blas: matrix-vector size mismatch for Y=A*X: size(A)=%vx%v, len(X)=%v, len(Y)=%v", rows, cols, len(X)/incX, len(Y)/incY))
+	if len(X)/incX != c || len(Y)/incY != r{
+			panic(fmt.Sprintf("blas: matrix-vector size mismatch for Y=A*X: size(A)=%vx%v, len(X)=%v, len(Y)=%v", r, c, len(X)/incX, len(Y)/incY))
+	}
+	return
+}
+
+func checkDMV(trans Transpose, A[][]float64, X []float64, incX int, Y []float64, incY int) (rows, cols, lda int) {
+	// TODO: transpose
+	r, c, s := DSize(A)
+	rows, cols, lda = r, c, s
+	if trans == Trans{
+		r, c = c, r	
+	}
+	if len(X)/incX != c || len(Y)/incY != r{
+			panic(fmt.Sprintf("blas: matrix-vector size mismatch for Y=A*X: size(A)=%vx%v, len(X)=%v, len(Y)=%v", r, c, len(X)/incX, len(Y)/incY))
 	}
 	return
 }

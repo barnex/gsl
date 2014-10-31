@@ -590,20 +590,34 @@ func ExampleSTRSV() {
 	//
 }
 
-func ExampleDGEMV() {
+*/
 
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	X := []float64{0, 0, 0}
-	beta := float64(2.0)
-	Y := []float64{0, 0, 0}
-	result := DGEMV(NoTrans, alpha, A, X, beta, Y)
-	fmt.Println(result)
+func ExampleDGEMV() {
+	A := MakeFloat64Matrix(2, 3)
+	A[0][1] = 1
+	A[0][2] = 2
+	A[1][0] = 3
+
+	X := []float64{-1, 4, 0}
+	incX := 1
+	Y := []float64{0, 0}
+	incY := 1
+
+	alpha := 1.0
+	beta := 0.0
+
+	DGEMV(NoTrans, alpha, A, X, incX, beta, Y, incY)
+	fmt.Println(A, "*", X, "=", Y)
+
+	DGEMV(Trans, alpha, A, Y, incX, beta, X, incY)
+	fmt.Println(A, "^T*", Y, "=", X)
 
 	//Output:
-	//
+	//[[0 1 2] [3 0 0]] * [-1 4 0] = [4 -3]
+	//[[0 1 2] [3 0 0]] ^T* [4 -3] = [-9 4 8]
 }
 
+/*
 func ExampleDTRMV() {
 	Uplo := Uplo(2.0)
 
