@@ -64,6 +64,7 @@ func checkSize(rows, cols int) {
 
 // check sizes for matrix-vector multiplication [Ny] = [rows x cols][Nx]
 func checkMV(trans Transpose, rows, cols, Nx, Ny int){
+if trans == Trans {rows, cols = cols, rows}
 	if Nx != cols || Ny != rows{
 			panic(fmt.Sprintf("blas: matrix-vector size mismatch for Y=A*X: size(A)=%vx%v, len(X)=%v, len(Y)=%v", rows, cols, Nx, Ny))
 	}

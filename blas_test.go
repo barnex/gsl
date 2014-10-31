@@ -650,20 +650,37 @@ func ExampleDTRSV() {
 	//
 }
 
-func ExampleCGEMV() {
+*/
 
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	X := []complex64{0, 0, 0}
-	beta := complex64(complex(2.0, 3.0))
-	Y := []complex64{0, 0, 0}
-	result := CGEMV(NoTrans, alpha, A, X, beta, Y)
-	fmt.Println(result)
+
+/*
+func ExampleCGEMV() {
+	A := MakeComplex64Matrix(2, 3)
+	A[0][1] = 1
+	A[0][2] = 2
+	A[1][0] = 3
+
+	X := []complex64{-1, 4, 0}
+	incX := 1
+	Y := []complex64{0, 0}
+	incY := 1
+
+	alpha := complex64(complex(1, 0))
+	beta := complex64(complex(0, 0))
+
+	CGEMV(NoTrans, alpha, A, X, incX, beta, Y, incY)
+	fmt.Println(A, "*", X, "=", Y)
+
+	CGEMV(Trans, alpha, A, Y, incX, beta, X, incY)
+	fmt.Println(A, "^T*", Y, "=", X)
 
 	//Output:
-	//
+	//[[0 1 2] [3 0 0]] * [-1 4 0] = [4 -3]
+	//[[0 1 2] [3 0 0]] ^T* [4 -3] = [-9 4 8]
 }
+*/
 
+/*
 func ExampleCTRMV() {
 	
 
