@@ -490,8 +490,12 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 	cblas.CBLAS_ZDSCAL(N, alpha, X_, incX)
 }
 
-// Matrix-vector multiplication
-// 	Y = alpha*AX + beta*Y
+// Matrix-vector multiplication plus vector with optional matrix transpose. 
+// When transA == NoTrans this computes:
+// 	Y = alpha*A*X + beta*Y
+// When transA == Trans this computes:
+// 	Y = alpha*(A^T)*X + beta*Y
+// Every incX'th element of X and incY'th element of Y is used.
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
 	rows, cols, lda := SSize(A)
 	checkSMV(transA, A, X, incX, Y, incY)
