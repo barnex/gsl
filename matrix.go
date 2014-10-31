@@ -66,7 +66,7 @@ func CSize(A [][]complex64) (rows, cols, stride int) {
 	}
 	stride = cols // value when there's only one row (stride unknown but irrelevant, cols is safe)
 	if rows > 1 {
-		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float64
+		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_complex64
 	}
 	checkStorage(cap(A[0]), rows, stride)
 	return
@@ -79,7 +79,7 @@ func ZSize(A [][]complex128) (rows, cols, stride int) {
 	}
 	stride = cols // value when there's only one row (stride unknown but irrelevant, cols is safe)
 	if rows > 1 {
-		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float64
+		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_complex128
 	}
 	checkStorage(cap(A[0]), rows, stride)
 	return
@@ -89,7 +89,7 @@ func ZSize(A [][]complex128) (rows, cols, stride int) {
 // sanity check that should catch many cases where matrix was not properly constructed
 func checkStorage(capacity, rows, stride int){
 	if capacity < rows*stride || stride < 1 {
-		panic("blas: non-contiguous matrix, should have been allocated with MakeFloat32Matrix.")
+		panic("blas: non-contiguous matrix, should have been allocated with MakeXXXXMatrix.")
 	}
 }
 
