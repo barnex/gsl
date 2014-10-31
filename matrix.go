@@ -18,6 +18,21 @@ func MakeFloat64Matrix(rows, cols int) [][]float64 {
 	return reshapeD2(a, [2]int{rows, cols})
 }
 
+// Makes a matrix with contiguous underlying storage, usable by blas functions.
+func MakeComplex64Matrix(rows, cols int) [][]complex64 {
+	checkSize(rows, cols)
+	a := make([]complex64, rows*cols)
+	return reshapeC2(a, [2]int{rows, cols})
+}
+
+// Makes a matrix with contiguous underlying storage, usable by blas functions.
+func MakeComplex128Matrix(rows, cols int) [][]complex128 {
+	checkSize(rows, cols)
+	a := make([]complex128, rows*cols)
+	return reshapeZ2(a, [2]int{rows, cols})
+}
+
+
 func SSize(A [][]float32) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
