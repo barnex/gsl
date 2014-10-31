@@ -32,7 +32,6 @@ func MakeComplex128Matrix(rows, cols int) [][]complex128 {
 	return reshapeZ2(a, [2]int{rows, cols})
 }
 
-
 func SSize(A [][]float32) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
@@ -85,9 +84,8 @@ func ZSize(A [][]complex128) (rows, cols, stride int) {
 	return
 }
 
-
 // sanity check that should catch many cases where matrix was not properly constructed
-func checkStorage(capacity, rows, stride int){
+func checkStorage(capacity, rows, stride int) {
 	if capacity < rows*stride || stride < 1 {
 		panic("blas: non-contiguous matrix, should have been allocated with MakeXXXXMatrix.")
 	}
