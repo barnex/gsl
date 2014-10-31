@@ -674,25 +674,26 @@ func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 
 	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
 }
+*/
 
-func SSYMV(uplo Uplo, alpha float32, A [][]float32, X []float32, beta float32, Y []float32) {
-
-
-	var alpha_ float32 = 0
+// Symmetric matrix-vector multiplication:
+// 	Y = alpha*A*X + beta*Y
+// A is a symmetric matrix, where uplo (Upper or Lower) determines which part of A is used.
+// Every incX'th element of X and incY'th element of Y is used.
+func SSYMV(uplo Uplo, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
+	rows, cols, lda := checkSMV(NoTrans, A, X, incX, Y, incY)
+	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
-
-	var X_ *float32 = 0
-
-	var beta_ float32 = 0
-	var Y_ *float32 = 0
-
-	cblas.CBLAS_SSYMV(uint32(RowMajor), uint32(uplo), N_, alpha_, A_, lda_, X_, incX, beta_, Y_, incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	cblas.CBLAS_SSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
+/*
 func SGER(alpha float32, X []float32, Y []float32, A [][]float32) {
 	var M_ int = 0
 
-	var alpha_ float32 = 0
+	
 	var X_ *float32 = 0
 
 	var Y_ *float32 = 0
@@ -705,7 +706,7 @@ func SGER(alpha float32, X []float32, Y []float32, A [][]float32) {
 func SSYR(uplo Uplo, alpha float32, X []float32, A [][]float32) {
 
 
-	var alpha_ float32 = 0
+	
 	var X_ *float32 = 0
 
 	var A_ *float32 = &A[0][0]
@@ -716,7 +717,7 @@ func SSYR(uplo Uplo, alpha float32, X []float32, A [][]float32) {
 func SSYR2(uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
 
 
-	var alpha_ float32 = 0
+	
 	var X_ *float32 = 0
 
 	var Y_ *float32 = 0
@@ -726,24 +727,26 @@ func SSYR2(uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
 	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
 }
 
-func DSYMV(uplo Uplo, alpha float64, A [][]float64, X []float64, beta float64, Y []float64) {
-
-
-	var alpha_ float64 = 0
+*/
+// Symmetric matrix-vector multiplication:
+// 	Y = alpha*A*X + beta*Y
+// A is a symmetric matrix, where uplo (Upper or Lower) determines which part of A is used.
+// Every incX'th element of X and incY'th element of Y is used.
+func DSYMV(uplo Uplo, alpha float64, A [][]float64, X []float64, incX int, beta float64, Y []float64, incY int) {
+	rows, cols, lda := checkDMV(NoTrans, A, X, incX, Y, incY)
+	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
-
-	var X_ *float64 = 0
-
-	var beta_ float64 = 0
-	var Y_ *float64 = 0
-
-	cblas.CBLAS_DSYMV(uint32(RowMajor), uint32(uplo), N_, alpha_, A_, lda_, X_, incX, beta_, Y_, incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
+	cblas.CBLAS_DSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
+
+/*
 
 func DGER(alpha float64, X []float64, Y []float64, A [][]float64) {
 	var M_ int = 0
 
-	var alpha_ float64 = 0
+	
 	var X_ *float64 = 0
 
 	var Y_ *float64 = 0
@@ -756,7 +759,7 @@ func DGER(alpha float64, X []float64, Y []float64, A [][]float64) {
 func DSYR(uplo Uplo, alpha float64, X []float64, A [][]float64) {
 
 
-	var alpha_ float64 = 0
+	
 	var X_ *float64 = 0
 
 	var A_ *float64 = &A[0][0]
@@ -767,7 +770,7 @@ func DSYR(uplo Uplo, alpha float64, X []float64, A [][]float64) {
 func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
 
 
-	var alpha_ float64 = 0
+	
 	var X_ *float64 = 0
 
 	var Y_ *float64 = 0
@@ -780,7 +783,7 @@ func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
 func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, beta complex64, Y []complex64) {
 
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var X_ unsafe.Pointer = 0
@@ -794,7 +797,7 @@ func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, beta comp
 func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -807,7 +810,7 @@ func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -820,7 +823,7 @@ func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 func CHER(uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
 
 
-	var alpha_ float32 = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var A_ unsafe.Pointer = 0
@@ -831,7 +834,7 @@ func CHER(uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
 func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -844,7 +847,7 @@ func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]compl
 func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, beta complex128, Y []complex128) {
 
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var X_ unsafe.Pointer = 0
@@ -858,7 +861,7 @@ func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, beta c
 func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -871,7 +874,7 @@ func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -884,7 +887,7 @@ func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 func ZHER(uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
 
 
-	var alpha_ float64 = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var A_ unsafe.Pointer = 0
@@ -895,7 +898,7 @@ func ZHER(uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
 func ZHER2(uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var X_ unsafe.Pointer = 0
 
 	var Y_ unsafe.Pointer = 0
@@ -910,7 +913,7 @@ func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [
 	var M_ int = 0
 
 	var K_ int = 0
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
@@ -926,7 +929,7 @@ func SSYMM(Side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 
 	var M_ int = 0
 
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
@@ -942,7 +945,7 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var beta_ float32 = 0
@@ -956,7 +959,7 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
@@ -974,7 +977,7 @@ func STRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 
 	var M_ int = 0
 
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
@@ -989,7 +992,7 @@ func STRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 
 	var M_ int = 0
 
-	var alpha_ float32 = 0
+	
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
@@ -1003,7 +1006,7 @@ func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [
 	var M_ int = 0
 
 	var K_ int = 0
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
@@ -1019,7 +1022,7 @@ func DSYMM(Side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 
 	var M_ int = 0
 
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
@@ -1035,7 +1038,7 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var beta_ float64 = 0
@@ -1049,7 +1052,7 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
@@ -1067,7 +1070,7 @@ func DTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 
 	var M_ int = 0
 
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
@@ -1082,7 +1085,7 @@ func DTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 
 	var M_ int = 0
 
-	var alpha_ float64 = 0
+	
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
@@ -1096,7 +1099,7 @@ func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64,
 	var M_ int = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1112,7 +1115,7 @@ func CSYMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1128,7 +1131,7 @@ func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta co
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var beta_ unsafe.Pointer = 0
@@ -1142,7 +1145,7 @@ func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1160,7 +1163,7 @@ func CTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1175,7 +1178,7 @@ func CTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1189,7 +1192,7 @@ func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex12
 	var M_ int = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1205,7 +1208,7 @@ func ZSYMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1221,7 +1224,7 @@ func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta 
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var beta_ unsafe.Pointer = 0
@@ -1235,7 +1238,7 @@ func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1253,7 +1256,7 @@ func ZTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1268,7 +1271,7 @@ func ZTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1281,7 +1284,7 @@ func CHEMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1297,7 +1300,7 @@ func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta floa
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float32 = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var beta_ float32 = 0
@@ -1311,7 +1314,7 @@ func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1327,7 +1330,7 @@ func ZHEMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 
 	var M_ int = 0
 
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
@@ -1343,7 +1346,7 @@ func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta flo
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ float64 = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var beta_ float64 = 0
@@ -1357,7 +1360,7 @@ func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	var uint32(trans) uint32 = 0
 
 	var K_ int = 0
-	var alpha_ unsafe.Pointer = 0
+	
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0

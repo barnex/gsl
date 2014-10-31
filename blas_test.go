@@ -775,21 +775,31 @@ func ExampleZTRSV() {
 	//Output:
 	//
 }
+*/
 
 func ExampleSSYMV() {
-
-	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
-	X := []float32{0, 0, 0}
-	beta := float32(2.0)
-	Y := []float32{0, 0, 0}
-	result := SSYMV(Uplo, alpha, A, X, beta, Y)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 2
+	A[0][1] = 3
+	A[1][0] = 3
+
+	X := []float32{-1, 4}
+	incX := 1
+	Y := []float32{0, 0}
+	incY := 1
+
+	alpha := float32(1.0)
+	beta := float32(0.0)
+
+	SSYMV(Upper, alpha, A, X, incX, beta, Y, incY)
+	fmt.Println(A, "*", X, "=", Y)
 
 	//Output:
-	//
+	//[[1 3] [3 2]] * [-1 4] = [11 5]
 }
 
+/*
 func ExampleSGER() {
 	alpha := float32(2.0)
 	X := []float32{0, 0, 0}
@@ -826,21 +836,31 @@ func ExampleSSYR2() {
 	//Output:
 	//
 }
+*/
 
 func ExampleDSYMV() {
-
-	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
-	X := []float64{0, 0, 0}
-	beta := float64(2.0)
-	Y := []float64{0, 0, 0}
-	result := DSYMV(Uplo, alpha, A, X, beta, Y)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 2
+	A[0][1] = 3
+	A[1][0] = 3
+
+	X := []float64{-1, 4}
+	incX := 1
+	Y := []float64{0, 0}
+	incY := 1
+
+	alpha := float64(1.0)
+	beta := float64(0.0)
+
+	DSYMV(Upper, alpha, A, X, incX, beta, Y, incY)
+	fmt.Println(A, "*", X, "=", Y)
 
 	//Output:
-	//
+	//[[1 3] [3 2]] * [-1 4] = [11 5]
 }
 
+/*
 func ExampleDGER() {
 	alpha := float64(2.0)
 	X := []float64{0, 0, 0}
