@@ -539,7 +539,6 @@ func ExampleZDSCAL() {
 }
 
 func ExampleSGEMV() {
-	alpha := float32(1.0)
 	A := MakeFloat32Matrix(2, 3)
 	A[0][1] = 1
 	A[0][2] = 2
@@ -547,11 +546,15 @@ func ExampleSGEMV() {
 
 	X := []float32{-1, 4, 0}
 	incX := 1
-	beta := float32(0.0)
 	Y := []float32{0, 0}
 	incY := 1
+
+	alpha := float32(1.0)
+	beta := float32(0.0)
+
 	SGEMV(NoTrans, alpha, A, X, incX, beta, Y, incY)
 	fmt.Println(A, "*", X, "=", Y)
+
 	SGEMV(Trans, alpha, A, Y, incX, beta, X, incY)
 	fmt.Println(A, "^T*", Y, "=", X)
 
