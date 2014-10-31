@@ -552,8 +552,12 @@ func ExampleSGEMV() {
 	incY := 1
 	SGEMV(NoTrans, alpha, A, X, incX, beta, Y, incY)
 	fmt.Println(A, "*", X, "=", Y)
+	SGEMV(Trans, alpha, A, Y, incX, beta, X, incY)
+	fmt.Println(A, "^T*", Y, "=", X)
+
 	//Output:
 	//[[0 1 2] [3 0 0]] * [-1 4 0] = [4 -3]
+	//[[0 1 2] [3 0 0]] ^T* [4 -3] = [-9 4 8]
 }
 
 /*

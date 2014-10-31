@@ -494,7 +494,7 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 // 	Y = alpha*AX + beta*Y
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
 	rows, cols, lda := SSize(A)
-	checkSMV(A, X, incX, Y, incY)
+	checkSMV(transA, A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]

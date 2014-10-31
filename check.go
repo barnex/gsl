@@ -62,9 +62,12 @@ func checkSize(rows, cols int) {
 	//TODO
 }
 
-func checkSMV(A[][]float32, X []float32, incX int, Y []float32, incY int) (rows, cols, lda int) {
+func checkSMV(trans Transpose, A[][]float32, X []float32, incX int, Y []float32, incY int) (rows, cols, lda int) {
 		// TODO: transpose
 	rows, cols, lda = SSize(A)
+	if trans == Trans{
+		rows, cols = cols, rows	
+	}
 	if len(X)/incX != cols || len(Y)/incY != rows{
 			panic(fmt.Sprintf("blas: matrix-vector size mismatch for Y=A*X: size(A)=%vx%v, len(X)=%v, len(Y)=%v", rows, cols, len(X)/incX, len(Y)/incY))
 	}
