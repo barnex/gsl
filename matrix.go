@@ -4,12 +4,14 @@ import (
 	"unsafe"
 )
 
+// Makes a matrix with contiguous underlying storage, usable by blas functions.
 func MakeFloat32Matrix(rows, cols int) [][]float32 {
 	checkSize(rows, cols)
 	a := make([]float32, rows*cols)
 	return reshapeR2(a, [2]int{rows, cols})
 }
 
+// Makes a matrix with contiguous underlying storage, usable by blas functions.
 func MakeFloat64Matrix(rows, cols int) [][]float64 {
 	checkSize(rows, cols)
 	a := make([]float64, rows*cols)
@@ -30,6 +32,32 @@ func SSize(A [][]float32) (rows, cols, stride int) {
 }
 
 func DSize(A [][]float64) (rows, cols, stride int) {
+	rows = len(A)
+	if rows > 0 {
+		cols = len(A[0])
+	}
+	stride = cols // value when there's only one row (stride unknown but irrelevant, cols is safe)
+	if rows > 1 {
+		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float64
+	}
+	checkStorage(cap(A[0]), rows, stride)
+	return
+}
+
+func CSize(A [][]complex64) (rows, cols, stride int) {
+	rows = len(A)
+	if rows > 0 {
+		cols = len(A[0])
+	}
+	stride = cols // value when there's only one row (stride unknown but irrelevant, cols is safe)
+	if rows > 1 {
+		stride = int(uintptr(unsafe.Pointer(&A[1][0]))-uintptr(unsafe.Pointer(&A[0][0]))) / sizeof_float64
+	}
+	checkStorage(cap(A[0]), rows, stride)
+	return
+}
+
+func ZSize(A [][]complex128) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
 		cols = len(A[0])

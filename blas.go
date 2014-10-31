@@ -572,20 +572,27 @@ func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64) {
 	
 	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
 }
+*/
 
-func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, beta complex64, Y []complex64) {
-	var M_ int = 0
-	
-	var alpha_ unsafe.Pointer = 0
-	var A_ unsafe.Pointer = 0
-	
-	var X_ unsafe.Pointer = 0
-	
-	var beta_ unsafe.Pointer = 0
-	var Y_ unsafe.Pointer = 0
-	
-	cblas.CBLAS_CGEMV(uint32(RowMajor), uint32(transA), M_, N_, alpha_, A_, lda_, X_, incX, beta_, Y_, incY)
+
+// Matrix-vector multiplication plus vector with optional matrix transpose. 
+// When transA == NoTrans this computes:
+// 	Y = alpha*A*X + beta*Y
+// When transA == Trans this computes:
+// 	Y = alpha*(A^T)*X + beta*Y
+// Every incX'th element of X and incY'th element of Y is used.
+// Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, incX int, beta complex64, Y []complex64, incY int) {
+	rows, cols, lda := checkCMV(transA, A, X, incX, Y, incY)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_CGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
+
+
+/*
 
 func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64) {
 	
