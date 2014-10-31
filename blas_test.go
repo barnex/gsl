@@ -563,22 +563,28 @@ func ExampleSGEMV() {
 	//[[0 1 2] [3 0 0]] ^T* [4 -3] = [-9 4 8]
 }
 
-/*
 func ExampleSTRMV() {
-	Uplo := Uplo(2.0)
-
-	Diag := Diag(2.0)
 	A := MakeFloat32Matrix(2, 2)
-	X := []float32{0, 0, 0}
-	result := STRMV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[1][1] = 1
+
+	A[0][1] = 2
+
+	X := []float32{-1, 4}
+	incX := 1
+
+	fmt.Println(A, "*", X)
+	STRMV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println("=", X)
 
 	//Output:
-	//
+	//[[1 2] [0 1]] * [-1 4]
+	//= [7 4]
 }
 
+/*
 func ExampleSTRSV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeFloat32Matrix(2, 2)
@@ -619,7 +625,7 @@ func ExampleDGEMV() {
 
 /*
 func ExampleDTRMV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeFloat64Matrix(2, 2)
@@ -632,7 +638,7 @@ func ExampleDTRMV() {
 }
 
 func ExampleDTRSV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeFloat64Matrix(2, 2)
@@ -659,7 +665,7 @@ func ExampleCGEMV() {
 }
 
 func ExampleCTRMV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeComplex64Matrix(2, 2)
@@ -672,7 +678,7 @@ func ExampleCTRMV() {
 }
 
 func ExampleCTRSV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeComplex64Matrix(2, 2)
@@ -699,7 +705,7 @@ func ExampleZGEMV() {
 }
 
 func ExampleZTRMV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeComplex128Matrix(2, 2)
@@ -712,7 +718,7 @@ func ExampleZTRMV() {
 }
 
 func ExampleZTRSV() {
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	A := MakeComplex128Matrix(2, 2)
@@ -725,7 +731,7 @@ func ExampleZTRSV() {
 }
 
 func ExampleSSYMV() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	X := []float32{0, 0, 0}
@@ -751,7 +757,7 @@ func ExampleSGER() {
 }
 
 func ExampleSSYR() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float32(2.0)
 	X := []float32{0, 0, 0}
 	A := MakeFloat32Matrix(2, 2)
@@ -763,7 +769,7 @@ func ExampleSSYR() {
 }
 
 func ExampleSSYR2() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float32(2.0)
 	X := []float32{0, 0, 0}
 	Y := []float32{0, 0, 0}
@@ -776,7 +782,7 @@ func ExampleSSYR2() {
 }
 
 func ExampleDSYMV() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	X := []float64{0, 0, 0}
@@ -802,7 +808,7 @@ func ExampleDGER() {
 }
 
 func ExampleDSYR() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float64(2.0)
 	X := []float64{0, 0, 0}
 	A := MakeFloat64Matrix(2, 2)
@@ -814,7 +820,7 @@ func ExampleDSYR() {
 }
 
 func ExampleDSYR2() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float64(2.0)
 	X := []float64{0, 0, 0}
 	Y := []float64{0, 0, 0}
@@ -827,7 +833,7 @@ func ExampleDSYR2() {
 }
 
 func ExampleCHEMV() {
-	Uplo := Uplo(2.0)
+	
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	X := []complex64{0, 0, 0}
@@ -865,7 +871,7 @@ func ExampleCGERC() {
 }
 
 func ExampleCHER() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float32(2.0)
 	X := []complex64{0, 0, 0}
 	A := MakeComplex64Matrix(2, 2)
@@ -877,7 +883,7 @@ func ExampleCHER() {
 }
 
 func ExampleCHER2() {
-	Uplo := Uplo(2.0)
+	
 	alpha := complex64(complex(2.0, 3.0))
 	X := []complex64{0, 0, 0}
 	Y := []complex64{0, 0, 0}
@@ -890,7 +896,7 @@ func ExampleCHER2() {
 }
 
 func ExampleZHEMV() {
-	Uplo := Uplo(2.0)
+	
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	X := []complex128{0, 0, 0}
@@ -928,7 +934,7 @@ func ExampleZGERC() {
 }
 
 func ExampleZHER() {
-	Uplo := Uplo(2.0)
+	
 	alpha := float64(2.0)
 	X := []complex128{0, 0, 0}
 	A := MakeComplex128Matrix(2, 2)
@@ -940,7 +946,7 @@ func ExampleZHER() {
 }
 
 func ExampleZHER2() {
-	Uplo := Uplo(2.0)
+	
 	alpha := complex128(complex(2.0, 3.0))
 	X := []complex128{0, 0, 0}
 	Y := []complex128{0, 0, 0}
@@ -969,7 +975,7 @@ func ExampleSGEMM() {
 
 func ExampleSSYMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	B := MakeFloat32Matrix(2, 2)
@@ -983,7 +989,7 @@ func ExampleSSYMM() {
 }
 
 func ExampleSSYRK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
@@ -997,7 +1003,7 @@ func ExampleSSYRK() {
 }
 
 func ExampleSSYR2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
@@ -1013,7 +1019,7 @@ func ExampleSSYR2K() {
 
 func ExampleSTRMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := float32(2.0)
@@ -1028,7 +1034,7 @@ func ExampleSTRMM() {
 
 func ExampleSTRSM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := float32(2.0)
@@ -1058,7 +1064,7 @@ func ExampleDGEMM() {
 
 func ExampleDSYMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	B := MakeFloat64Matrix(2, 2)
@@ -1072,7 +1078,7 @@ func ExampleDSYMM() {
 }
 
 func ExampleDSYRK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
@@ -1086,7 +1092,7 @@ func ExampleDSYRK() {
 }
 
 func ExampleDSYR2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
@@ -1102,7 +1108,7 @@ func ExampleDSYR2K() {
 
 func ExampleDTRMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := float64(2.0)
@@ -1117,7 +1123,7 @@ func ExampleDTRMM() {
 
 func ExampleDTRSM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := float64(2.0)
@@ -1147,7 +1153,7 @@ func ExampleCGEMM() {
 
 func ExampleCSYMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
@@ -1161,7 +1167,7 @@ func ExampleCSYMM() {
 }
 
 func ExampleCSYRK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
@@ -1175,7 +1181,7 @@ func ExampleCSYRK() {
 }
 
 func ExampleCSYR2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
@@ -1191,7 +1197,7 @@ func ExampleCSYR2K() {
 
 func ExampleCTRMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := complex64(complex(2.0, 3.0))
@@ -1206,7 +1212,7 @@ func ExampleCTRMM() {
 
 func ExampleCTRSM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := complex64(complex(2.0, 3.0))
@@ -1236,7 +1242,7 @@ func ExampleZGEMM() {
 
 func ExampleZSYMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
@@ -1250,7 +1256,7 @@ func ExampleZSYMM() {
 }
 
 func ExampleZSYRK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
@@ -1264,7 +1270,7 @@ func ExampleZSYRK() {
 }
 
 func ExampleZSYR2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
@@ -1280,7 +1286,7 @@ func ExampleZSYR2K() {
 
 func ExampleZTRMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := complex128(complex(2.0, 3.0))
@@ -1295,7 +1301,7 @@ func ExampleZTRMM() {
 
 func ExampleZTRSM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 
 	Diag := Diag(2.0)
 	alpha := complex128(complex(2.0, 3.0))
@@ -1310,7 +1316,7 @@ func ExampleZTRSM() {
 
 func ExampleCHEMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
@@ -1324,7 +1330,7 @@ func ExampleCHEMM() {
 }
 
 func ExampleCHERK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float32(2.0)
 	A := MakeComplex64Matrix(2, 2)
@@ -1338,7 +1344,7 @@ func ExampleCHERK() {
 }
 
 func ExampleCHER2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
@@ -1354,7 +1360,7 @@ func ExampleCHER2K() {
 
 func ExampleZHEMM() {
 	Side := Side(2.0)
-	Uplo := Uplo(2.0)
+	
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
@@ -1368,7 +1374,7 @@ func ExampleZHEMM() {
 }
 
 func ExampleZHERK() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := float64(2.0)
 	A := MakeComplex128Matrix(2, 2)
@@ -1382,7 +1388,7 @@ func ExampleZHERK() {
 }
 
 func ExampleZHER2K() {
-	Uplo := Uplo(2.0)
+	
 	Trans := Transpose(2.0)
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)

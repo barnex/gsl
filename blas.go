@@ -517,7 +517,8 @@ func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int
 // Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX int) {
-	rows, _, lda := checkSMV(transA, A, X, incX, X, incX) // TODO: separate func without 2nd X, incX
+	rows, cols, lda := checkSMV(transA, A, X, incX, X, incX) // TODO: separate func without 2nd X, incX
+	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	cblas.CBLAS_STRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)

@@ -87,3 +87,9 @@ func checkDMV(trans Transpose, A[][]float64, X []float64, incX int, Y []float64,
 	}
 	return
 }
+
+func checkSquare(rows, cols int){
+	if rows != cols{
+		panic(fmt.Sprintf("blas: need square matrix, have %v x %v", rows, cols))
+	}
+}
