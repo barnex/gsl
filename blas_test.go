@@ -917,30 +917,40 @@ func ExampleCHEMV() {
 	//
 }
 
+
+*/
 func ExampleCGERU() {
-	alpha := complex64(complex(2.0, 3.0))
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	A := MakeComplex64Matrix(2, 2)
-	result := CGERU(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := complex64(1)
+	X := []complex64{1, 2}
+	incX := 1
+	Y := []complex64{3, 4, 5}
+	incY := 1
+	A := MakeComplex64Matrix(2, 3)
+	CGERU(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "*", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[(1+0i) (2+0i)] * [(3+0i) (4+0i) (5+0i)] ^T =  [[(3+0i) (4+0i) (5+0i)] [(6+0i) (8+0i) (10+0i)]]
 }
+
 
 func ExampleCGERC() {
-	alpha := complex64(complex(2.0, 3.0))
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
-	A := MakeComplex64Matrix(2, 2)
-	result := CGERC(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := complex64(1)
+	X := []complex64{1, 2}
+	incX := 1
+	Y := []complex64{complex(0,3), complex(0,4), complex(0,5)}
+	incY := 1
+	A := MakeComplex64Matrix(2, 3)
+	CGERC(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "* conj", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
 
+
+
+/*
 func ExampleCHER() {
 
 	alpha := float32(2.0)
@@ -980,29 +990,39 @@ func ExampleZHEMV() {
 	//
 }
 
+
+*/
 func ExampleZGERU() {
-	alpha := complex128(complex(2.0, 3.0))
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	A := MakeComplex128Matrix(2, 2)
-	result := ZGERU(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := complex128(1)
+	X := []complex128{1, 2}
+	incX := 1
+	Y := []complex128{3, 4, 5}
+	incY := 1
+	A := MakeComplex128Matrix(2, 3)
+	ZGERU(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "*", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[(1+0i) (2+0i)] * [(3+0i) (4+0i) (5+0i)] ^T =  [[(3+0i) (4+0i) (5+0i)] [(6+0i) (8+0i) (10+0i)]]
 }
+
 
 func ExampleZGERC() {
-	alpha := complex128(complex(2.0, 3.0))
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
-	A := MakeComplex128Matrix(2, 2)
-	result := ZGERC(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := complex128(1)
+	X := []complex128{1, 2}
+	incX := 1
+	Y := []complex128{complex(0,3), complex(0,4), complex(0,5)}
+	incY := 1
+	A := MakeComplex128Matrix(2, 3)
+	ZGERC(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "* conj", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
+
+
+/*
 
 func ExampleZHER() {
 
