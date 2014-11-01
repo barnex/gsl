@@ -779,21 +779,22 @@ func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
 
 	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
 }
-
-func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, beta complex64, Y []complex64) {
-
-
-	
-	var A_ unsafe.Pointer = 0
-
-	var X_ unsafe.Pointer = 0
-
-	var beta_ unsafe.Pointer = 0
-	var Y_ unsafe.Pointer = 0
-
-	cblas.CBLAS_CHEMV(uint32(RowMajor), uint32(uplo), N_, alpha_, A_, lda_, X_, incX, beta_, Y_, incY)
+*/
+// Hermitian matrix-vector product:
+// 	Y = alpha*X + beta*Y
+// Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
+// With uplo == Upper or Lower, the upper or lower triangular part of A is used.
+// Every incX'th and incY'th element is used.
+func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, incX int, beta complex64, Y []complex64, incY int) {
+	rows, cols, lda := checkCMV(NoTrans, A, X, incX, Y, incY)
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_CHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
+/*
 func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 	var M_ int = 0
 
@@ -844,19 +845,23 @@ func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]compl
 	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
 }
 
-func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, beta complex128, Y []complex128) {
+*/
 
-
-	
-	var A_ unsafe.Pointer = 0
-
-	var X_ unsafe.Pointer = 0
-
-	var beta_ unsafe.Pointer = 0
-	var Y_ unsafe.Pointer = 0
-
-	cblas.CBLAS_ZHEMV(uint32(RowMajor), uint32(uplo), N_, alpha_, A_, lda_, X_, incX, beta_, Y_, incY)
+// Hermitian matrix-vector product:
+// 	Y = alpha*X + beta*Y
+// Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
+// With uplo == Upper or Lower, the upper or lower triangular part of A is used.
+// Every incX'th and incY'th element is used.
+func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, incX int, beta complex128, Y []complex128, incY int) {
+	rows, cols, lda := checkZMV(NoTrans, A, X, incX, Y, incY)
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
+	cblas.CBLAS_ZHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
+
+/*
 
 func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 	var M_ int = 0
