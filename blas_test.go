@@ -862,30 +862,33 @@ func ExampleDSYMV() {
 	//[[1 3] [3 2]] * [-1 4] = [11 5]
 }
 
-/*
 func ExampleDGER() {
-	alpha := float64(2.0)
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
-	A := MakeFloat64Matrix(2, 2)
-	result := DGER(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := 1.0
+	X := []float64{1, 2}
+	incX := 1
+	Y := []float64{3, 4, 5}
+	incY := 1
+	A := MakeFloat64Matrix(2, 3)
+	DGER(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "*", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[1 2] * [3 4 5] ^T =  [[3 4 5] [6 8 10]]
 }
 
 func ExampleDSYR() {
-
-	alpha := float64(2.0)
-	X := []float64{0, 0, 0}
+	alpha := 1.0
+	X := []float64{1, 2}
+	incX := 1
 	A := MakeFloat64Matrix(2, 2)
-	result := DSYR(Uplo, alpha, X, A)
-	fmt.Println(result)
+	DSYR(Upper, alpha, X, incX, A)
+	fmt.Println(X, "*", X, "^T = ", A)
 
 	//Output:
-	//
+	//[1 2] * [1 2] ^T =  [[1 2] [0 4]]
 }
+
+/*
 
 func ExampleDSYR2() {
 
