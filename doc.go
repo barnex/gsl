@@ -9,12 +9,12 @@ The library assumes that arrays, vectors and matrices passed as modifiable argum
 Naming
 
 Each routine has a name which specifies the operation, the type of matrices involved and their precisions. Some of the most common operations and their names are given below,
- 	DOT scalar product, x^T y
+ 	DOT  scalar product, x^T y
  	AXPY vector sum, \alpha x + y
- 	MV matrix-vector product, A x
- 	SV matrix-vector solve, inv(A) x
- 	MM matrix-matrix product, A B
- 	SM matrix-matrix solve, inv(A) B
+ 	MV   matrix-vector product, A x
+ 	SV   matrix-vector solve, inv(A) x
+ 	MM   matrix-matrix product, A B
+ 	SM   matrix-matrix solve, inv(A) B
 
 The types of matrices are,
 

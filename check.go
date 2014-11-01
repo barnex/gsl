@@ -106,3 +106,10 @@ func checkSquare(rows, cols int) {
 		panic(fmt.Sprintf("blas: need square matrix, have %v x %v", rows, cols))
 	}
 }
+
+// check sizes for A = X*(Y^T)
+func checkGER(rows, cols, Nx, Ny int) {
+	if rows != Nx || cols != Ny {
+		panic(fmt.Sprintf("blas: matrix size mismatch: X*(Y^T): %vx%v != A: %vx%v", Nx, Ny, rows, cols))
+	}
+}

@@ -799,19 +799,21 @@ func ExampleSSYMV() {
 	//[[1 3] [3 2]] * [-1 4] = [11 5]
 }
 
-/*
 func ExampleSGER() {
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
-	A := MakeFloat32Matrix(2, 2)
-	result := SGER(alpha, X, Y, A)
-	fmt.Println(result)
+	alpha := float32(1)
+	X := []float32{1, 2}
+	incX := 1
+	Y := []float32{3, 4, 5}
+	incY := 1
+	A := MakeFloat32Matrix(2, 3)
+	SGER(alpha, X, incX, Y, incY, A)
+	fmt.Println(X, "*", Y, "^T = ", A)
 
 	//Output:
-	//
+	//[1 2] * [3 4 5] ^T =  [[3 4 5] [6 8 10]]
 }
 
+/*
 func ExampleSSYR() {
 
 	alpha := float32(2.0)
