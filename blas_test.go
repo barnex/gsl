@@ -813,19 +813,19 @@ func ExampleSGER() {
 	//[1 2] * [3 4 5] ^T =  [[3 4 5] [6 8 10]]
 }
 
-/*
 func ExampleSSYR() {
-
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
+	alpha := float32(1)
+	X := []float32{1, 2}
+	incX := 1
 	A := MakeFloat32Matrix(2, 2)
-	result := SSYR(Uplo, alpha, X, A)
-	fmt.Println(result)
+	SSYR(Upper, alpha, X, incX, A)
+	fmt.Println(X, "*", X, "^T = ", A)
 
 	//Output:
-	//
+	//[1 2] * [1 2] ^T =  [[1 2] [0 4]]
 }
 
+/*
 func ExampleSSYR2() {
 
 	alpha := float32(2.0)
