@@ -529,7 +529,7 @@ func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 	rows, cols, lda := checkSMV(transA, A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = 0
-	cblas.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+	cblas.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
 }
 */
 
@@ -576,7 +576,7 @@ func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64) {
 
 	var X_ *float64 = 0
 
-	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
 }
 */
 
@@ -624,7 +624,7 @@ func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 
 	var X_ unsafe.Pointer = 0
 
-	cblas.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+	cblas.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
 }
 */
 
@@ -672,12 +672,14 @@ func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 
 	var X_ unsafe.Pointer = 0
 
-	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda_, X_, incX)
+	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
 }
 */
 
 // Symmetric matrix-vector multiplication:
 // 	Y = alpha*A*X + beta*Y
+// Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
 // A is a symmetric matrix, where uplo (Upper or Lower) determines which part of A is used.
 // Every incX'th element of X and incY'th element of Y is used.
 func SSYMV(uplo Uplo, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
@@ -689,21 +691,24 @@ func SSYMV(uplo Uplo, alpha float32, A [][]float32, X []float32, incX int, beta 
 	cblas.CBLAS_SSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
+// Computes
+// 	A = alpha*X*(Y^T) + A
+// Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
+// otherwise this function may panic or return unexpected results.
+// Every incX'th element of X and incY'th element of Y is used.
+func SGER(alpha float32, X []float32, incX int, Y []float32, incY int, A [][]float32) {
+	rows, cols, lda := SSize(A)
+	var M int = len(X)/incX
+	var N int = len(Y)/incY
+	checkGER(rows, cols, M, N)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
+	var A_ *float32 = &A[0][0]
+	cblas.CBLAS_SGER(uint32(RowMajor), M, N, alpha, X_, incX, Y_, incY, A_, lda)
+}
+
 /*
-func SGER(alpha float32, X []float32, Y []float32, A [][]float32) {
-	var M_ int = 0
-
-	
-	var X_ *float32 = 0
-
-	var Y_ *float32 = 0
-
-	var A_ *float32 = &A[0][0]
-
-	cblas.CBLAS_SGER(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
-}
-
-func SSYR(uplo Uplo, alpha float32, X []float32, A [][]float32) {
+func SSYR(uplo Uplo, alpha float32, X []float32, incX int, A [][]float32) {
 
 
 	
@@ -711,10 +716,10 @@ func SSYR(uplo Uplo, alpha float32, X []float32, A [][]float32) {
 
 	var A_ *float32 = &A[0][0]
 
-	cblas.CBLAS_SSYR(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda_)
+	cblas.CBLAS_SSYR(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
 }
 
-func SSYR2(uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
+func SSYR2(uplo Uplo, alpha float32, X []float32, incX int, Y []float32, A [][]float32) {
 
 
 	
@@ -724,7 +729,7 @@ func SSYR2(uplo Uplo, alpha float32, X []float32, Y []float32, A [][]float32) {
 
 	var A_ *float32 = &A[0][0]
 
-	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 */
@@ -753,7 +758,7 @@ func DGER(alpha float64, X []float64, Y []float64, A [][]float64) {
 
 	var A_ *float64 = &A[0][0]
 
-	cblas.CBLAS_DGER(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_DGER(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func DSYR(uplo Uplo, alpha float64, X []float64, A [][]float64) {
@@ -764,7 +769,7 @@ func DSYR(uplo Uplo, alpha float64, X []float64, A [][]float64) {
 
 	var A_ *float64 = &A[0][0]
 
-	cblas.CBLAS_DSYR(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda_)
+	cblas.CBLAS_DSYR(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
 }
 
 func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
@@ -777,7 +782,7 @@ func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
 
 	var A_ *float64 = &A[0][0]
 
-	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 */
 // Hermitian matrix-vector product:
@@ -805,7 +810,7 @@ func CGERU(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_CGERU(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_CGERU(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
@@ -818,7 +823,7 @@ func CGERC(alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_CGERC(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_CGERC(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func CHER(uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
@@ -829,7 +834,7 @@ func CHER(uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_CHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda_)
+	cblas.CBLAS_CHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
 }
 
 func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
@@ -842,7 +847,7 @@ func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]compl
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 */
@@ -873,7 +878,7 @@ func ZGERU(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_ZGERU(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_ZGERU(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
@@ -886,7 +891,7 @@ func ZGERC(alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_ZGERC(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_ZGERC(uint32(RowMajor), M_, N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func ZHER(uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
@@ -897,7 +902,7 @@ func ZHER(uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda_)
+	cblas.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
 }
 
 func ZHER2(uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
@@ -910,7 +915,7 @@ func ZHER2(uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]co
 
 	var A_ unsafe.Pointer = 0
 
-	cblas.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda_)
+	cblas.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
 }
 
 func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
@@ -922,11 +927,11 @@ func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float32 = 0
 	var C_ *float32 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_SGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_SGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func SSYMM(Side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
@@ -938,11 +943,11 @@ func SSYMM(Side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float32 = 0
 	var C_ *float32 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_SSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_SSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float32, C [][]float32) {
@@ -955,8 +960,8 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 
 	var beta_ float32 = 0
 	var C_ *float32 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
@@ -968,11 +973,11 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float32 = 0
 	var C_ *float32 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func STRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
@@ -986,8 +991,8 @@ func STRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
-	var ldb_ int = 0
-	cblas.CBLAS_STRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_STRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func STRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
@@ -1001,8 +1006,8 @@ func STRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 	var A_ *float32 = &A[0][0]
 
 	var B_ *float32 = 0
-	var ldb_ int = 0
-	cblas.CBLAS_STRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_STRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
@@ -1015,11 +1020,11 @@ func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float64 = 0
 	var C_ *float64 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_DGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_DGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func DSYMM(Side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
@@ -1031,11 +1036,11 @@ func DSYMM(Side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float64 = 0
 	var C_ *float64 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_DSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_DSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
@@ -1048,8 +1053,8 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 
 	var beta_ float64 = 0
 	var C_ *float64 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
@@ -1061,11 +1066,11 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float64 = 0
 	var C_ *float64 = 0
-	var ldc_ int = 0
-	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func DTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
@@ -1079,8 +1084,8 @@ func DTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
-	var ldb_ int = 0
-	cblas.CBLAS_DTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_DTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func DTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
@@ -1094,8 +1099,8 @@ func DTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 	var A_ *float64 = &A[0][0]
 
 	var B_ *float64 = 0
-	var ldb_ int = 0
-	cblas.CBLAS_DTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_DTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
@@ -1108,11 +1113,11 @@ func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64,
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func CSYMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
@@ -1124,11 +1129,11 @@ func CSYMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
@@ -1141,8 +1146,8 @@ func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta co
 
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
@@ -1154,11 +1159,11 @@ func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func CTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
@@ -1172,8 +1177,8 @@ func CTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
-	cblas.CBLAS_CTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_CTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func CTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
@@ -1187,8 +1192,8 @@ func CTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
-	cblas.CBLAS_CTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_CTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
@@ -1201,11 +1206,11 @@ func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex12
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZGEMM(uint32(RowMajor), uint32(transA), uint32(transB), M_, N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func ZSYMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
@@ -1217,11 +1222,11 @@ func ZSYMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZSYMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
@@ -1234,8 +1239,8 @@ func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta 
 
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
@@ -1247,11 +1252,11 @@ func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func ZTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
@@ -1265,8 +1270,8 @@ func ZTRMM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
-	cblas.CBLAS_ZTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_ZTRMM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func ZTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
@@ -1280,8 +1285,8 @@ func ZTRSM(Side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
-	cblas.CBLAS_ZTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda_, B_, ldb_)
+	var ldb int = 0
+	cblas.CBLAS_ZTRSM(uint32(RowMajor), Side_, uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha_, A_, lda, B_, ldb)
 }
 
 func CHEMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
@@ -1293,11 +1298,11 @@ func CHEMM(Side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CHEMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CHEMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta float32, C [][]complex64) {
@@ -1310,8 +1315,8 @@ func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta floa
 
 	var beta_ float32 = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta float32, C [][]complex64) {
@@ -1323,11 +1328,11 @@ func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float32 = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func ZHEMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
@@ -1339,11 +1344,11 @@ func ZHEMM(Side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ unsafe.Pointer = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZHEMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZHEMM(uint32(RowMajor), Side_, uint32(uplo), M_, N_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 
 func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta float64, C [][]complex128) {
@@ -1356,8 +1361,8 @@ func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta flo
 
 	var beta_ float64 = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, beta_, C_, ldc)
 }
 
 func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta float64, C [][]complex128) {
@@ -1369,10 +1374,10 @@ func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	var A_ unsafe.Pointer = 0
 
 	var B_ unsafe.Pointer = 0
-	var ldb_ int = 0
+	var ldb int = 0
 	var beta_ float64 = 0
 	var C_ unsafe.Pointer = 0
-	var ldc_ int = 0
-	cblas.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda_, B_, ldb_, beta_, C_, ldc_)
+	var ldc int = 0
+	cblas.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha_, A_, lda, B_, ldb, beta_, C_, ldc)
 }
 */
