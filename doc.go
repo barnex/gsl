@@ -1,7 +1,16 @@
 /*
-package blas provides an interface to GSL's BLAS library.
+package blas provides an interface to BLAS (Basic Linear Algebra Subprograms) provided by the GSL (GNU Scientific Library).
 
 Matrix representation
+
+Matrices are represented by 2-dimensional slices like [][]float32. However, BLAS requires contiguous matrix memory. Therefore, matrices must not be manually allocated, one has to use:
+	MakeFloat32Matrix(rows, cols)
+	MakeFloat64Matrix(rows, cols)
+	MakeComplex64Matrix(rows, cols)
+	MakeComplex128Matrix(rows, cols)
+The elements of these matrices can be manipulated as usual. However, the slice values themselves (length, capacity, reference to data) should not be changed. E.g.: rows must not be swapped with constructs like M[0], M[1] = M[1], M[0]. Blas functions may panic or return unexpected results when passed improperly constructed matrices, but memory safety is in principle guaranteed.
+
+Submatrices can be constructed with the *Submatrix functions. These are also safe to pass to BLAS functions. They share storage with the original matrix.
 
 The library assumes that arrays, vectors and matrices passed as modifiable arguments are not aliased and do not overlap with each other. This removes the need for the library to handle overlapping memory regions as a special case, and allows additional optimizations to be used. If overlapping memory regions are passed as modifiable arguments then the results of such functions will be undefined. If the arguments will not be modified then overlapping or aliased memory regions can be safely used.
 
