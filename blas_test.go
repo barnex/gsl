@@ -933,12 +933,11 @@ func ExampleCGERU() {
 	//[(1+0i) (2+0i)] * [(3+0i) (4+0i) (5+0i)] ^T =  [[(3+0i) (4+0i) (5+0i)] [(6+0i) (8+0i) (10+0i)]]
 }
 
-
 func ExampleCGERC() {
 	alpha := complex64(1)
 	X := []complex64{1, 2}
 	incX := 1
-	Y := []complex64{complex(0,3), complex(0,4), complex(0,5)}
+	Y := []complex64{complex(0, 3), complex(0, 4), complex(0, 5)}
 	incY := 1
 	A := MakeComplex64Matrix(2, 3)
 	CGERC(alpha, X, incX, Y, incY, A)
@@ -947,8 +946,6 @@ func ExampleCGERC() {
 	//Output:
 	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
-
-
 
 /*
 func ExampleCHER() {
@@ -1006,12 +1003,11 @@ func ExampleZGERU() {
 	//[(1+0i) (2+0i)] * [(3+0i) (4+0i) (5+0i)] ^T =  [[(3+0i) (4+0i) (5+0i)] [(6+0i) (8+0i) (10+0i)]]
 }
 
-
 func ExampleZGERC() {
 	alpha := complex128(1)
 	X := []complex128{1, 2}
 	incX := 1
-	Y := []complex128{complex(0,3), complex(0,4), complex(0,5)}
+	Y := []complex128{complex(0, 3), complex(0, 4), complex(0, 5)}
 	incY := 1
 	A := MakeComplex128Matrix(2, 3)
 	ZGERC(alpha, X, incX, Y, incY, A)
@@ -1020,7 +1016,6 @@ func ExampleZGERC() {
 	//Output:
 	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
-
 
 /*
 
