@@ -1064,25 +1064,32 @@ func ExampleSGEMM() {
 	//[[1 -1 0 0] [0 2 0 0]] * [[0 0 0] [2 0 0] [0 3 0] [0 0 0]] = [[-2 0 0] [4 0 0]]
 }
 
-/*
 func ExampleSSYMM() {
-	Side := Side(2.0)
+	alpha := float32(1.0)
+	A := MakeFloat32Matrix(3, 3)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 2
 
-	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
-	B := MakeFloat32Matrix(2, 2)
-	beta := float32(2.0)
-	C := MakeFloat32Matrix(2, 2)
-	SSYMM(Side, Uplo, alpha, A, B, beta, C)
-	fmt.Println(result)
+	B := MakeFloat32Matrix(3, 2)
+	B[1][0] = 2
+	B[2][1] = 3
+
+	beta := float32(0.0)
+	C := MakeFloat32Matrix(3, 2)
+	SSYMM(Left, Upper, alpha, A, B, beta, C)
+	fmt.Println(A, "*", B, "=", C)
 
 	//Output:
-	//
+	//[[1 -1 0] [0 2 0] [0 0 0]] * [[0 0] [2 0] [0 3]] = [[-2 0] [4 0] [0 0]]
 }
+
+/*
+
 
 func ExampleSSYRK() {
 
-	
+
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	beta := float32(2.0)
@@ -1096,7 +1103,7 @@ func ExampleSSYRK() {
 
 func ExampleSSYR2K() {
 
-	
+
 	alpha := float32(2.0)
 	A := MakeFloat32Matrix(2, 2)
 	B := MakeFloat32Matrix(2, 2)
@@ -1180,7 +1187,7 @@ func ExampleDSYMM() {
 
 func ExampleDSYRK() {
 
-	
+
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	beta := float64(2.0)
@@ -1194,7 +1201,7 @@ func ExampleDSYRK() {
 
 func ExampleDSYR2K() {
 
-	
+
 	alpha := float64(2.0)
 	A := MakeFloat64Matrix(2, 2)
 	B := MakeFloat64Matrix(2, 2)
@@ -1278,7 +1285,7 @@ func ExampleCSYMM() {
 
 func ExampleCSYRK() {
 
-	
+
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	beta := complex64(complex(2.0, 3.0))
@@ -1292,7 +1299,7 @@ func ExampleCSYRK() {
 
 func ExampleCSYR2K() {
 
-	
+
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
@@ -1356,6 +1363,7 @@ func ExampleZGEMM() {
 	//Output:
 	//[[(1+0i) (0-1i) (0+0i) (0+0i)] [(0+0i) (2+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i) (0+0i)] [(2+0i) (0+0i) (0+0i)] [(0+0i) (3+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] = [[(0-2i) (0+0i) (0+0i)] [(4+0i) (0+0i) (0+0i)]]
 }
+
 /*
 func ExampleZGEMM() {
 
@@ -1388,7 +1396,7 @@ func ExampleZSYMM() {
 
 func ExampleZSYRK() {
 
-	
+
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	beta := complex128(complex(2.0, 3.0))
@@ -1402,7 +1410,7 @@ func ExampleZSYRK() {
 
 func ExampleZSYR2K() {
 
-	
+
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
@@ -1462,7 +1470,7 @@ func ExampleCHEMM() {
 
 func ExampleCHERK() {
 
-	
+
 	alpha := float32(2.0)
 	A := MakeComplex64Matrix(2, 2)
 	beta := float32(2.0)
@@ -1476,7 +1484,7 @@ func ExampleCHERK() {
 
 func ExampleCHER2K() {
 
-	
+
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	B := MakeComplex64Matrix(2, 2)
@@ -1506,7 +1514,7 @@ func ExampleZHEMM() {
 
 func ExampleZHERK() {
 
-	
+
 	alpha := float64(2.0)
 	A := MakeComplex128Matrix(2, 2)
 	beta := float64(2.0)
@@ -1520,7 +1528,7 @@ func ExampleZHERK() {
 
 func ExampleZHER2K() {
 
-	
+
 	alpha := complex128(complex(2.0, 3.0))
 	A := MakeComplex128Matrix(2, 2)
 	B := MakeComplex128Matrix(2, 2)
