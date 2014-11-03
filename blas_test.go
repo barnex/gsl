@@ -947,32 +947,33 @@ func ExampleCGERC() {
 	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
 
-/*
 func ExampleCHER() {
-
-	alpha := float32(2.0)
-	X := []complex64{0, 0, 0}
+	alpha := float32(1.0)
+	X := []complex64{complex(0, 1), 2}
+	incX := 1
 	A := MakeComplex64Matrix(2, 2)
-	result := CHER(Uplo, alpha, X, A)
-	fmt.Println(result)
+	CHER(Upper, alpha, X, incX, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[(1+0i) (0+2i)] [(0+0i) (4+0i)]]
 }
 
 func ExampleCHER2() {
-
-	alpha := complex64(complex(2.0, 3.0))
-	X := []complex64{0, 0, 0}
-	Y := []complex64{0, 0, 0}
+	alpha := complex64(1.0)
+	X := []complex64{complex(0, 1), 2}
+	incX := 1
+	Y := []complex64{2, complex(3, 1)}
+	incY := 1
 	A := MakeComplex64Matrix(2, 2)
-	result := CHER2(Uplo, alpha, X, Y, A)
-	fmt.Println(result)
+	CHER2(Upper, alpha, X, incX, Y, incY, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[(2+0i) (0+4i)] [(0+0i) (8+0i)]]
 }
 
+/*
 func ExampleZHEMV() {
 
 	alpha := complex128(complex(2.0, 3.0))
@@ -1017,32 +1018,33 @@ func ExampleZGERC() {
 	//[(1+0i) (2+0i)] * conj [(0+3i) (0+4i) (0+5i)] ^T =  [[(0-3i) (0-4i) (0-5i)] [(0-6i) (0-8i) (0-10i)]]
 }
 
-/*
-
 func ExampleZHER() {
-
-	alpha := float64(2.0)
-	X := []complex128{0, 0, 0}
+	alpha := 1.0
+	X := []complex128{complex(0, 1), 2}
+	incX := 1
 	A := MakeComplex128Matrix(2, 2)
-	result := ZHER(Uplo, alpha, X, A)
-	fmt.Println(result)
+	ZHER(Upper, alpha, X, incX, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[(1+0i) (0+2i)] [(0+0i) (4+0i)]]
 }
 
 func ExampleZHER2() {
-
-	alpha := complex128(complex(2.0, 3.0))
-	X := []complex128{0, 0, 0}
-	Y := []complex128{0, 0, 0}
+	alpha := complex128(1.0)
+	X := []complex128{complex(0, 1), 2}
+	incX := 1
+	Y := []complex128{2, complex(3, 1)}
+	incY := 1
 	A := MakeComplex128Matrix(2, 2)
-	result := ZHER2(Uplo, alpha, X, Y, A)
-	fmt.Println(result)
+	ZHER2(Upper, alpha, X, incX, Y, incY, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[(2+0i) (0+4i)] [(0+0i) (8+0i)]]
 }
+
+/*
 
 func ExampleSGEMM() {
 

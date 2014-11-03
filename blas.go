@@ -801,7 +801,7 @@ func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, incX int,
 	cblas.CBLAS_CHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
-// Computes
+// Computes the rank-1 update:
 // 	A = alpha*X*(Y^T) + A
 // Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
@@ -817,7 +817,7 @@ func CGERU(alpha complex64, X []complex64, incX int, Y []complex64, incY int, A 
 	cblas.CBLAS_CGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
-// Computes
+// Computes the conjugate rank-1 update:
 // 	A = alpha*X*conj(Y^T) + A
 // Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
@@ -833,33 +833,35 @@ func CGERC(alpha complex64, X []complex64, incX int, Y []complex64, incY int, A 
 	cblas.CBLAS_CGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
-/*
-
-func CHER(uplo Uplo, alpha float32, X []complex64, A [][]complex64) {
-
-
-
-	var X_ unsafe.Pointer = 0
-
-	var A_ unsafe.Pointer = 0
-
-	cblas.CBLAS_CHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
+// Computes the hermitian rank-1 update:
+// 	A = alpha*X*conj(X^T) + A
+// A is a hermitian matrix. Only its upper half or lower half need to be stored,
+// specified by uplo=Upper/Lower.
+func CHER(uplo Uplo, alpha float32, X []complex64, incX int, A [][]complex64) {
+	rows, cols, lda := CSize(A)
+	checkSquare(rows, cols)
+	var M int = len(X) / incX
+	checkGER(rows, cols, M, M)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	cblas.CBLAS_CHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
 }
 
-func CHER2(uplo Uplo, alpha complex64, X []complex64, Y []complex64, A [][]complex64) {
-
-
-
-	var X_ unsafe.Pointer = 0
-
-	var Y_ unsafe.Pointer = 0
-
-	var A_ unsafe.Pointer = 0
-
-	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
+// Computes the hermitian rank-2 update:
+// A = alpha X conj(Y^T) + conj(alpha) Y conj(X^T) + A
+// A is a hermitian matrix. Only its upper half or lower half need to be stored,
+// specified by uplo=Upper/Lower.
+func CHER2(uplo Uplo, alpha complex64, X []complex64, incX int, Y []complex64, incY int, A [][]complex64) {
+	rows, cols, lda := CSize(A)
+	checkSquare(rows, cols)
+	var M int = len(X) / incX
+	var N int = len(Y) / incY
+	checkGER(rows, cols, M, M)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
-
-*/
 
 // Hermitian matrix-vector product:
 // 	Y = alpha*X + beta*Y
@@ -875,7 +877,7 @@ func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, incX i
 	cblas.CBLAS_ZHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
-// Computes
+// Computes the rank-1 update:
 // 	A = alpha*X*(Y^T) + A
 // Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
@@ -891,7 +893,7 @@ func ZGERU(alpha complex128, X []complex128, incX int, Y []complex128, incY int,
 	cblas.CBLAS_ZGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
-// Computes
+// Computes the conjugate rank-1 update
 // 	A = alpha*X*conj(Y^T) + A
 // Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
@@ -907,30 +909,37 @@ func ZGERC(alpha complex128, X []complex128, incX int, Y []complex128, incY int,
 	cblas.CBLAS_ZGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
+// Computes the hermitian rank-1 update:
+// 	A = alpha*X*conj(X^T) + A
+// A is a hermitian matrix. Only its upper half or lower half need to be stored,
+// specified by uplo=Upper/Lower.
+func ZHER(uplo Uplo, alpha float64, X []complex128, incX int, A [][]complex128) {
+	rows, cols, lda := ZSize(A)
+	checkSquare(rows, cols)
+	var M int = len(X) / incX
+	checkGER(rows, cols, M, M)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	cblas.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
+}
+
+// Computes the hermitian rank-2 update:
+// A = alpha X conj(Y^T) + conj(alpha) Y conj(X^T) + A
+// A is a hermitian matrix. Only its upper half or lower half need to be stored,
+// specified by uplo=Upper/Lower.
+func ZHER2(uplo Uplo, alpha complex128, X []complex128, incX int, Y []complex128, incY int, A [][]complex128) {
+	rows, cols, lda := ZSize(A)
+	checkSquare(rows, cols)
+	var M int = len(X) / incX
+	var N int = len(Y) / incY
+	checkGER(rows, cols, M, M)
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var Y_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	cblas.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+}
+
 /*
-func ZHER(uplo Uplo, alpha float64, X []complex128, A [][]complex128) {
-
-
-
-	var X_ unsafe.Pointer = 0
-
-	var A_ unsafe.Pointer = 0
-
-	cblas.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, A_, lda)
-}
-
-func ZHER2(uplo Uplo, alpha complex128, X []complex128, Y []complex128, A [][]complex128) {
-
-
-
-	var X_ unsafe.Pointer = 0
-
-	var Y_ unsafe.Pointer = 0
-
-	var A_ unsafe.Pointer = 0
-
-	cblas.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N_, alpha_, X_, incX, Y_, incY, A_, lda)
-}
 
 func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
 
