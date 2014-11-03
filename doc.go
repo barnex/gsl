@@ -12,6 +12,8 @@ The elements of these matrices can be manipulated as usual. However, the slice v
 
 Submatrices can be constructed with the *Submatrix functions. These are also safe to pass to BLAS functions. They share storage with the original matrix.
 
+Just like the GLS BLAS interface this package was derived from, operations on packed/band matrices are not supported. These are available through the low-level cblas package.
+
 The library assumes that arrays, vectors and matrices passed as modifiable arguments are not aliased and do not overlap with each other. This removes the need for the library to handle overlapping memory regions as a special case, and allows additional optimizations to be used. If overlapping memory regions are passed as modifiable arguments then the results of such functions will be undefined. If the arguments will not be modified then overlapping or aliased memory regions can be safely used.
 
 
