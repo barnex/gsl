@@ -64,7 +64,7 @@ func checkSize(rows, cols int) {
 
 // check sizes for matrix-vector multiplication [Ny] = [rows x cols][Nx]
 func checkMV(trans Transpose, rows, cols, Nx, Ny int) {
-	if trans == Trans {
+	if trans != NoTrans {
 		rows, cols = cols, rows
 	}
 	if Nx != cols || Ny != rows {
@@ -112,4 +112,19 @@ func checkGER(rows, cols, Nx, Ny int) {
 	if rows != Nx || cols != Ny {
 		panic(fmt.Sprintf("blas: matrix size mismatch: X*(Y^T): %vx%v != A: %vx%v", Nx, Ny, rows, cols))
 	}
+}
+
+func checkMM(transA, transB Transpose, rowsA, colsA, rowsB, colsB, rowsC, colsC int) {
+	if transA != NoTrans {
+		rowsA, colsA = colsA, rowsA
+	}
+	if transB != NoTrans {
+		rowsB, colsB = colsB, rowsB
+	}
+
+	ok := (rowsC == rowsA) && (colsA == rowsB) && (colsB == colsC)
+	if !ok {
+		panic(fmt.Sprintf("blas: size mismatch for C=A*B, A: %vx%v, B: %vx%v, C: %vx%v", rowsA, colsA, rowsB, colsB, rowsC, colsC))
+	}
+
 }

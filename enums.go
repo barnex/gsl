@@ -13,7 +13,7 @@ type Transpose uint32 // Used to represent transpose operations on a matrix.
 const (
 	NoTrans   Transpose = C.CblasNoTrans   // NoTrans represents X.
 	Trans     Transpose = C.CblasTrans     // Trans represents X^T.
-	ConjTrans Transpose = C.CblasConjTrans // ConjTrans represents X^H.
+	ConjTrans Transpose = C.CblasConjTrans // ConjTrans represents X^H (=conj(X^T))
 )
 
 type Uplo uint32 // Used to indicate which part of a symmetric matrix to use.
