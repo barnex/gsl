@@ -1057,23 +1057,30 @@ func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [
 	cblas.CBLAS_DGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
-/*
-
+// Computes the matrix-matrix product
+// 	C = alpha*A*B + beta*C  (for Side==Left)
+// 	C = alpha*B*A + beta*C  (for Side==Right)
+// where the matrix A is symmetric. Only its upper half or lower half is used, specified by uplo=Upper/Lower.
 func DSYMM(side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-
-
-	var M_ int = 0
-
+	rowsA, colsA, lda := DSize(A)
+	rowsB, colsB, ldb := DSize(B)
+	rowsC, colsC, ldc := DSize(C)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(NoTrans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(NoTrans, NoTrans, rowsB, colsB, rowsA, colsA, rowsC, colsC)
+	}
 
 	var A_ *float64 = &A[0][0]
+	var B_ *float64 = &B[0][0]
+	var C_ *float64 = &C[0][0]
 
-	var B_ *float64 = 0
-	var ldb int = 0
-	var beta float64 = 0
-	var C_ *float64 = 0
-	var ldc int = 0
-	cblas.CBLAS_DSYMM(uint32(RowMajor), uint32(side), uint32(uplo), M_, N_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	cblas.CBLAS_DSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
+
+/*
+
 
 func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
 
@@ -1152,23 +1159,30 @@ func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64,
 	cblas.CBLAS_CGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes the matrix-matrix product
+// 	C = alpha*A*B + beta*C  (for Side==Left)
+// 	C = alpha*B*A + beta*C  (for Side==Right)
+// where the matrix A is symmetric. Only its upper half or lower half is used, specified by uplo=Upper/Lower.
+func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
+	rowsA, colsA, lda := CSize(A)
+	rowsB, colsB, ldb := CSize(B)
+	rowsC, colsC, ldc := CSize(C)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(NoTrans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(NoTrans, NoTrans, rowsB, colsB, rowsA, colsA, rowsC, colsC)
+	}
+
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+
+	cblas.CBLAS_CSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+}
+
 /*
 
-func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_CSYMM(uint32(RowMajor), uint32(side), uint32(uplo), M_, N_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
-}
 
 func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
 
@@ -1246,23 +1260,30 @@ func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex12
 	cblas.CBLAS_ZGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes the matrix-matrix product
+// 	C = alpha*A*B + beta*C  (for Side==Left)
+// 	C = alpha*B*A + beta*C  (for Side==Right)
+// where the matrix A is symmetric. Only its upper half or lower half is used, specified by uplo=Upper/Lower.
+func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
+	rowsA, colsA, lda := ZSize(A)
+	rowsB, colsB, ldb := ZSize(B)
+	rowsC, colsC, ldc := ZSize(C)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(NoTrans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(NoTrans, NoTrans, rowsB, colsB, rowsA, colsA, rowsC, colsC)
+	}
+
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+
+	cblas.CBLAS_ZSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+}
+
 /*
 
-func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_ZSYMM(uint32(RowMajor), uint32(side), uint32(uplo), M_, N_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
-}
 
 func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
 

@@ -1168,22 +1168,28 @@ func ExampleDGEMM() {
 	//[[1 -1 0 0] [0 2 0 0]] * [[0 0 0] [2 0 0] [0 3 0] [0 0 0]] = [[-2 0 0] [4 0 0]]
 }
 
-/*
-
 func ExampleDSYMM() {
-	Side := Side(2.0)
+	alpha := 1.0
+	A := MakeFloat64Matrix(3, 3)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 2
 
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	B := MakeFloat64Matrix(2, 2)
-	beta := float64(2.0)
-	C := MakeFloat64Matrix(2, 2)
-	DSYMM(Side, Uplo, alpha, A, B, beta, C)
-	fmt.Println(result)
+	B := MakeFloat64Matrix(3, 2)
+	B[1][0] = 2
+	B[2][1] = 3
+
+	beta := 0.0
+	C := MakeFloat64Matrix(3, 2)
+	DSYMM(Left, Upper, alpha, A, B, beta, C)
+	fmt.Println(A, "*", B, "=", C)
 
 	//Output:
-	//
+	//[[1 -1 0] [0 2 0] [0 0 0]] * [[0 0] [2 0] [0 3]] = [[-2 0] [4 0] [0 0]]
 }
+
+/*
+
 
 func ExampleDSYRK() {
 
@@ -1266,22 +1272,28 @@ func ExampleCGEMM() {
 	//[[(1+0i) (0-1i) (0+0i) (0+0i)] [(0+0i) (2+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i) (0+0i)] [(2+0i) (0+0i) (0+0i)] [(0+0i) (3+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] = [[(0-2i) (0+0i) (0+0i)] [(4+0i) (0+0i) (0+0i)]]
 }
 
-/*
-
 func ExampleCSYMM() {
-	Side := Side(2.0)
+	alpha := complex64(1)
+	A := MakeComplex64Matrix(3, 3)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 2
 
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	B := MakeComplex64Matrix(2, 2)
-	beta := complex64(complex(2.0, 3.0))
-	C := MakeComplex64Matrix(2, 2)
-	CSYMM(Side, Uplo, alpha, A, B, beta, C)
-	fmt.Println(result)
+	B := MakeComplex64Matrix(3, 2)
+	B[1][0] = 2
+	B[2][1] = 3
+
+	beta := complex64(0)
+	C := MakeComplex64Matrix(3, 2)
+	CSYMM(Left, Upper, alpha, A, B, beta, C)
+	fmt.Println(A, "*", B, "=", C)
 
 	//Output:
-	//
+	//[[(1+0i) (-1+0i) (0+0i)] [(0+0i) (2+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i)] [(2+0i) (0+0i)] [(0+0i) (3+0i)]] = [[(-2+0i) (0+0i)] [(4+0i) (0+0i)] [(0+0i) (0+0i)]]
 }
+
+/*
+
 
 func ExampleCSYRK() {
 
@@ -1364,35 +1376,27 @@ func ExampleZGEMM() {
 	//[[(1+0i) (0-1i) (0+0i) (0+0i)] [(0+0i) (2+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i) (0+0i)] [(2+0i) (0+0i) (0+0i)] [(0+0i) (3+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] = [[(0-2i) (0+0i) (0+0i)] [(4+0i) (0+0i) (0+0i)]]
 }
 
-/*
-func ExampleZGEMM() {
-
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	beta := complex128(complex(2.0, 3.0))
-	C := MakeComplex128Matrix(2, 2)
-	ZGEMM(NoTrans, NoTrans, alpha, A, B, beta, C)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
 func ExampleZSYMM() {
-	Side := Side(2.0)
+	alpha := complex128(1)
+	A := MakeComplex128Matrix(3, 3)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 2
 
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	beta := complex128(complex(2.0, 3.0))
-	C := MakeComplex128Matrix(2, 2)
-	ZSYMM(Side, Uplo, alpha, A, B, beta, C)
-	fmt.Println(result)
+	B := MakeComplex128Matrix(3, 2)
+	B[1][0] = 2
+	B[2][1] = 3
+
+	beta := complex128(0)
+	C := MakeComplex128Matrix(3, 2)
+	ZSYMM(Left, Upper, alpha, A, B, beta, C)
+	fmt.Println(A, "*", B, "=", C)
 
 	//Output:
-	//
+	//[[(1+0i) (-1+0i) (0+0i)] [(0+0i) (2+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i)] [(2+0i) (0+0i)] [(0+0i) (3+0i)]] = [[(-2+0i) (0+0i)] [(4+0i) (0+0i)] [(0+0i) (0+0i)]]
 }
+
+/*
 
 func ExampleZSYRK() {
 
