@@ -32,6 +32,10 @@ func MakeComplex128Matrix(rows, cols int) [][]complex128 {
 	return reshapeZ2(a, [2]int{rows, cols})
 }
 
+// Returns the number of rows, columns and stride of matrix A.
+// The matrix must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage.
+// Stride is the distance between vertically adjacent elements. For freshly allocated matrices,
+// stride == cols, while for submatrices stride <= cols.
 func SSize(A [][]float32) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
@@ -45,6 +49,10 @@ func SSize(A [][]float32) (rows, cols, stride int) {
 	return
 }
 
+// Returns the number of rows, columns and stride of matrix A.
+// The matrix must be allocated with MakeFloat64Matrix to ensure contiguous underlying storage.
+// Stride is the distance between vertically adjacent elements. For freshly allocated matrices,
+// stride == cols, while for submatrices stride <= cols.
 func DSize(A [][]float64) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
@@ -58,6 +66,10 @@ func DSize(A [][]float64) (rows, cols, stride int) {
 	return
 }
 
+// Returns the number of rows, columns and stride of matrix A.
+// The matrix must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage.
+// Stride is the distance between vertically adjacent elements. For freshly allocated matrices,
+// stride == cols, while for submatrices stride <= cols.
 func CSize(A [][]complex64) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
@@ -71,6 +83,10 @@ func CSize(A [][]complex64) (rows, cols, stride int) {
 	return
 }
 
+// Returns the number of rows, columns and stride of matrix A.
+// The matrix must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage.
+// Stride is the distance between vertically adjacent elements. For freshly allocated matrices,
+// stride == cols, while for submatrices stride <= cols.
 func ZSize(A [][]complex128) (rows, cols, stride int) {
 	rows = len(A)
 	if rows > 0 {
