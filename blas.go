@@ -1030,8 +1030,8 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 }
 
 // Computes the matrix-matrix product
-// 	B = \alpha op(A) B (for Side is Left)
-// 	B = \alpha B op(A) (for Side is Right)
+// 	B = alpha op(A) B (for Side is Left)
+// 	B = alpha B op(A) (for Side is Right)
 // The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
@@ -1159,8 +1159,8 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 }
 
 // Computes the matrix-matrix product
-// 	B = \alpha op(A) B (for Side is Left)
-// 	B = \alpha B op(A) (for Side is Right)
+// 	B = alpha op(A) B (for Side is Left)
+// 	B = alpha B op(A) (for Side is Right)
 // The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
@@ -1287,8 +1287,8 @@ func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 }
 
 // Computes the matrix-matrix product
-// 	B = \alpha op(A) B (for Side is Left)
-// 	B = \alpha B op(A) (for Side is Right)
+// 	B = alpha op(A) B (for Side is Left)
+// 	B = alpha B op(A) (for Side is Right)
 // The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
@@ -1413,8 +1413,8 @@ func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 }
 
 // Computes the matrix-matrix product
-// 	B = \alpha op(A) B (for Side is Left)
-// 	B = \alpha B op(A) (for Side is Right)
+// 	B = alpha op(A) B (for Side is Left)
+// 	B = alpha B op(A) (for Side is Right)
 // The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
