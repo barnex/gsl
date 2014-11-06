@@ -977,21 +977,32 @@ func SSYMM(side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 	cblas.CBLAS_SSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
-/*
+// Computes a rank-k update of the symmetric matrix C:
+// 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float32, C [][]float32) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
+	rowsA, colsA, lda := SSize(A)
+	rowsC, colsC, ldc := SSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
 
 	var A_ *float32 = &A[0][0]
-
-	var beta float32 = 0
-	var C_ *float32 = 0
-	var ldc int = 0
-	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
+	var C_ *float32 = &C[0][0]
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
+/*
 func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
 
 	var uint32(trans) uint32 = 0

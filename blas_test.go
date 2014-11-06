@@ -1084,23 +1084,22 @@ func ExampleSSYMM() {
 	//[[1 -1 0] [0 2 0] [0 0 0]] * [[0 0] [2 0] [0 3]] = [[-2 0] [4 0] [0 0]]
 }
 
-/*
-
-
 func ExampleSSYRK() {
+	alpha := float32(1.0)
+	A := MakeFloat32Matrix(2, 3)
+	A[0][0] = 1
 
+	beta := float32(0.0)
+	C := MakeFloat32Matrix(3, 3)
 
-	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
-	beta := float32(2.0)
-	C := MakeFloat32Matrix(2, 2)
-	SSYRK(Uplo, Trans, alpha, A, beta, C)
-	fmt.Println(result)
+	SSYRK(Upper, Trans, alpha, A, beta, C)
+	fmt.Println(C)
 
 	//Output:
-	//
+	//[[1 0 0] [0 0 0] [0 0 0]]
 }
 
+/*
 func ExampleSSYR2K() {
 
 
