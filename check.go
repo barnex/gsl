@@ -128,3 +128,19 @@ func checkMM(transA, transB Transpose, rowsA, colsA, rowsB, colsB, rowsC, colsC 
 	}
 
 }
+
+// check for trans or notrans
+func checkTrans(trans Transpose) {
+	ok := trans == NoTrans || trans == Trans
+	if !ok {
+		panic("invalid transpose option")
+	}
+}
+
+// check for conjtrans or notrans
+func checkConjTrans(trans Transpose) {
+	ok := trans == NoTrans || trans == ConjTrans
+	if !ok {
+		panic("invalid transpose option")
+	}
+}

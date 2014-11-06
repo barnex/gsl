@@ -499,6 +499,7 @@ func ZDSCAL(alpha float64, X []complex128, incX int) {
 // Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int, beta float32, Y []float32, incY int) {
+	checkTrans(transA)
 	rows, cols, lda := checkSMV(transA, A, X, incX, Y, incY)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
@@ -517,6 +518,7 @@ func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int
 // Matrices must be allocated with MakeFloat32Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkSMV(transA, A, X, incX, X, incX) // TODO: separate func without 2nd X, incX
 	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
@@ -526,9 +528,10 @@ func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 
 // Computes
 // 	inv(op(A)) x for x
-// where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// where op(A) = A, A^T for TransA = NoTrans, Trans
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkSMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
@@ -545,6 +548,7 @@ func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 // Matrices must be allocated with MakeFloat64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, incX int, beta float64, Y []float64, incY int) {
+	checkTrans(transA)
 	rows, cols, lda := checkDMV(transA, A, X, incX, Y, incY)
 	var A_ *float64 = &A[0][0]
 	var X_ *float64 = &X[0]
@@ -563,6 +567,7 @@ func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, incX int
 // Matrices must be allocated with MakeFloat64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkDMV(transA, A, X, incX, X, incX) // TODO: separate func without 2nd X, incX
 	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
@@ -575,6 +580,7 @@ func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 // where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkDMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
@@ -591,6 +597,7 @@ func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 // Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, incX int, beta complex64, Y []complex64, incY int) {
+	checkTrans(transA)
 	rows, cols, lda := checkCMV(transA, A, X, incX, Y, incY)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
@@ -609,6 +616,7 @@ func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, in
 // Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkCMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
@@ -621,6 +629,7 @@ func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 // where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64, incX int) {
+	// checkTrans(transA) // TODO!
 	rows, cols, lda := checkCMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
@@ -637,6 +646,7 @@ func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 // Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func ZGEMV(transA Transpose, alpha complex128, A [][]complex128, X []complex128, incX int, beta complex128, Y []complex128, incY int) {
+	checkTrans(transA)
 	rows, cols, lda := checkZMV(transA, A, X, incX, Y, incY)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
@@ -655,6 +665,7 @@ func ZGEMV(transA Transpose, alpha complex128, A [][]complex128, X []complex128,
 // Matrices must be allocated with MakeComplex128Matrix to ensure contiguous underlying storage,
 // otherwise this function may panic or return unexpected results.
 func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128, incX int) {
+	checkTrans(transA)
 	rows, cols, lda := checkZMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
@@ -948,6 +959,7 @@ func ZHER2(uplo Uplo, alpha complex128, X []complex128, incX int, Y []complex128
 // 	C = alpha*A*B + beta*C
 // where A and B can optionally be transposed by specifying transA, transB = Trans/NoTrans
 func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
+	checkTrans(transA)
 	rowsA, colsA, lda := SSize(A)
 	rowsB, colsB, ldb := SSize(B)
 	rowsC, colsC, ldc := SSize(C)
@@ -987,6 +999,7 @@ func SSYMM(side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 // 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float32, C [][]float32) {
+	checkTrans(trans)
 	rowsA, colsA, lda := SSize(A)
 	rowsC, colsC, ldc := SSize(C)
 	checkSquare(rowsC, colsC)
@@ -1012,6 +1025,7 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 // 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
+	checkTrans(trans)
 	rowsA, colsA, lda := SSize(A)
 	rowsB, colsB, ldb := SSize(B)
 	rowsC, colsC, ldc := SSize(C)
@@ -1037,10 +1051,11 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 // Computes the matrix-matrix product
 // 	B = alpha op(A) B (for Side is Left)
 // 	B = alpha B op(A) (for Side is Right)
-// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func STRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
+	checkTrans(transA)
 	rowsA, colsA, lda := SSize(A)
 	rowsB, colsB, ldb := SSize(B)
 	checkSquare(rowsA, colsA)
@@ -1057,10 +1072,11 @@ func STRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 // Computes the inverse-matrix matrix product
 // 	B = alpha op(inv(A))B for Side is Left
 // 	B = alpha B op(inv(A)) for Side is Right.
-// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func STRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
+	checkTrans(transA)
 	rowsA, colsA, lda := SSize(A)
 	rowsB, colsB, ldb := SSize(B)
 	checkSquare(rowsA, colsA)
@@ -1078,6 +1094,8 @@ func STRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 // 	C = alpha*A*B + beta*C
 // where A and B can optionally be transposed by specifying transA, transB = Trans/NoTrans
 func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
+	checkTrans(transA)
+	checkTrans(transB)
 	rowsA, colsA, lda := DSize(A)
 	rowsB, colsB, ldb := DSize(B)
 	rowsC, colsC, ldc := DSize(C)
@@ -1117,6 +1135,7 @@ func DSYMM(side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 // 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
+	checkTrans(trans)
 	rowsA, colsA, lda := DSize(A)
 	rowsC, colsC, ldc := DSize(C)
 	checkSquare(rowsC, colsC)
@@ -1142,6 +1161,7 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 // 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
+	checkTrans(trans)
 	rowsA, colsA, lda := DSize(A)
 	rowsB, colsB, ldb := DSize(B)
 	rowsC, colsC, ldc := DSize(C)
@@ -1167,10 +1187,11 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 // Computes the matrix-matrix product
 // 	B = alpha op(A) B (for Side is Left)
 // 	B = alpha B op(A) (for Side is Right)
-// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func DTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
+	checkTrans(transA)
 	rowsA, colsA, lda := DSize(A)
 	rowsB, colsB, ldb := DSize(B)
 	checkSquare(rowsA, colsA)
@@ -1187,10 +1208,11 @@ func DTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 // Computes the inverse-matrix matrix product
 // 	B = alpha op(inv(A))B for Side is Left
 // 	B = alpha B op(inv(A)) for Side is Right.
-// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans.
 // When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
 // If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func DTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
+	checkTrans(transA)
 	rowsA, colsA, lda := DSize(A)
 	rowsB, colsB, ldb := DSize(B)
 	checkSquare(rowsA, colsA)
@@ -1208,6 +1230,7 @@ func DTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 // 	C = alpha*A*B + beta*C
 // where A and B can optionally be transposed by specifying transA, transB = Trans/NoTrans
 func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
+	// todo: check conjtrans
 	rowsA, colsA, lda := CSize(A)
 	rowsB, colsB, ldb := CSize(B)
 	rowsC, colsC, ldc := CSize(C)
@@ -1247,6 +1270,7 @@ func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 // 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
+	checkTrans(trans)
 	rowsA, colsA, lda := CSize(A)
 	rowsC, colsC, ldc := CSize(C)
 	checkSquare(rowsC, colsC)
@@ -1272,6 +1296,7 @@ func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta co
 // 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
+	checkTrans(trans)
 	rowsA, colsA, lda := CSize(A)
 	rowsB, colsB, ldb := CSize(B)
 	rowsC, colsC, ldc := CSize(C)
@@ -1338,6 +1363,8 @@ func CTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 // 	C = alpha*A*B + beta*C
 // where A and B can optionally be transposed by specifying transA, transB = Trans/NoTrans
 func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
+	checkTrans(transA)
+	checkTrans(transB)
 	rowsA, colsA, lda := ZSize(A)
 	rowsB, colsB, ldb := ZSize(B)
 	rowsC, colsC, ldc := ZSize(C)
@@ -1377,6 +1404,7 @@ func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 // 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
+	checkTrans(trans)
 	rowsA, colsA, lda := ZSize(A)
 	rowsC, colsC, ldc := ZSize(C)
 	checkSquare(rowsC, colsC)
@@ -1402,6 +1430,7 @@ func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta 
 // 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
+	checkTrans(trans)
 	rowsA, colsA, lda := ZSize(A)
 	rowsB, colsB, ldb := ZSize(B)
 	rowsC, colsC, ldc := ZSize(C)
@@ -1490,6 +1519,7 @@ func CHEMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 // Since the matrix C is hermitian only its upper half or lower half need to be stored.
 // When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta float32, C [][]complex64) {
+	checkConjTrans(trans)
 	rowsA, colsA, lda := CSize(A)
 	rowsC, colsC, ldc := CSize(C)
 	checkSquare(rowsC, colsC)
@@ -1516,6 +1546,7 @@ func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta floa
 // Since the matrix C is hermitian only its upper half or lower half need to be stored.
 // When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta float32, C [][]complex64) {
+	checkConjTrans(trans)
 	rowsA, colsA, lda := CSize(A)
 	rowsB, colsB, ldb := CSize(B)
 	rowsC, colsC, ldc := CSize(C)
@@ -1564,6 +1595,7 @@ func ZHEMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 // Since the matrix C is hermitian only its upper half or lower half need to be stored.
 // When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta float64, C [][]complex128) {
+	checkConjTrans(trans)
 	rowsA, colsA, lda := ZSize(A)
 	rowsC, colsC, ldc := ZSize(C)
 	checkSquare(rowsC, colsC)
@@ -1590,6 +1622,7 @@ func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta flo
 // Since the matrix C is hermitian only its upper half or lower half need to be stored.
 // When uplo is Upper then the upper triangle and diagonal of C are used, and when uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta float64, C [][]complex128) {
+	checkConjTrans(trans)
 	rowsA, colsA, lda := ZSize(A)
 	rowsB, colsB, ldb := ZSize(B)
 	rowsC, colsC, ldc := ZSize(C)

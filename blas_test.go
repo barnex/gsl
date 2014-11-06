@@ -1488,31 +1488,33 @@ func ExampleCHEMM() {
 	//[[(0-2i) (3+0i)] [(4+0i) (0+3i)]]
 }
 
-// crashes
-//func ExampleCHERK() {
-//	alpha := float32(1.0)
-//	A := MakeComplex64Matrix(2, 2)
-//	beta := float32(0.0)
-//	C := MakeComplex64Matrix(2, 2)
-//	CHERK(Lower, Trans, alpha, A, beta, C)
-//	fmt.Println(C)
-//
-//	//Output:
-//	//
-//}
+func ExampleCHERK() {
+	alpha := float32(1.0)
+	A := MakeComplex64Matrix(2, 2)
+	A[1][1] = complex(0, 1)
+	beta := float32(0.0)
+	C := MakeComplex64Matrix(2, 2)
+	CHERK(Upper, ConjTrans, alpha, A, beta, C)
+	fmt.Println(C)
 
-//func ExampleCHER2K() {
-//	alpha := complex64(complex(2.0, 3.0))
-//	A := MakeComplex64Matrix(2, 2)
-//	B := MakeComplex64Matrix(2, 2)
-//	beta := float32(2.0)
-//	C := MakeComplex64Matrix(2, 2)
-//	CHER2K(Upper, Trans, alpha, A, B, beta, C)
-//	fmt.Println(C)
-//
-//	//Output:
-//	//
-//}
+	//Output:
+	//[[(0+0i) (0+0i)] [(0+0i) (1+0i)]]
+}
+
+func ExampleCHER2K() {
+	alpha := complex64(complex(2.0, 3.0))
+	A := MakeComplex64Matrix(2, 2)
+	A[1][1] = complex(0, 1)
+	B := MakeComplex64Matrix(2, 2)
+	B[0][1] = complex(1, 0)
+	beta := float32(2.0)
+	C := MakeComplex64Matrix(2, 2)
+	CHER2K(Upper, NoTrans, alpha, A, B, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[(0+0i) (-3-2i)] [(0+0i) (0+0i)]]
+}
 
 func ExampleZHEMM() {
 	alpha := complex128(1.0)
@@ -1534,29 +1536,30 @@ func ExampleZHEMM() {
 	//[[(0-2i) (0-3i)] [(4+0i) (6+0i)]]
 }
 
-//func ExampleZHERK() {
-//	alpha := float64(1.0)
-//	A := MakeComplex128Matrix(2, 2)
-//	beta := float64(0.0)
-//	C := MakeComplex128Matrix(2, 2)
-//	ZHERK(Lower, Trans, alpha, A, beta, C)
-//	fmt.Println(C)
-//
-//	//Output:
-//	//
-//}
-
-/*
-func ExampleZHER2K() {
-	alpha := complex128(1)
+func ExampleZHERK() {
+	alpha := 1.0
 	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	beta := float64(0)
+	A[1][1] = complex(0, 1)
+	beta := 0.0
 	C := MakeComplex128Matrix(2, 2)
-	ZHER2K(Lower, Trans, alpha, A, B, beta, C)
+	ZHERK(Upper, ConjTrans, alpha, A, beta, C)
 	fmt.Println(C)
 
 	//Output:
-	//
+	//[[(0+0i) (0+0i)] [(0+0i) (1+0i)]]
 }
-*/
+
+func ExampleZHER2K() {
+	alpha := complex(2.0, 3.0)
+	A := MakeComplex128Matrix(2, 2)
+	A[1][1] = complex(0, 1)
+	B := MakeComplex128Matrix(2, 2)
+	B[0][1] = complex(1, 0)
+	beta := 2.0
+	C := MakeComplex128Matrix(2, 2)
+	ZHER2K(Upper, NoTrans, alpha, A, B, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[(0+0i) (-3-2i)] [(0+0i) (0+0i)]]
+}
