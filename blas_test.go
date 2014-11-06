@@ -1132,24 +1132,19 @@ func ExampleSTRMM() {
 	//[[0 0] [0 1] [0 0]]
 }
 
-/*
 func ExampleSTRSM() {
-	Side := Side(2.0)
+	alpha := float32(1.0)
+	A := MakeFloat32Matrix(3, 3)
+	B := MakeFloat32Matrix(3, 2)
+	B[1][1] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
-	B := MakeFloat32Matrix(2, 2)
-	STRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	STRSM(Left, Upper, NoTrans, Unit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[0 0] [0 1] [0 0]]
 }
 
-
-*/
 func ExampleDGEMM() {
 	alpha := 1.0
 	A := MakeFloat64Matrix(2, 4)
@@ -1238,39 +1233,19 @@ func ExampleDTRMM() {
 	//[[0 0 0] [0 1 0]]
 }
 
-/*
-func ExampleDTRMM() {
-	Side := Side(2.0)
-
-
-	Diag := Diag(2.0)
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	B := MakeFloat64Matrix(2, 2)
-	DTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
 func ExampleDTRSM() {
-	Side := Side(2.0)
+	alpha := float64(1.0)
+	A := MakeFloat64Matrix(3, 3)
+	B := MakeFloat64Matrix(3, 2)
+	B[1][1] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	B := MakeFloat64Matrix(2, 2)
-	DTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	DTRSM(Left, Upper, NoTrans, Unit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[0 0] [0 1] [0 0]]
 }
 
-
-*/
 func ExampleCGEMM() {
 	alpha := complex64(1.0)
 	A := MakeComplex64Matrix(2, 4)
@@ -1359,23 +1334,20 @@ func ExampleCTRMM() {
 	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0-1i) (0+0i)]]
 }
 
-/*
 func ExampleCTRSM() {
-	Side := Side(2.0)
+	alpha := complex64(1)
+	A := MakeComplex64Matrix(3, 3)
+	A[1][1] = 1
+	A[1][2] = complex(0, 1)
+	B := MakeComplex64Matrix(2, 3)
+	B[1][2] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	B := MakeComplex64Matrix(2, 2)
-	CTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	CTRSM(Right, Upper, ConjTrans, Unit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0+1i) (1+0i)]]
 }
-
-*/
 
 func ExampleZGEMM() {
 	alpha := complex128(1.0)
@@ -1465,22 +1437,22 @@ func ExampleZTRMM() {
 	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0-1i) (0+0i)]]
 }
 
-/*
 func ExampleZTRSM() {
-	Side := Side(2.0)
+	alpha := complex128(1)
+	A := MakeComplex128Matrix(3, 3)
+	A[1][1] = 1
+	A[1][2] = complex(0, 1)
+	B := MakeComplex128Matrix(2, 3)
+	B[1][2] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	ZTRSM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	ZTRSM(Right, Upper, ConjTrans, Unit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0+1i) (1+0i)]]
 }
 
+/*
 func ExampleCHEMM() {
 	Side := Side(2.0)
 
