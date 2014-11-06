@@ -1459,96 +1459,150 @@ func ZTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 	cblas.CBLAS_ZTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
-/*
+// Computes the matrix-matrix product and sum
+// 	C = alpha A B + beta C (for Side==Left)
+// 	C = alpha B A + beta C (for Side==Right)
+// where the matrix A is hermitian. When Uplo is Upper then the upper triangle and diagonal of A are used, and when Uplo is Lower then the lower triangle and diagonal of A are used. The imaginary elements of the diagonal are automatically set to zero.
 func CHEMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_CHEMM(uint32(RowMajor), uint32(side), uint32(uplo), M_, N_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	rowsA, colsA, lda := CSize(A)
+	rowsB, colsB, ldb := CSize(B)
+	rowsC, colsC, ldc := CSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(NoTrans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(NoTrans, NoTrans, rowsB, colsB, rowsA, colsA, rowsC, colsC)
+	}
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	cblas.CBLAS_CHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes a rank-k update of the hermitian matrix C
+// 	C = alpha A A^H + beta C (for trans==NoTrans)
+// 	C = alpha A^H A + beta C (for trans==ConjTrans)
+// Since the matrix C is hermitian only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta float32, C [][]complex64) {
+	rowsA, colsA, lda := CSize(A)
+	rowsC, colsC, ldc := CSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
 
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var beta float32 = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
+// Computes a rank-2k update of the hermitian matrix C,
+// 	C = alpha A B^H + alpha^* B A^H + beta C (for trans==NoTrans)
+// 	C = alpha A^H B + alpha^* B^H A + beta C (for Trans==ConjTrans)
+// Since the matrix C is hermitian only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta float32, C [][]complex64) {
+	rowsA, colsA, lda := CSize(A)
+	rowsB, colsB, ldb := CSize(B)
+	rowsC, colsC, ldc := CSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	}
 
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta float32 = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
 }
 
+// Computes the matrix-matrix product and sum
+// 	C = alpha A B + beta C (for Side==Left)
+// 	C = alpha B A + beta C (for Side==Right)
+// where the matrix A is hermitian. When Uplo is Upper then the upper triangle and diagonal of A are used, and when Uplo is Lower then the lower triangle and diagonal of A are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHEMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_ZHEMM(uint32(RowMajor), uint32(side), uint32(uplo), M_, N_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	rowsA, colsA, lda := ZSize(A)
+	rowsB, colsB, ldb := ZSize(B)
+	rowsC, colsC, ldc := ZSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(NoTrans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(NoTrans, NoTrans, rowsB, colsB, rowsA, colsA, rowsC, colsC)
+	}
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	cblas.CBLAS_ZHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes a rank-k update of the hermitian matrix C
+// 	C = alpha A A^H + beta C (for trans==NoTrans)
+// 	C = alpha A^H A + beta C (for trans==ConjTrans)
+// Since the matrix C is hermitian only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta float64, C [][]complex128) {
+	rowsA, colsA, lda := ZSize(A)
+	rowsC, colsC, ldc := ZSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
 
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var beta float64 = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
+// Computes a rank-2k update of the hermitian matrix C,
+// 	C = alpha A B^H + alpha^* B A^H + beta C (for trans==NoTrans)
+// 	C = alpha A^H B + alpha^* B^H A + beta C (for Trans==ConjTrans)
+// Since the matrix C is hermitian only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta float64, C [][]complex128) {
+	rowsA, colsA, lda := ZSize(A)
+	rowsB, colsB, ldb := ZSize(B)
+	rowsC, colsC, ldc := ZSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	}
 
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	var beta float64 = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
 }
-*/
