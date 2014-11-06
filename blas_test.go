@@ -1099,6 +1099,24 @@ func ExampleSSYRK() {
 	//[[1 0 0] [0 0 0] [0 0 0]]
 }
 
+func ExampleSSYR2K() {
+	alpha := float32(1.0)
+	A := MakeFloat32Matrix(2, 3)
+	A[0][0] = 1
+
+	B := MakeFloat32Matrix(2, 3)
+	B[0][0] = 1
+
+	beta := float32(0.0)
+	C := MakeFloat32Matrix(3, 3)
+
+	SSYR2K(Upper, Trans, alpha, A, B, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[2 0 0] [0 0 0] [0 0 0]]
+}
+
 /*
 func ExampleSSYR2K() {
 
@@ -1202,25 +1220,25 @@ func ExampleDSYRK() {
 	//[[1 0 0] [0 0 0] [0 0 0]]
 }
 
-/*
-
-
-
 func ExampleDSYR2K() {
+	alpha := float64(1.0)
+	A := MakeFloat64Matrix(2, 3)
+	A[0][0] = 1
 
+	B := MakeFloat64Matrix(2, 3)
+	B[0][0] = 1
 
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	B := MakeFloat64Matrix(2, 2)
-	beta := float64(2.0)
-	C := MakeFloat64Matrix(2, 2)
-	DSYR2K(Uplo, Trans, alpha, A, B, beta, C)
-	fmt.Println(result)
+	beta := float64(0.0)
+	C := MakeFloat64Matrix(3, 3)
+
+	DSYR2K(Upper, Trans, alpha, A, B, beta, C)
+	fmt.Println(C)
 
 	//Output:
-	//
+	//[[2 0 0] [0 0 0] [0 0 0]]
 }
 
+/*
 func ExampleDTRMM() {
 	Side := Side(2.0)
 

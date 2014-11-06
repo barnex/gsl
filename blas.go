@@ -1002,23 +1002,34 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
-/*
+// Computes a rank-2k update of the symmetric matrix C:
+// 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
+	rowsA, colsA, lda := SSize(A)
+	rowsB, colsB, ldb := SSize(B)
+	rowsC, colsC, ldc := SSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	}
 
 	var A_ *float32 = &A[0][0]
-
-	var B_ *float32 = 0
-	var ldb int = 0
-	var beta float32 = 0
-	var C_ *float32 = 0
-	var ldc int = 0
-	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	var B_ *float32 = &B[0][0]
+	var C_ *float32 = &C[0][0]
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
+/*
 func STRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
 
 
@@ -1115,23 +1126,35 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
-/*
-
+// Computes a rank-2k update of the symmetric matrix C:
+// 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
+	rowsA, colsA, lda := DSize(A)
+	rowsB, colsB, ldb := DSize(B)
+	rowsC, colsC, ldc := DSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsB, colsB, rowsC, colsC)
+	}
 
 	var A_ *float64 = &A[0][0]
-
-	var B_ *float64 = 0
-	var ldb int = 0
-	var beta float64 = 0
-	var C_ *float64 = 0
-	var ldc int = 0
-	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	var B_ *float64 = &B[0][0]
+	var C_ *float64 = &C[0][0]
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
+
+/*
+
 
 func DTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
 
