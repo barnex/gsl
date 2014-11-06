@@ -1488,60 +1488,65 @@ func ExampleCHEMM() {
 	//[[(0-2i) (3+0i)] [(4+0i) (0+3i)]]
 }
 
-/*
-func ExampleCHERK() {
+// crashes
+//func ExampleCHERK() {
+//	alpha := float32(1.0)
+//	A := MakeComplex64Matrix(2, 2)
+//	beta := float32(0.0)
+//	C := MakeComplex64Matrix(2, 2)
+//	CHERK(Lower, Trans, alpha, A, beta, C)
+//	fmt.Println(C)
+//
+//	//Output:
+//	//
+//}
 
-	alpha := float32(2.0)
-	A := MakeComplex64Matrix(2, 2)
-	beta := float32(2.0)
-	C := MakeComplex64Matrix(2, 2)
-	CHERK(Lower, Trans, alpha, A, beta, C)
-	fmt.Println(C)
-
-	//Output:
-	//
-}
-
-func ExampleCHER2K() {
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	B := MakeComplex64Matrix(2, 2)
-	beta := float32(2.0)
-	C := MakeComplex64Matrix(2, 2)
-	CHER2K(Upper, Trans, alpha, A, B, beta, C)
-	fmt.Println(C)
-
-	//Output:
-	//
-}
+//func ExampleCHER2K() {
+//	alpha := complex64(complex(2.0, 3.0))
+//	A := MakeComplex64Matrix(2, 2)
+//	B := MakeComplex64Matrix(2, 2)
+//	beta := float32(2.0)
+//	C := MakeComplex64Matrix(2, 2)
+//	CHER2K(Upper, Trans, alpha, A, B, beta, C)
+//	fmt.Println(C)
+//
+//	//Output:
+//	//
+//}
 
 func ExampleZHEMM() {
-	Side := Side(2.0)
-
-	alpha := complex128(complex(2.0, 3.0))
+	alpha := complex128(1.0)
 	A := MakeComplex128Matrix(2, 2)
+	A[0][0] = 1
+	A[0][1] = complex(0, -1)
+	A[1][1] = 2
+
 	B := MakeComplex128Matrix(2, 2)
-	beta := complex128(complex(2.0, 3.0))
+	B[1][0] = 2
+	B[1][1] = 3
+
+	beta := complex128(0.0)
 	C := MakeComplex128Matrix(2, 2)
-	ZHEMM(Side, Lower, alpha, A, B, beta, C)
+	ZHEMM(Left, Upper, alpha, A, B, beta, C)
 	fmt.Println(C)
 
 	//Output:
-	//
+	//[[(0-2i) (0-3i)] [(4+0i) (6+0i)]]
 }
 
-func ExampleZHERK() {
-	alpha := float64(1.0)
-	A := MakeComplex128Matrix(2, 2)
-	beta := float64(0)
-	C := MakeComplex128Matrix(2, 2)
-	ZHERK(Upper, Trans, alpha, A, beta, C)
-	fmt.Println(C)
+//func ExampleZHERK() {
+//	alpha := float64(1.0)
+//	A := MakeComplex128Matrix(2, 2)
+//	beta := float64(0.0)
+//	C := MakeComplex128Matrix(2, 2)
+//	ZHERK(Lower, Trans, alpha, A, beta, C)
+//	fmt.Println(C)
+//
+//	//Output:
+//	//
+//}
 
-	//Output:
-	//
-}
-
+/*
 func ExampleZHER2K() {
 	alpha := complex128(1)
 	A := MakeComplex128Matrix(2, 2)
