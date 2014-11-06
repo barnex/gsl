@@ -1583,7 +1583,7 @@ func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta flo
 // 	C = alpha A B^H + alpha^* B A^H + beta C (for trans==NoTrans)
 // 	C = alpha A^H B + alpha^* B^H A + beta C (for Trans==ConjTrans)
 // Since the matrix C is hermitian only its upper half or lower half need to be stored.
-// When Uplo is Upper then the upper triangle and diagonal of C are used, and when Uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
+// When uplo is Upper then the upper triangle and diagonal of C are used, and when uplo is Lower then the lower triangle and diagonal of C are used. The imaginary elements of the diagonal are automatically set to zero.
 func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta float64, C [][]complex128) {
 	rowsA, colsA, lda := ZSize(A)
 	rowsB, colsB, ldb := ZSize(B)
