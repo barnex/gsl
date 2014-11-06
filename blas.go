@@ -979,7 +979,7 @@ func SSYMM(side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 
 // Computes a rank-k update of the symmetric matrix C:
 // 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float32, C [][]float32) {
 	rowsA, colsA, lda := SSize(A)
@@ -1004,7 +1004,7 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 
 // Computes a rank-2k update of the symmetric matrix C:
 // 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]float32, beta float32, C [][]float32) {
 	rowsA, colsA, lda := SSize(A)
@@ -1103,7 +1103,7 @@ func DSYMM(side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 
 // Computes a rank-k update of the symmetric matrix C:
 // 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
 	rowsA, colsA, lda := DSize(A)
@@ -1128,7 +1128,7 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 
 // Computes a rank-2k update of the symmetric matrix C:
 // 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
 	rowsA, colsA, lda := DSize(A)
@@ -1227,7 +1227,7 @@ func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 
 // Computes a rank-k update of the symmetric matrix C:
 // 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
 	rowsA, colsA, lda := CSize(A)
@@ -1252,7 +1252,7 @@ func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta co
 
 // Computes a rank-2k update of the symmetric matrix C:
 // 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
 	rowsA, colsA, lda := CSize(A)
@@ -1350,7 +1350,7 @@ func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 
 // Computes a rank-k update of the symmetric matrix C:
 // 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
 	rowsA, colsA, lda := ZSize(A)
@@ -1375,7 +1375,7 @@ func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta 
 
 // Computes a rank-2k update of the symmetric matrix C:
 // 	C = alpha A*(B^T) + alpha B*(A^T) + beta C (for trans==NoTrans)
-//  C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
+// 	C = alpha (A^T)*B + alpha (B^T)*A + beta C (for trans==Trans)
 // Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
 	rowsA, colsA, lda := ZSize(A)
