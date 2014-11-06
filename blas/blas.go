@@ -3,7 +3,7 @@ package blas
 import (
 	"unsafe"
 
-	"github.com/barnex/blas/cblas"
+	"github.com/barnex/gsl/cblas"
 )
 
 // Computes the dot product of vectors X and Y plus an initial value alpha.
