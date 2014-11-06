@@ -524,14 +524,17 @@ func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 	cblas.CBLAS_STRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
-/*
-func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX) {
-	rows, cols, lda := checkSMV(transA, A, X, incX, Y, incY)
+// Computes
+// 	inv(op(A)) x for x
+// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
+// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX int) {
+	rows, cols, lda := checkSMV(transA, A, X, incX, X, incX)
+	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
-	var X_ *float32 = 0
-	cblas.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
+	var X_ *float32 = &X[0]
+	cblas.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
-*/
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
 // When transA == NoTrans this computes:
@@ -567,18 +570,17 @@ func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 	cblas.CBLAS_DTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
-/*
-func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64) {
-
-
-
+// Computes
+// 	inv(op(A)) x for x
+// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
+// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, incX int) {
+	rows, cols, lda := checkDMV(transA, A, X, incX, X, incX)
+	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
-
-	var X_ *float64 = 0
-
-	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
+	var X_ *float64 = &X[0]
+	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
-*/
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
 // When transA == NoTrans this computes:
@@ -614,19 +616,17 @@ func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 	cblas.CBLAS_CTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
-/*
-
-func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64) {
-
-
-
-	var A_ unsafe.Pointer = 0
-
-	var X_ unsafe.Pointer = 0
-
-	cblas.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
+// Computes
+// 	inv(op(A)) x for x
+// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
+// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64, incX int) {
+	rows, cols, lda := checkCMV(transA, A, X, incX, X, incX)
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
-*/
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
 // When transA == NoTrans this computes:
@@ -662,19 +662,17 @@ func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 	cblas.CBLAS_ZTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
-/*
-
-func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128) {
-
-
-
-	var A_ unsafe.Pointer = 0
-
-	var X_ unsafe.Pointer = 0
-
-	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), N_, A_, lda, X_, incX)
+// Computes
+// 	inv(op(A)) x for x
+// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
+// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128, incX int) {
+	rows, cols, lda := checkZMV(transA, A, X, incX, X, incX)
+	checkSquare(rows, cols)
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
+	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
-*/
 
 // Symmetric matrix-vector multiplication:
 // 	Y = alpha*A*X + beta*Y

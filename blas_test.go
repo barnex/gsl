@@ -582,21 +582,23 @@ func ExampleSTRMV() {
 	//= [7 4]
 }
 
-/*
 func ExampleSTRSV() {
-
-
-	Diag := Diag(2.0)
+	// solve:
+	//  x - y = 2
+	//      y = 3
+	// for x, y:
 	A := MakeFloat32Matrix(2, 2)
-	X := []float32{0, 0, 0}
-	result := STRSV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 1
+	X := []float32{2, 3}
+	incX := 1
+	STRSV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[5 3]
 }
-
-*/
 
 func ExampleDGEMV() {
 	A := MakeFloat64Matrix(2, 3)
@@ -642,21 +644,23 @@ func ExampleDTRMV() {
 	//= [7 4]
 }
 
-/*
 func ExampleDTRSV() {
-
-
-	Diag := Diag(2.0)
+	// solve:
+	//  x - y = 2
+	//      y = 3
+	// for x, y:
 	A := MakeFloat64Matrix(2, 2)
-	X := []float64{0, 0, 0}
-	result := DTRSV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 1
+	X := []float64{2, 3}
+	incX := 1
+	DTRSV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[5 3]
 }
-
-*/
 
 func ExampleCGEMV() {
 	A := MakeComplex64Matrix(2, 3)
@@ -702,21 +706,42 @@ func ExampleCTRMV() {
 	//= [(7+0i) (4+0i)]
 }
 
-/*
 func ExampleCTRSV() {
-
-
-	Diag := Diag(2.0)
+	// solve:
+	//  x - y = 2
+	//      y = 3
+	// for x, y:
 	A := MakeComplex64Matrix(2, 2)
-	X := []complex64{0, 0, 0}
-	result := CTRSV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 1
+	X := []complex64{2, 3}
+	incX := 1
+	CTRSV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println(X)
 
 	//Output:
-	//
+	//[(5+0i) (3+0i)]
 }
 
-*/
+func ExampleZTRSV() {
+	// solve:
+	//  x - y = 2
+	//      y = 3
+	// for x, y:
+	A := MakeComplex128Matrix(2, 2)
+	A[0][0] = 1
+	A[0][1] = -1
+	A[1][1] = 1
+	X := []complex128{2, 3}
+	incX := 1
+	ZTRSV(Upper, NoTrans, NonUnit, A, X, incX)
+	fmt.Println(X)
+
+	//Output:
+	//[(5+0i) (3+0i)]
+}
+
 func ExampleZGEMV() {
 	A := MakeComplex128Matrix(2, 3)
 	A[0][1] = 1
@@ -760,22 +785,6 @@ func ExampleZTRMV() {
 	//[[(1+0i) (2+0i)] [(0+0i) (1+0i)]] * [(-1+0i) (4+0i)]
 	//= [(7+0i) (4+0i)]
 }
-
-/*
-
-func ExampleZTRSV() {
-
-
-	Diag := Diag(2.0)
-	A := MakeComplex128Matrix(2, 2)
-	X := []complex128{0, 0, 0}
-	result := ZTRSV(Uplo, NoTrans, Diag, A, X)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-*/
 
 func ExampleSSYMV() {
 	A := MakeFloat32Matrix(2, 2)
