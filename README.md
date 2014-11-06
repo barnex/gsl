@@ -1,4 +1,4 @@
-# blas [![GoDoc](https://godoc.org/github.com/barnex/gsl?status.svg)](https://godoc.org/github.com/barnex/gsl) [![Build Status](https://travis-ci.org/barnex/blas.svg?branch=master)](https://travis-ci.org/barnex/gsl)
+# blas [![GoDoc](https://godoc.org/github.com/barnex/gsl?status.svg)](https://godoc.org/github.com/barnex/gsl) [![Build Status](https://travis-ci.org/barnex/gsl.svg?branch=master)](https://travis-ci.org/barnex/gsl)
 
 Go wrappers for GSL's CBLAS without external dependencies. I.e., CBLAS C source files are embedded in this go package.
 
