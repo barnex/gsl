@@ -1029,22 +1029,27 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
-/*
+// Computes the matrix-matrix product
+// 	B = \alpha op(A) B (for Side is Left)
+// 	B = \alpha B op(A) (for Side is Right)
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
+// If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func STRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
-
-
-
-
-	var M_ int = 0
-
-
+	rowsA, colsA, lda := SSize(A)
+	rowsB, colsB, ldb := SSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(transA, NoTrans, rowsA, colsA, rowsB, colsB, rowsB, colsB)
+	} else {
+		checkMM(NoTrans, transA, rowsB, colsB, rowsA, colsA, rowsB, colsB)
+	}
 	var A_ *float32 = &A[0][0]
-
-	var B_ *float32 = 0
-	var ldb int = 0
-	cblas.CBLAS_STRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha, A_, lda, B_, ldb)
+	var B_ *float32 = &B[0][0]
+	cblas.CBLAS_STRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
 
+/*
 func STRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [][]float32, B [][]float32) {
 
 
@@ -1153,23 +1158,27 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
-/*
-
-
+// Computes the matrix-matrix product
+// 	B = \alpha op(A) B (for Side is Left)
+// 	B = \alpha B op(A) (for Side is Right)
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
+// If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func DTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
-
-
-
-
-	var M_ int = 0
-
-
+	rowsA, colsA, lda := DSize(A)
+	rowsB, colsB, ldb := DSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(transA, NoTrans, rowsA, colsA, rowsB, colsB, rowsB, colsB)
+	} else {
+		checkMM(NoTrans, transA, rowsB, colsB, rowsA, colsA, rowsB, colsB)
+	}
 	var A_ *float64 = &A[0][0]
-
-	var B_ *float64 = 0
-	var ldb int = 0
-	cblas.CBLAS_DTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha, A_, lda, B_, ldb)
+	var B_ *float64 = &B[0][0]
+	cblas.CBLAS_DTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
+
+/*
 
 func DTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [][]float64, B [][]float64) {
 
@@ -1277,24 +1286,27 @@ func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	cblas.CBLAS_CSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
-/*
-
-
+// Computes the matrix-matrix product
+// 	B = \alpha op(A) B (for Side is Left)
+// 	B = \alpha B op(A) (for Side is Right)
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
+// If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func CTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
-
-
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	cblas.CBLAS_CTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha, A_, lda, B_, ldb)
+	rowsA, colsA, lda := CSize(A)
+	rowsB, colsB, ldb := CSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(transA, NoTrans, rowsA, colsA, rowsB, colsB, rowsB, colsB)
+	} else {
+		checkMM(NoTrans, transA, rowsB, colsB, rowsA, colsA, rowsB, colsB)
+	}
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	cblas.CBLAS_CTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
+/*
 func CTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A [][]complex64, B [][]complex64) {
 
 
@@ -1400,22 +1412,27 @@ func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	cblas.CBLAS_ZSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
-/*
-
+// Computes the matrix-matrix product
+// 	B = \alpha op(A) B (for Side is Left)
+// 	B = \alpha B op(A) (for Side is Right)
+// The matrix A is triangular and op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used.
+// If Diag is NonUnit then the diagonal of A is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func ZTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
-
-
-
-
-	var M_ int = 0
-
-
-	var A_ unsafe.Pointer = 0
-
-	var B_ unsafe.Pointer = 0
-	var ldb int = 0
-	cblas.CBLAS_ZTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), M_, N_, alpha, A_, lda, B_, ldb)
+	rowsA, colsA, lda := ZSize(A)
+	rowsB, colsB, ldb := ZSize(B)
+	checkSquare(rowsA, colsA)
+	if side == Left {
+		checkMM(transA, NoTrans, rowsA, colsA, rowsB, colsB, rowsB, colsB)
+	} else {
+		checkMM(NoTrans, transA, rowsB, colsB, rowsA, colsA, rowsB, colsB)
+	}
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
+	cblas.CBLAS_ZTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
+
+/*
 
 func ZTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, A [][]complex128, B [][]complex128) {
 

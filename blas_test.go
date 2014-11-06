@@ -1117,37 +1117,22 @@ func ExampleSSYR2K() {
 	//[[2 0 0] [0 0 0] [0 0 0]]
 }
 
-/*
-func ExampleSSYR2K() {
-
-
-	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
-	B := MakeFloat32Matrix(2, 2)
-	beta := float32(2.0)
-	C := MakeFloat32Matrix(2, 2)
-	SSYR2K(Uplo, Trans, alpha, A, B, beta, C)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
 func ExampleSTRMM() {
-	Side := Side(2.0)
+	alpha := float32(1.0)
+	A := MakeFloat32Matrix(3, 3)
+	A[1][1] = 1
+	A[2][2] = 1
+	B := MakeFloat32Matrix(3, 2)
+	B[1][1] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := float32(2.0)
-	A := MakeFloat32Matrix(2, 2)
-	B := MakeFloat32Matrix(2, 2)
-	STRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	STRMM(Left, Upper, NoTrans, NonUnit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[0 0] [0 1] [0 0]]
 }
 
+/*
 func ExampleSTRSM() {
 	Side := Side(2.0)
 
@@ -1236,6 +1221,21 @@ func ExampleDSYR2K() {
 
 	//Output:
 	//[[2 0 0] [0 0 0] [0 0 0]]
+}
+
+func ExampleDTRMM() {
+	alpha := float64(1.0)
+	A := MakeFloat64Matrix(3, 3)
+	A[1][1] = 1
+	A[1][2] = 1
+	B := MakeFloat64Matrix(2, 3)
+	B[1][1] = 1
+
+	DTRMM(Right, Lower, Trans, NonUnit, alpha, A, B)
+	fmt.Println(B)
+
+	//Output:
+	//[[0 0 0] [0 1 0]]
 }
 
 /*
@@ -1344,22 +1344,22 @@ func ExampleCSYR2K() {
 	//[[(2+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
-/*
 func ExampleCTRMM() {
-	Side := Side(2.0)
+	alpha := complex64(1)
+	A := MakeComplex64Matrix(3, 3)
+	A[1][1] = 1
+	A[1][2] = complex(0, 1)
+	B := MakeComplex64Matrix(2, 3)
+	B[1][2] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	B := MakeComplex64Matrix(2, 2)
-	CTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	CTRMM(Right, Upper, ConjTrans, NonUnit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0-1i) (0+0i)]]
 }
 
+/*
 func ExampleCTRSM() {
 	Side := Side(2.0)
 
@@ -1450,22 +1450,22 @@ func ExampleZSYR2K() {
 	//[[(2+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
-/*
 func ExampleZTRMM() {
-	Side := Side(2.0)
+	alpha := complex128(1)
+	A := MakeComplex128Matrix(3, 3)
+	A[1][1] = 1
+	A[1][2] = complex(0, 1)
+	B := MakeComplex128Matrix(2, 3)
+	B[1][2] = 1
 
-
-	Diag := Diag(2.0)
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	ZTRMM(Side, Uplo, NoTrans, Diag, alpha, A, B)
-	fmt.Println(result)
+	ZTRMM(Right, Upper, ConjTrans, NonUnit, alpha, A, B)
+	fmt.Println(B)
 
 	//Output:
-	//
+	//[[(0+0i) (0+0i) (0+0i)] [(0+0i) (0-1i) (0+0i)]]
 }
 
+/*
 func ExampleZTRSM() {
 	Side := Side(2.0)
 
