@@ -834,20 +834,19 @@ func ExampleSSYR() {
 	//[1 2] * [1 2] ^T =  [[1 2] [0 4]]
 }
 
-/*
 func ExampleSSYR2() {
-
-	alpha := float32(2.0)
-	X := []float32{0, 0, 0}
-	Y := []float32{0, 0, 0}
+	alpha := float32(1)
+	X := []float32{1, 2}
+	incX := 1
+	Y := []float32{2, 4}
+	incY := 1
 	A := MakeFloat32Matrix(2, 2)
-	result := SSYR2(Uplo, alpha, X, Y, A)
-	fmt.Println(result)
+	SSYR2(Upper, alpha, X, incX, Y, incY, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[4 8] [0 16]]
 }
-*/
 
 func ExampleDSYMV() {
 	A := MakeFloat64Matrix(2, 2)
@@ -897,23 +896,22 @@ func ExampleDSYR() {
 	//[1 2] * [1 2] ^T =  [[1 2] [0 4]]
 }
 
-/*
-
 func ExampleDSYR2() {
-
-	alpha := float64(2.0)
-	X := []float64{0, 0, 0}
-	Y := []float64{0, 0, 0}
+	alpha := float64(1)
+	X := []float64{1, 2}
+	incX := 1
+	Y := []float64{2, 4}
+	incY := 1
 	A := MakeFloat64Matrix(2, 2)
-	result := DSYR2(Uplo, alpha, X, Y, A)
-	fmt.Println(result)
+	DSYR2(Upper, alpha, X, incX, Y, incY, A)
+	fmt.Println(A)
 
 	//Output:
-	//
+	//[[4 8] [0 16]]
 }
 
+/*
 func ExampleCHEMV() {
-
 	alpha := complex64(complex(2.0, 3.0))
 	A := MakeComplex64Matrix(2, 2)
 	X := []complex64{0, 0, 0}
@@ -925,9 +923,8 @@ func ExampleCHEMV() {
 	//Output:
 	//
 }
-
-
 */
+
 func ExampleCGERU() {
 	alpha := complex64(1)
 	X := []complex64{1, 2}

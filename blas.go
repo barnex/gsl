@@ -526,8 +526,8 @@ func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 
 // Computes
 // 	inv(op(A)) x for x
-// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
-// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+// where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, incX int) {
 	rows, cols, lda := checkSMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
@@ -572,8 +572,8 @@ func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 
 // Computes
 // 	inv(op(A)) x for x
-// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
-// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+// where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, incX int) {
 	rows, cols, lda := checkDMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
@@ -618,8 +618,8 @@ func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 
 // Computes
 // 	inv(op(A)) x for x
-// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
-// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+// where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex64, incX int) {
 	rows, cols, lda := checkCMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
@@ -664,8 +664,8 @@ func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 
 // Computes
 // 	inv(op(A)) x for x
-// where op(A) = A, A^T, A^H for TransA = CblasNoTrans, CblasTrans, CblasConjTrans.
-// When Uplo is CblasUpper then the upper triangle of A is used, and when Uplo is CblasLower then the lower triangle of A is used. If Diag is CblasNonUnit then the diagonal of the matrix is used, but if Diag is CblasUnit then the diagonal elements of the matrix A are taken as unity and are not referenced.
+// where op(A) = A, A^T, A^H for TransA = NoTrans, Trans, ConjTrans.
+// When Uplo is Upper then the upper triangle of A is used, and when Uplo is Lower then the lower triangle of A is used. If Diag is NonUnit then the diagonal of the matrix is used, but if Diag is Unit then the diagonal elements of the matrix A are taken as unity and are not referenced.
 func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex128, incX int) {
 	rows, cols, lda := checkZMV(transA, A, X, incX, X, incX)
 	checkSquare(rows, cols)
@@ -718,15 +718,22 @@ func SSYR(uplo Uplo, alpha float32, X []float32, incX int, A [][]float32) {
 	cblas.CBLAS_SSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
 }
 
-/*
-func SSYR2(uplo Uplo, alpha float32, X []float32, incX int, Y []float32, A [][]float32) {
-	var X_ *float32 = 0
-	var Y_ *float32 = 0
+// Computes the symmetric rank-2 update
+// 	A = \alpha x y^T + \alpha y x^T + A
+// of the symmetric matrix A.
+// Since the matrix A is symmetric only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of A are used, and when Uplo is Lower then the lower triangle and diagonal of A are used.
+func SSYR2(uplo Uplo, alpha float32, X []float32, incX int, Y []float32, incY int, A [][]float32) {
+	rows, cols, lda := SSize(A)
+	checkSquare(rows, cols)
+	N := len(X) / incX
+	checkGER(rows, cols, N, len(Y)/incY)
+	var X_ *float32 = &X[0]
+	var Y_ *float32 = &Y[0]
 	var A_ *float32 = &A[0][0]
-	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N_, alpha, X_, incX, Y_, incY, A_, lda)
+	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
 }
 
-*/
 // Symmetric matrix-vector multiplication:
 // 	Y = alpha*A*X + beta*Y
 // A is a symmetric matrix, where uplo (Upper or Lower) determines which part of A is used.
@@ -769,22 +776,22 @@ func DSYR(uplo Uplo, alpha float64, X []float64, incX int, A [][]float64) {
 	cblas.CBLAS_DSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
 }
 
-/*
-
-
-func DSYR2(uplo Uplo, alpha float64, X []float64, Y []float64, A [][]float64) {
-
-
-
-	var X_ *float64 = 0
-
-	var Y_ *float64 = 0
-
+// Computes the symmetric rank-2 update
+// 	A = \alpha x y^T + \alpha y x^T + A
+// of the symmetric matrix A.
+// Since the matrix A is symmetric only its upper half or lower half need to be stored.
+// When Uplo is Upper then the upper triangle and diagonal of A are used, and when Uplo is Lower then the lower triangle and diagonal of A are used.
+func DSYR2(uplo Uplo, alpha float64, X []float64, incX int, Y []float64, incY int, A [][]float64) {
+	rows, cols, lda := DSize(A)
+	checkSquare(rows, cols)
+	N := len(X) / incX
+	checkGER(rows, cols, N, len(Y)/incY)
+	var X_ *float64 = &X[0]
+	var Y_ *float64 = &Y[0]
 	var A_ *float64 = &A[0][0]
-
-	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N_, alpha, X_, incX, Y_, incY, A_, lda)
+	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
 }
-*/
+
 // Hermitian matrix-vector product:
 // 	Y = alpha*X + beta*Y
 // Matrices must be allocated with MakeComplex64Matrix to ensure contiguous underlying storage,
