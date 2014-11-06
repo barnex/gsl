@@ -1090,22 +1090,32 @@ func DSYMM(side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 	cblas.CBLAS_DSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
-/*
-
-
+// Computes a rank-k update of the symmetric matrix C:
+// 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
 func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float64, C [][]float64) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
+	rowsA, colsA, lda := DSize(A)
+	rowsC, colsC, ldc := DSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
 
 	var A_ *float64 = &A[0][0]
-
-	var beta float64 = 0
-	var C_ *float64 = 0
-	var ldc int = 0
-	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
+	var C_ *float64 = &C[0][0]
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
+
+/*
 
 func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]float64, beta float64, C [][]float64) {
 
@@ -1192,22 +1202,34 @@ func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 	cblas.CBLAS_CSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes a rank-k update of the symmetric matrix C:
+// 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
+func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
+	rowsA, colsA, lda := CSize(A)
+	rowsC, colsC, ldc := CSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
+
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
+}
+
 /*
 
 
-func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta complex64, C [][]complex64) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
-}
 
 func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]complex64, beta complex64, C [][]complex64) {
 
@@ -1293,22 +1315,33 @@ func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 	cblas.CBLAS_ZSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
+// Computes a rank-k update of the symmetric matrix C:
+// 	C = alpha A*(A^T) + beta C (for trans==NoTrans)
+//  C = alpha (A^T)*A + beta C (for trans==Trans)
+// Since the matrix C is symmetric only its upper half or lower half need to be stored, specified by uplo=Upper/Lower.
+func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
+	rowsA, colsA, lda := ZSize(A)
+	rowsC, colsC, ldc := ZSize(C)
+	checkSquare(rowsC, colsC)
+	if trans == NoTrans {
+		checkMM(NoTrans, Trans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	} else {
+		checkMM(Trans, NoTrans, rowsA, colsA, rowsA, colsA, rowsC, colsC)
+	}
+
+	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
+	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
+	K := 0
+	if trans == NoTrans {
+		K = colsA
+	} else {
+		K = rowsA
+	}
+	cblas.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
+}
+
 /*
 
-
-func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta complex128, C [][]complex128) {
-
-	var uint32(trans) uint32 = 0
-
-	var K_ int = 0
-
-	var A_ unsafe.Pointer = 0
-
-	var beta unsafe.Pointer = 0
-	var C_ unsafe.Pointer = 0
-	var ldc int = 0
-	cblas.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), N_, K_, alpha, A_, lda, beta, C_, ldc)
-}
 
 func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B [][]complex128, beta complex128, C [][]complex128) {
 

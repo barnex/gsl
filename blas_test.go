@@ -1187,22 +1187,24 @@ func ExampleDSYMM() {
 	//[[1 -1 0] [0 2 0] [0 0 0]] * [[0 0] [2 0] [0 3]] = [[-2 0] [4 0] [0 0]]
 }
 
+func ExampleDSYRK() {
+	alpha := 1.0
+	A := MakeFloat64Matrix(2, 3)
+	A[0][0] = 1
+
+	beta := 0.0
+	C := MakeFloat64Matrix(3, 3)
+
+	DSYRK(Upper, Trans, alpha, A, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[1 0 0] [0 0 0] [0 0 0]]
+}
+
 /*
 
 
-func ExampleDSYRK() {
-
-
-	alpha := float64(2.0)
-	A := MakeFloat64Matrix(2, 2)
-	beta := float64(2.0)
-	C := MakeFloat64Matrix(2, 2)
-	DSYRK(Uplo, Trans, alpha, A, beta, C)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
 
 func ExampleDSYR2K() {
 
@@ -1291,22 +1293,24 @@ func ExampleCSYMM() {
 	//[[(1+0i) (-1+0i) (0+0i)] [(0+0i) (2+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i)] [(2+0i) (0+0i)] [(0+0i) (3+0i)]] = [[(-2+0i) (0+0i)] [(4+0i) (0+0i)] [(0+0i) (0+0i)]]
 }
 
+func ExampleCSYRK() {
+	alpha := complex64(1)
+	A := MakeComplex64Matrix(2, 3)
+	A[0][0] = 1
+
+	beta := complex64(0)
+	C := MakeComplex64Matrix(3, 3)
+
+	CSYRK(Upper, Trans, alpha, A, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[(1+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
+}
+
 /*
 
 
-func ExampleCSYRK() {
-
-
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	beta := complex64(complex(2.0, 3.0))
-	C := MakeComplex64Matrix(2, 2)
-	CSYRK(Uplo, Trans, alpha, A, beta, C)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
 
 func ExampleCSYR2K() {
 
@@ -1393,6 +1397,21 @@ func ExampleZSYMM() {
 
 	//Output:
 	//[[(1+0i) (-1+0i) (0+0i)] [(0+0i) (2+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]] * [[(0+0i) (0+0i)] [(2+0i) (0+0i)] [(0+0i) (3+0i)]] = [[(-2+0i) (0+0i)] [(4+0i) (0+0i)] [(0+0i) (0+0i)]]
+}
+
+func ExampleZSYRK() {
+	alpha := complex128(1)
+	A := MakeComplex128Matrix(2, 3)
+	A[0][0] = 1
+
+	beta := complex128(0)
+	C := MakeComplex128Matrix(3, 3)
+
+	ZSYRK(Upper, Trans, alpha, A, beta, C)
+	fmt.Println(C)
+
+	//Output:
+	//[[(1+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
 /*
