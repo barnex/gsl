@@ -1326,25 +1326,25 @@ func ExampleCSYRK() {
 	//[[(1+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
-/*
-
-
-
 func ExampleCSYR2K() {
+	alpha := complex64(1.0)
+	A := MakeComplex64Matrix(2, 3)
+	A[0][0] = 1
 
+	B := MakeComplex64Matrix(2, 3)
+	B[0][0] = 1
 
-	alpha := complex64(complex(2.0, 3.0))
-	A := MakeComplex64Matrix(2, 2)
-	B := MakeComplex64Matrix(2, 2)
-	beta := complex64(complex(2.0, 3.0))
-	C := MakeComplex64Matrix(2, 2)
-	CSYR2K(Uplo, Trans, alpha, A, B, beta, C)
-	fmt.Println(result)
+	beta := complex64(0.0)
+	C := MakeComplex64Matrix(3, 3)
+
+	CSYR2K(Upper, Trans, alpha, A, B, beta, C)
+	fmt.Println(C)
 
 	//Output:
-	//
+	//[[(2+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
+/*
 func ExampleCTRMM() {
 	Side := Side(2.0)
 
@@ -1432,37 +1432,25 @@ func ExampleZSYRK() {
 	//[[(1+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
-/*
-
-func ExampleZSYRK() {
-
-
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	beta := complex128(complex(2.0, 3.0))
-	C := MakeComplex128Matrix(2, 2)
-	ZSYRK(Uplo, Trans, alpha, A, beta, C)
-	fmt.Println(result)
-
-	//Output:
-	//
-}
-
 func ExampleZSYR2K() {
+	alpha := complex128(1.0)
+	A := MakeComplex128Matrix(2, 3)
+	A[0][0] = 1
 
+	B := MakeComplex128Matrix(2, 3)
+	B[0][0] = 1
 
-	alpha := complex128(complex(2.0, 3.0))
-	A := MakeComplex128Matrix(2, 2)
-	B := MakeComplex128Matrix(2, 2)
-	beta := complex128(complex(2.0, 3.0))
-	C := MakeComplex128Matrix(2, 2)
-	ZSYR2K(Uplo, Trans, alpha, A, B, beta, C)
-	fmt.Println(result)
+	beta := complex128(0.0)
+	C := MakeComplex128Matrix(3, 3)
+
+	ZSYR2K(Upper, Trans, alpha, A, B, beta, C)
+	fmt.Println(C)
 
 	//Output:
-	//
+	//[[(2+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)] [(0+0i) (0+0i) (0+0i)]]
 }
 
+/*
 func ExampleZTRMM() {
 	Side := Side(2.0)
 
