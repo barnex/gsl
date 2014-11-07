@@ -6,7 +6,7 @@ Go wrappers for part of the GNU Scientific library. This package does not depend
 
 The Go wrapper files are BSD-licensed and may freely be used in conjunction with any BLAS library. When you use this package in its entirety (including the GSL C sources) then GSL's GPL license takes precedence.
 
-## BLAS Open for testing  [![GoDoc](https://godoc.org/github.com/barnex/gsl?status.svg)](https://godoc.org/github.com/barnex/gsl)
+## BLAS Open for testing  [![GoDoc](https://godoc.org/github.com/barnex/gsl/blas?status.svg)](https://godoc.org/github.com/barnex/gsl/blas)
 package BLAS is open for public testing. All levels (1, 2 and 3) are available for all precissions (float32, float64, complex64, complex128).
 
 Please report issues, if any. This package is not yet recommended for production use.
