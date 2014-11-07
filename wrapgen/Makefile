@@ -1,2 +1,2 @@
 all:
-	go build blasbench.go
+	go build linalgwrap.go

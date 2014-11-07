@@ -50,7 +50,7 @@ done;
 
 mv eigen_qrstep.c eigen_qrstep.c.inc
 
-for f in linalg_givens linalg_apply_givens linalg_svdstep linalg_tridiag; do
+for f in linalg_givens linalg_apply_givens linalg_svdstep; do
 	mv $f.c $f.c.inc;
 done
 

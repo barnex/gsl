@@ -6,6 +6,7 @@ import (
 	"strings"
 	"text/scanner"
 	"text/template"
+	"unicode"
 )
 
 // Read header file, split in tokens, ignore words from filter map.
@@ -50,14 +51,17 @@ func check(err error) {
 
 // Function prototype
 type Func struct {
-	CName string
-	CType string
-	Args  []Arg
+	CName  string
+	CType  string
+	Args   []Arg
+	GoName string
+	GoType string
 }
 
 // Function argument
 type Arg struct {
 	CType, Name string
+	GoType      string
 }
 
 // Parse function prototypes
@@ -70,7 +74,7 @@ func ParseFuncs(tokens []string) []Func {
 			funcname = tokens[i-1]
 			funcret = tokens[i-2]
 			args := parseArgs(tokens, &i)
-			funcs = append(funcs, Func{funcname, funcret, args})
+			funcs = append(funcs, Func{CName: funcname, CType: funcret, Args: args})
 		}
 	}
 	return funcs
@@ -81,9 +85,9 @@ func parseArgs(token []string, i *int) []Arg {
 	for {
 		tok := token[*i]
 		if tok == "," || (tok == ")" && token[*i-1] != "(") {
-			a := Arg{token[*i-2], token[*i-1]}
+			a := Arg{CType: token[*i-2], Name: token[*i-1]}
 			if a.CType == "[" {
-				a = Arg{token[*i-4] + "*", token[*i-3]}
+				a = Arg{CType: token[*i-4] + "*", Name: token[*i-3]}
 
 			}
 			args = append(args, a)
@@ -164,4 +168,23 @@ func (*TData) Strip(s, prefix string) string {
 // Turn C function name into idiomatic, exported Go name.
 func (*TData) GoName(cname string) string {
 	return strings.ToUpper(cname)
+}
+
+// turn some_name_blabla into SomeNameBlabla
+func CamelCase(s string) string {
+	var cc = ""
+	nextUpper := true
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c == '_' {
+			nextUpper = true
+		} else {
+			if nextUpper {
+				c = uint8(unicode.ToUpper(rune(c)))
+			}
+			cc += string(rune(c))
+			nextUpper = false
+		}
+	}
+	return cc
 }

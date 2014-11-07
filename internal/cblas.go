@@ -5,7 +5,7 @@ package internal
 //THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
 
 //#cgo LDFLAGS: -lm
-//#cgo CFLAGS: -O3
+//#cgo CFLAGS: -O0
 //#include "gsl_gsl_cblas.h"
 import "C"
 
