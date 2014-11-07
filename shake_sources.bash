@@ -14,7 +14,7 @@ for f in $d/*.c $d/*.h; do
 done
 
 # now for src subdirs:
-dirs="gsl cblas sys linalg err vector matrix blas complex permutation block"
+dirs="gsl cblas sys linalg err vector matrix blas complex permutation block fft"
 
 for d in $dirs; do
 	d=$src/$d
@@ -22,7 +22,7 @@ for d in $dirs; do
 			bd=$(basename $d)
 			sed -r 's/#include "([a-z|_|0-9]*)\.h"/#include "'$bd'_\1\.h"/g' $f | \
 			sed -r 's/#include "[a-z]*_templates_([o|f|n]*)\.h"/#include "templates_\1\.h"/g'  | \
-			sed -r 's/#include "([a-z|_|\.]*)\.c"/#include "'$bd'_\1.c.inc"/g' | \
+			sed -r 's/#include "([a-z|0-9|_|\.]*)\.c"/#include "'$bd'_\1.c.inc"/g' | \
 			sed -r 's/#include <gsl\/([a-z|_|\.]*)>/#include "gsl_\1"/g'  | \
 			sed -r 's/#include <(config|gsl_version|gsl_types|build)\.h>/#include "\1\.h"/g' > $dst/$bd'_'$(basename $f)
 	done
@@ -52,6 +52,10 @@ mv eigen_qrstep.c eigen_qrstep.c.inc
 
 for f in linalg_givens linalg_apply_givens linalg_svdstep; do
 	mv $f.c $f.c.inc;
+done
+
+for f in fft_real_init.c fft_real_main.c fft_real_pass_n.c fft_real_unpack.c fft_hc_init.c fft_hc_radix*.c fft_real_radix*.c fft_hc_main.c fft_hc_pass_n.c fft_hc_unpack.c fft_c_init.c fft_c_main.c fft_c_pass_n.c fft_c_unpack.c fft*_pass*.c fft_c_radix*.c fft_bitreverse.c fft_urand.c fft_factorize.c; do
+	mv $f $f.inc;
 done
 
 rm *_test_*.c *_test.c *_tests.c

@@ -1,0 +1,564 @@
+
+package internal
+
+//THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
+
+//#include "gsl_gsl_linalg.h"
+import "C"
+
+import(
+	"unsafe"
+)
+
+
+	func LinalgMatmult(A [][]float64,B [][]float64,C [][]float64) {
+		result := (int)(C.gsl_linalg_matmult(   &A_  , &B_  , &C_ ))	
+	checkError(result)
+	}
+
+	func LinalgMatmultMod(A [][]float64,modA Transpose,B [][]float64,modB Transpose,C [][]float64) {
+		result := (int)(C.gsl_linalg_matmult_mod(   &A_  , (C.gsl_linalg_matrix_mod_t)(modA)  , &B_  , (C.gsl_linalg_matrix_mod_t)(modB)  , &C_ ))	
+	checkError(result)
+	}
+
+	func LinalgExponentialSs(A [][]float64,eA [][]float64,mode Mode) {
+		result := (int)(C.gsl_linalg_exponential_ss(   &A_  , (*C.gsl_matrix)(eA)  , (C.gsl_mode_t)(mode) ))	
+	checkError(result)
+	}
+
+	func LinalgHouseholderTransform(v []float64) float64{
+		result := (float64)(C.gsl_linalg_householder_transform(   (*C.gsl_vector)(v) ))	
+	
+	}
+
+	func LinalgComplexHouseholderTransform(v []complex128) complex128{
+		result := (complex128)(C.gsl_linalg_complex_householder_transform(   (*C.gsl_vector_complex)(v) ))	
+	
+	}
+
+	func LinalgHouseholderHm(tau float64,v []float64,A [][]float64) {
+		result := (int)(C.gsl_linalg_householder_hm(   (C.double)(tau)  , (*C.gsl_vector)(v)  , &A_ ))	
+	checkError(result)
+	}
+
+	func LinalgHouseholderMh(tau float64,v []float64,A [][]float64) {
+		result := (int)(C.gsl_linalg_householder_mh(   (C.double)(tau)  , (*C.gsl_vector)(v)  , &A_ ))	
+	checkError(result)
+	}
+
+	func LinalgHouseholderHv(tau float64,v []float64,w []float64) {
+		result := (int)(C.gsl_linalg_householder_hv(   (C.double)(tau)  , (*C.gsl_vector)(v)  , (*C.gsl_vector)(w) ))	
+	checkError(result)
+	}
+
+	func LinalgHouseholderHm1(tau float64,A [][]float64) {
+		result := (int)(C.gsl_linalg_householder_hm1(   (C.double)(tau)  , &A_ ))	
+	checkError(result)
+	}
+
+	func LinalgComplexHouseholderHm(tau complex128,v []complex128,A [][]complex128) {
+		result := (int)(C.gsl_linalg_complex_householder_hm(   (C.gsl_complex)(tau)  , (*C.gsl_vector_complex)(v)  , (*C.gsl_matrix_complex)(A) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexHouseholderMh(tau complex128,v []complex128,A [][]complex128) {
+		result := (int)(C.gsl_linalg_complex_householder_mh(   (C.gsl_complex)(tau)  , (*C.gsl_vector_complex)(v)  , (*C.gsl_matrix_complex)(A) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexHouseholderHv(tau complex128,v []complex128,w []complex128) {
+		result := (int)(C.gsl_linalg_complex_householder_hv(   (C.gsl_complex)(tau)  , (*C.gsl_vector_complex)(v)  , (*C.gsl_vector_complex)(w) ))	
+	checkError(result)
+	}
+
+	func LinalgHessenbergDecomp(A [][]float64,tau []float64) {
+		result := (int)(C.gsl_linalg_hessenberg_decomp(   &A_  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgHessenbergUnpack(H [][]float64,tau []float64,U [][]float64) {
+		result := (int)(C.gsl_linalg_hessenberg_unpack(   (*C.gsl_matrix)(H)  , (*C.gsl_vector)(tau)  , &U_ ))	
+	checkError(result)
+	}
+
+	func LinalgHessenbergUnpackAccum(H [][]float64,tau []float64,U [][]float64) {
+		result := (int)(C.gsl_linalg_hessenberg_unpack_accum(   (*C.gsl_matrix)(H)  , (*C.gsl_vector)(tau)  , &U_ ))	
+	checkError(result)
+	}
+
+	func LinalgHessenbergSetZero(H [][]float64) {
+		result := (int)(C.gsl_linalg_hessenberg_set_zero(   (*C.gsl_matrix)(H) ))	
+	checkError(result)
+	}
+
+	func LinalgHessenbergSubmatrix(M [][]float64,A [][]float64,top int,tau []float64) {
+		result := (int)(C.gsl_linalg_hessenberg_submatrix(   (*C.gsl_matrix)(M)  , &A_  , (C.size_t)(top)  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgHessenberg(A [][]float64,tau []float64) {
+		result := (int)(C.gsl_linalg_hessenberg(   &A_  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgHesstriDecomp(A [][]float64,B [][]float64,U [][]float64,V [][]float64,work []float64) {
+		result := (int)(C.gsl_linalg_hesstri_decomp(   &A_  , &B_  , &U_  , &V_  , (*C.gsl_vector)(work) ))	
+	checkError(result)
+	}
+
+	func LinalgSVDecomp(A [][]float64,V [][]float64,S []float64,work []float64) {
+		result := (int)(C.gsl_linalg_SV_decomp(   &A_  , &V_  , (*C.gsl_vector)(S)  , (*C.gsl_vector)(work) ))	
+	checkError(result)
+	}
+
+	func LinalgSVDecompMod(A [][]float64,X [][]float64,V [][]float64,S []float64,work []float64) {
+		result := (int)(C.gsl_linalg_SV_decomp_mod(   &A_  , &X_  , &V_  , (*C.gsl_vector)(S)  , (*C.gsl_vector)(work) ))	
+	checkError(result)
+	}
+
+	func LinalgSVDecompJacobi(A [][]float64,Q [][]float64,S []float64) {
+		result := (int)(C.gsl_linalg_SV_decomp_jacobi(   &A_  , &Q_  , (*C.gsl_vector)(S) ))	
+	checkError(result)
+	}
+
+	func LinalgSVSolve(U [][]float64,Q [][]float64,S []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_SV_solve(   &U_  , &Q_  , (*C.gsl_vector)(S)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgSVLeverage(U [][]float64,h []float64) {
+		result := (int)(C.gsl_linalg_SV_leverage(   &U_  , (*C.gsl_vector)(h) ))	
+	checkError(result)
+	}
+
+	func LinalgLUDecomp(A [][]float64,p *Permutation,signum *int) {
+		result := (int)(C.gsl_linalg_LU_decomp(   &A_  , (*C.gsl_permutation)(p)  , (*C.int)(signum) ))	
+	checkError(result)
+	}
+
+	func LinalgLUSolve(LU [][]float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_LU_solve(   &LU_  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLUSvx(LU [][]float64,p *Permutation,x []float64) {
+		result := (int)(C.gsl_linalg_LU_svx(   &LU_  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLURefine(A [][]float64,LU [][]float64,p *Permutation,b []float64,x []float64,residual []float64) {
+		result := (int)(C.gsl_linalg_LU_refine(   &A_  , &LU_  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x)  , (*C.gsl_vector)(residual) ))	
+	checkError(result)
+	}
+
+	func LinalgLUInvert(LU [][]float64,p *Permutation,inverse [][]float64) {
+		result := (int)(C.gsl_linalg_LU_invert(   &LU_  , (*C.gsl_permutation)(p)  , (*C.gsl_matrix)(inverse) ))	
+	checkError(result)
+	}
+
+	func LinalgLUDet(LU [][]float64,signum int) float64{
+		result := (float64)(C.gsl_linalg_LU_det(   &LU_  , (C.int)(signum) ))	
+	
+	}
+
+	func LinalgLULndet(LU [][]float64) float64{
+		result := (float64)(C.gsl_linalg_LU_lndet(   &LU_ ))	
+	
+	}
+
+	func LinalgLUSgndet(lu [][]float64,signum int) {
+		result := (int)(C.gsl_linalg_LU_sgndet(   (*C.gsl_matrix)(lu)  , (C.int)(signum) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLUDecomp(A [][]complex128,p *Permutation,signum *int) {
+		result := (int)(C.gsl_linalg_complex_LU_decomp(   (*C.gsl_matrix_complex)(A)  , (*C.gsl_permutation)(p)  , (*C.int)(signum) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLUSolve(LU [][]complex128,p *Permutation,b []complex128,x []complex128) {
+		result := (int)(C.gsl_linalg_complex_LU_solve(   (*C.gsl_matrix_complex)(LU)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector_complex)(b)  , (*C.gsl_vector_complex)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLUSvx(LU [][]complex128,p *Permutation,x []complex128) {
+		result := (int)(C.gsl_linalg_complex_LU_svx(   (*C.gsl_matrix_complex)(LU)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector_complex)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLURefine(A [][]complex128,LU [][]complex128,p *Permutation,b []complex128,x []complex128,residual []complex128) {
+		result := (int)(C.gsl_linalg_complex_LU_refine(   (*C.gsl_matrix_complex)(A)  , (*C.gsl_matrix_complex)(LU)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector_complex)(b)  , (*C.gsl_vector_complex)(x)  , (*C.gsl_vector_complex)(residual) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLUInvert(LU [][]complex128,p *Permutation,inverse [][]complex128) {
+		result := (int)(C.gsl_linalg_complex_LU_invert(   (*C.gsl_matrix_complex)(LU)  , (*C.gsl_permutation)(p)  , (*C.gsl_matrix_complex)(inverse) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexLUDet(LU [][]complex128,signum int) complex128{
+		result := (complex128)(C.gsl_linalg_complex_LU_det(   (*C.gsl_matrix_complex)(LU)  , (C.int)(signum) ))	
+	
+	}
+
+	func LinalgComplexLULndet(LU [][]complex128) float64{
+		result := (float64)(C.gsl_linalg_complex_LU_lndet(   (*C.gsl_matrix_complex)(LU) ))	
+	
+	}
+
+	func LinalgComplexLUSgndet(LU [][]complex128,signum int) complex128{
+		result := (complex128)(C.gsl_linalg_complex_LU_sgndet(   (*C.gsl_matrix_complex)(LU)  , (C.int)(signum) ))	
+	
+	}
+
+	func LinalgQRDecomp(A [][]float64,tau []float64) {
+		result := (int)(C.gsl_linalg_QR_decomp(   &A_  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgQRSolve(QR [][]float64,tau []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QR_solve(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRSvx(QR [][]float64,tau []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QR_svx(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRLssolve(QR [][]float64,tau []float64,b []float64,x []float64,residual []float64) {
+		result := (int)(C.gsl_linalg_QR_lssolve(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x)  , (*C.gsl_vector)(residual) ))	
+	checkError(result)
+	}
+
+	func LinalgQRQRsolve(Q [][]float64,R [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QR_QRsolve(   &Q_  , (*C.gsl_matrix)(R)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRRsolve(QR [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QR_Rsolve(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRRsvx(QR [][]float64,x []float64) {
+		result := (int)(C.gsl_linalg_QR_Rsvx(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRUpdate(Q [][]float64,R [][]float64,w []float64,v []float64) {
+		result := (int)(C.gsl_linalg_QR_update(   &Q_  , (*C.gsl_matrix)(R)  , (*C.gsl_vector)(w)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgQRQTvec(QR [][]float64,tau []float64,v []float64) {
+		result := (int)(C.gsl_linalg_QR_QTvec(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgQRQvec(QR [][]float64,tau []float64,v []float64) {
+		result := (int)(C.gsl_linalg_QR_Qvec(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgQRQTmat(QR [][]float64,tau []float64,A [][]float64) {
+		result := (int)(C.gsl_linalg_QR_QTmat(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , &A_ ))	
+	checkError(result)
+	}
+
+	func LinalgQRUnpack(QR [][]float64,tau []float64,Q [][]float64,R [][]float64) {
+		result := (int)(C.gsl_linalg_QR_unpack(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , &Q_  , (*C.gsl_matrix)(R) ))	
+	checkError(result)
+	}
+
+	func LinalgRSolve(R [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_R_solve(   (*C.gsl_matrix)(R)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgRSvx(R [][]float64,x []float64) {
+		result := (int)(C.gsl_linalg_R_svx(   (*C.gsl_matrix)(R)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTDecomp(A [][]float64,tau []float64,p *Permutation,signum *int,norm []float64) {
+		result := (int)(C.gsl_linalg_QRPT_decomp(   &A_  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.int)(signum)  , (*C.gsl_vector)(norm) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTDecomp2(A [][]float64,q [][]float64,r [][]float64,tau []float64,p *Permutation,signum *int,norm []float64) {
+		result := (int)(C.gsl_linalg_QRPT_decomp2(   &A_  , (*C.gsl_matrix)(q)  , (*C.gsl_matrix)(r)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.int)(signum)  , (*C.gsl_vector)(norm) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTSolve(QR [][]float64,tau []float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QRPT_solve(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTSvx(QR [][]float64,tau []float64,p *Permutation,x []float64) {
+		result := (int)(C.gsl_linalg_QRPT_svx(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTQRsolve(Q [][]float64,R [][]float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QRPT_QRsolve(   &Q_  , (*C.gsl_matrix)(R)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTRsolve(QR [][]float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_QRPT_Rsolve(   (*C.gsl_matrix)(QR)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTRsvx(QR [][]float64,p *Permutation,x []float64) {
+		result := (int)(C.gsl_linalg_QRPT_Rsvx(   (*C.gsl_matrix)(QR)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgQRPTUpdate(Q [][]float64,R [][]float64,p *Permutation,u []float64,v []float64) {
+		result := (int)(C.gsl_linalg_QRPT_update(   &Q_  , (*C.gsl_matrix)(R)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(u)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgLQDecomp(A [][]float64,tau []float64) {
+		result := (int)(C.gsl_linalg_LQ_decomp(   &A_  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgLQSolveT(LQ [][]float64,tau []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_LQ_solve_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLQSvxT(LQ [][]float64,tau []float64,x []float64) {
+		result := (int)(C.gsl_linalg_LQ_svx_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLQLssolveT(LQ [][]float64,tau []float64,b []float64,x []float64,residual []float64) {
+		result := (int)(C.gsl_linalg_LQ_lssolve_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x)  , (*C.gsl_vector)(residual) ))	
+	checkError(result)
+	}
+
+	func LinalgLQLsolveT(LQ [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_LQ_Lsolve_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLQLsvxT(LQ [][]float64,x []float64) {
+		result := (int)(C.gsl_linalg_LQ_Lsvx_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLSolveT(L [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_L_solve_T(   (*C.gsl_matrix)(L)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgLQVecQ(LQ [][]float64,tau []float64,v []float64) {
+		result := (int)(C.gsl_linalg_LQ_vecQ(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgLQVecQT(LQ [][]float64,tau []float64,v []float64) {
+		result := (int)(C.gsl_linalg_LQ_vecQT(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_vector)(v) ))	
+	checkError(result)
+	}
+
+	func LinalgLQUnpack(LQ [][]float64,tau []float64,Q [][]float64,L [][]float64) {
+		result := (int)(C.gsl_linalg_LQ_unpack(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , &Q_  , (*C.gsl_matrix)(L) ))	
+	checkError(result)
+	}
+
+	func LinalgLQUpdate(Q [][]float64,R [][]float64,v []float64,w []float64) {
+		result := (int)(C.gsl_linalg_LQ_update(   &Q_  , (*C.gsl_matrix)(R)  , (*C.gsl_vector)(v)  , (*C.gsl_vector)(w) ))	
+	checkError(result)
+	}
+
+	func LinalgLQLQsolve(Q [][]float64,L [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_LQ_LQsolve(   &Q_  , (*C.gsl_matrix)(L)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQDecomp(A [][]float64,tau []float64,p *Permutation,signum *int,norm []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_decomp(   &A_  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.int)(signum)  , (*C.gsl_vector)(norm) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQDecomp2(A [][]float64,q [][]float64,r [][]float64,tau []float64,p *Permutation,signum *int,norm []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_decomp2(   &A_  , (*C.gsl_matrix)(q)  , (*C.gsl_matrix)(r)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.int)(signum)  , (*C.gsl_vector)(norm) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQSolveT(QR [][]float64,tau []float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_solve_T(   (*C.gsl_matrix)(QR)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQSvxT(LQ [][]float64,tau []float64,p *Permutation,x []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_svx_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_vector)(tau)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQLQsolveT(Q [][]float64,L [][]float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_LQsolve_T(   &Q_  , (*C.gsl_matrix)(L)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQLsolveT(LQ [][]float64,p *Permutation,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_Lsolve_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQLsvxT(LQ [][]float64,p *Permutation,x []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_Lsvx_T(   (*C.gsl_matrix)(LQ)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgPTLQUpdate(Q [][]float64,L [][]float64,p *Permutation,v []float64,w []float64) {
+		result := (int)(C.gsl_linalg_PTLQ_update(   &Q_  , (*C.gsl_matrix)(L)  , (*C.gsl_permutation)(p)  , (*C.gsl_vector)(v)  , (*C.gsl_vector)(w) ))	
+	checkError(result)
+	}
+
+	func LinalgCholeskyDecomp(A [][]float64) {
+		result := (int)(C.gsl_linalg_cholesky_decomp(   &A_ ))	
+	checkError(result)
+	}
+
+	func LinalgCholeskySolve(cholesky [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_cholesky_solve(   (*C.gsl_matrix)(cholesky)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgCholeskySvx(cholesky [][]float64,x []float64) {
+		result := (int)(C.gsl_linalg_cholesky_svx(   (*C.gsl_matrix)(cholesky)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgCholeskyInvert(cholesky [][]float64) {
+		result := (int)(C.gsl_linalg_cholesky_invert(   (*C.gsl_matrix)(cholesky) ))	
+	checkError(result)
+	}
+
+	func LinalgCholeskyDecompUnit(A [][]float64,D []float64) {
+		result := (int)(C.gsl_linalg_cholesky_decomp_unit(   &A_  , (*C.gsl_vector)(D) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexCholeskyDecomp(A [][]complex128) {
+		result := (int)(C.gsl_linalg_complex_cholesky_decomp(   (*C.gsl_matrix_complex)(A) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexCholeskySolve(cholesky [][]complex128,b []complex128,x []complex128) {
+		result := (int)(C.gsl_linalg_complex_cholesky_solve(   (*C.gsl_matrix_complex)(cholesky)  , (*C.gsl_vector_complex)(b)  , (*C.gsl_vector_complex)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexCholeskySvx(cholesky [][]complex128,x []complex128) {
+		result := (int)(C.gsl_linalg_complex_cholesky_svx(   (*C.gsl_matrix_complex)(cholesky)  , (*C.gsl_vector_complex)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgComplexCholeskyInvert(cholesky [][]complex128) {
+		result := (int)(C.gsl_linalg_complex_cholesky_invert(   (*C.gsl_matrix_complex)(cholesky) ))	
+	checkError(result)
+	}
+
+	func LinalgSymmtdDecomp(A [][]float64,tau []float64) {
+		result := (int)(C.gsl_linalg_symmtd_decomp(   &A_  , (*C.gsl_vector)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgSymmtdUnpack(A [][]float64,tau []float64,Q [][]float64,diag []float64,subdiag []float64) {
+		result := (int)(C.gsl_linalg_symmtd_unpack(   &A_  , (*C.gsl_vector)(tau)  , &Q_  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(subdiag) ))	
+	checkError(result)
+	}
+
+	func LinalgSymmtdUnpackT(A [][]float64,diag []float64,subdiag []float64) {
+		result := (int)(C.gsl_linalg_symmtd_unpack_T(   &A_  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(subdiag) ))	
+	checkError(result)
+	}
+
+	func LinalgHermtdDecomp(A [][]complex128,tau []complex128) {
+		result := (int)(C.gsl_linalg_hermtd_decomp(   (*C.gsl_matrix_complex)(A)  , (*C.gsl_vector_complex)(tau) ))	
+	checkError(result)
+	}
+
+	func LinalgHermtdUnpack(A [][]complex128,tau []complex128,U [][]complex128,diag []float64,sudiag []float64) {
+		result := (int)(C.gsl_linalg_hermtd_unpack(   (*C.gsl_matrix_complex)(A)  , (*C.gsl_vector_complex)(tau)  , (*C.gsl_matrix_complex)(U)  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(sudiag) ))	
+	checkError(result)
+	}
+
+	func LinalgHermtdUnpackT(A [][]complex128,diag []float64,subdiag []float64) {
+		result := (int)(C.gsl_linalg_hermtd_unpack_T(   (*C.gsl_matrix_complex)(A)  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(subdiag) ))	
+	checkError(result)
+	}
+
+	func LinalgHHSolve(A [][]float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_HH_solve(   &A_  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgHHSvx(A [][]float64,x []float64) {
+		result := (int)(C.gsl_linalg_HH_svx(   &A_  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgSolveSymmTridiag(diag []float64,offdiag []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_solve_symm_tridiag(   (*C.gsl_vector)(diag)  , (*C.gsl_vector)(offdiag)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgSolveTridiag(diag []float64,abovediag []float64,belowdiag []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_solve_tridiag(   (*C.gsl_vector)(diag)  , (*C.gsl_vector)(abovediag)  , (*C.gsl_vector)(belowdiag)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgSolveSymmCycTridiag(diag []float64,offdiag []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_solve_symm_cyc_tridiag(   (*C.gsl_vector)(diag)  , (*C.gsl_vector)(offdiag)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgSolveCycTridiag(diag []float64,abovediag []float64,belowdiag []float64,b []float64,x []float64) {
+		result := (int)(C.gsl_linalg_solve_cyc_tridiag(   (*C.gsl_vector)(diag)  , (*C.gsl_vector)(abovediag)  , (*C.gsl_vector)(belowdiag)  , (*C.gsl_vector)(b)  , (*C.gsl_vector)(x) ))	
+	checkError(result)
+	}
+
+	func LinalgBidiagDecomp(A [][]float64,tau_U []float64,tau_V []float64) {
+		result := (int)(C.gsl_linalg_bidiag_decomp(   &A_  , (*C.gsl_vector)(tau_U)  , (*C.gsl_vector)(tau_V) ))	
+	checkError(result)
+	}
+
+	func LinalgBidiagUnpack(A [][]float64,tau_U []float64,U [][]float64,tau_V []float64,V [][]float64,diag []float64,superdiag []float64) {
+		result := (int)(C.gsl_linalg_bidiag_unpack(   &A_  , (*C.gsl_vector)(tau_U)  , &U_  , (*C.gsl_vector)(tau_V)  , &V_  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(superdiag) ))	
+	checkError(result)
+	}
+
+	func LinalgBidiagUnpack2(A [][]float64,tau_U []float64,tau_V []float64,V [][]float64) {
+		result := (int)(C.gsl_linalg_bidiag_unpack2(   &A_  , (*C.gsl_vector)(tau_U)  , (*C.gsl_vector)(tau_V)  , &V_ ))	
+	checkError(result)
+	}
+
+	func LinalgBidiagUnpackB(A [][]float64,diag []float64,superdiag []float64) {
+		result := (int)(C.gsl_linalg_bidiag_unpack_B(   &A_  , (*C.gsl_vector)(diag)  , (*C.gsl_vector)(superdiag) ))	
+	checkError(result)
+	}
+
+	func LinalgBalanceMatrix(A [][]float64,D []float64) {
+		result := (int)(C.gsl_linalg_balance_matrix(   &A_  , (*C.gsl_vector)(D) ))	
+	checkError(result)
+	}
+
+	func LinalgBalanceAccum(A [][]float64,D []float64) {
+		result := (int)(C.gsl_linalg_balance_accum(   &A_  , (*C.gsl_vector)(D) ))	
+	checkError(result)
+	}
+
+	func LinalgBalanceColumns(A [][]float64,D []float64) {
+		result := (int)(C.gsl_linalg_balance_columns(   &A_  , (*C.gsl_vector)(D) ))	
+	checkError(result)
+	}
+
+
