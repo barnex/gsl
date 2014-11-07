@@ -1,6 +1,6 @@
 package blas
 
-//#include "../cblas/gsl_gsl_cblas.h"
+//#include "../internal/gsl_gsl_cblas.h"
 import "C"
 
 type Order uint32 //Indicates whether a matrix is in Row Major or Column Major order.

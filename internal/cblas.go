@@ -1,6 +1,6 @@
 //Package cblas provides an unsafe, low-level C interface used by package blas.
 //Users should use package blas directly.
-package cblas
+package internal
 
 //THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
 

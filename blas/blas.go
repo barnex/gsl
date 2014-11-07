@@ -2,8 +2,7 @@ package blas
 
 import (
 	"unsafe"
-
-	"github.com/barnex/gsl/cblas"
+	"github.com/barnex/gsl/internal"
 )
 
 // Computes the dot product of vectors X and Y plus an initial value alpha.
@@ -12,7 +11,7 @@ func SDSDOT(alpha float32, X []float32, incX int, Y []float32, incY int) float32
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	return cblas.CBLAS_SDSDOT(N, alpha, X_, incX, Y_, incY)
+	return internal.CBLAS_SDSDOT(N, alpha, X_, incX, Y_, incY)
 }
 
 // Computes the dot product of vectors X and Y.
@@ -21,7 +20,7 @@ func DSDOT(X []float32, incX int, Y []float32, incY int) float64 {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	return cblas.CBLAS_DSDOT(N, X_, incX, Y_, incY)
+	return internal.CBLAS_DSDOT(N, X_, incX, Y_, incY)
 }
 
 // Computes the dot product of vectors X and Y.
@@ -30,7 +29,7 @@ func SDOT(X []float32, incX int, Y []float32, incY int) float32 {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	return cblas.CBLAS_SDOT(N, X_, incX, Y_, incY)
+	return internal.CBLAS_SDOT(N, X_, incX, Y_, incY)
 }
 
 // Computes the dot product of vectors X and Y.
@@ -39,7 +38,7 @@ func DDOT(X []float64, incX int, Y []float64, incY int) float64 {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	return cblas.CBLAS_DDOT(N, X_, incX, Y_, incY)
+	return internal.CBLAS_DDOT(N, X_, incX, Y_, incY)
 }
 
 // Computes the dot product of vectors X and Y.
@@ -49,7 +48,7 @@ func CDOTU(X []complex64, incX int, Y []complex64, incY int) complex64 {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	internal.CBLAS_CDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
 	return result
 }
 
@@ -60,7 +59,7 @@ func CDOTC(X []complex64, incX int, Y []complex64, incY int) complex64 {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	internal.CBLAS_CDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
 	return result
 }
 
@@ -71,7 +70,7 @@ func ZDOTU(X []complex128, incX int, Y []complex128, incY int) complex128 {
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.ZDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	internal.CBLAS_ZDOTU_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
 	return result
 }
 
@@ -82,7 +81,7 @@ func ZDOTC(X []complex128, incX int, Y []complex128, incY int) complex128 {
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.ZDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
+	internal.CBLAS_ZDOTC_SUB(N, X_, incX, Y_, incY, unsafe.Pointer(&result))
 	return result
 }
 
@@ -91,7 +90,7 @@ func ZDOTC(X []complex128, incX int, Y []complex128, incY int) complex128 {
 func SNRM2(X []float32, incX int) float32 {
 	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
-	return cblas.CBLAS_SNRM2(N, X_, incX)
+	return internal.CBLAS_SNRM2(N, X_, incX)
 }
 
 // Computes the sum of the absolute values of the elements in vector X.
@@ -99,7 +98,7 @@ func SNRM2(X []float32, incX int) float32 {
 func SASUM(X []float32, incX int) float32 {
 	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
-	return cblas.CBLAS_SASUM(N, X_, incX)
+	return internal.CBLAS_SASUM(N, X_, incX)
 }
 
 // Computes the L2 norm (Euclidian length) of vector X.
@@ -107,7 +106,7 @@ func SASUM(X []float32, incX int) float32 {
 func DNRM2(X []float64, incX int) float64 {
 	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
-	return cblas.CBLAS_DNRM2(N, X_, incX)
+	return internal.CBLAS_DNRM2(N, X_, incX)
 }
 
 // Computes the sum of the absolute values of the elements in vector X.
@@ -115,7 +114,7 @@ func DNRM2(X []float64, incX int) float64 {
 func DASUM(X []float64, incX int) float64 {
 	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
-	return cblas.CBLAS_DASUM(N, X_, incX)
+	return internal.CBLAS_DASUM(N, X_, incX)
 }
 
 // Computes the unitary norm of vector X.
@@ -123,7 +122,7 @@ func DASUM(X []float64, incX int) float64 {
 func SCNRM2(X []complex64, incX int) float32 {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_SCNRM2(N, X_, incX)
+	return internal.CBLAS_SCNRM2(N, X_, incX)
 }
 
 // Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
@@ -131,7 +130,7 @@ func SCNRM2(X []complex64, incX int) float32 {
 func SCASUM(X []complex64, incX int) float32 {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_SCASUM(N, X_, incX)
+	return internal.CBLAS_SCASUM(N, X_, incX)
 }
 
 // Computes the unitary norm of vector X.
@@ -139,7 +138,7 @@ func SCASUM(X []complex64, incX int) float32 {
 func DZNRM2(X []complex128, incX int) float64 {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_DZNRM2(N, X_, incX)
+	return internal.CBLAS_DZNRM2(N, X_, incX)
 }
 
 // Computes the sum of the absolute values of real and imaginary parts of elements in vector X.
@@ -147,7 +146,7 @@ func DZNRM2(X []complex128, incX int) float64 {
 func DZASUM(X []complex128, incX int) float64 {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_DZASUM(N, X_, incX)
+	return internal.CBLAS_DZASUM(N, X_, incX)
 }
 
 // Returns the index of the element with the largest absolute value in vector X.
@@ -155,7 +154,7 @@ func DZASUM(X []complex128, incX int) float64 {
 func ISAMAX(X []float32, incX int) int {
 	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
-	return cblas.CBLAS_ISAMAX(N, X_, incX)
+	return internal.CBLAS_ISAMAX(N, X_, incX)
 }
 
 // Returns the index of the element with the largest absolute value in vector X.
@@ -163,7 +162,7 @@ func ISAMAX(X []float32, incX int) int {
 func IDAMAX(X []float64, incX int) int {
 	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
-	return cblas.CBLAS_IDAMAX(N, X_, incX)
+	return internal.CBLAS_IDAMAX(N, X_, incX)
 }
 
 // Returns the index of the element with the largest absolute value in vector X.
@@ -171,7 +170,7 @@ func IDAMAX(X []float64, incX int) int {
 func ICAMAX(X []complex64, incX int) int {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_ICAMAX(N, X_, incX)
+	return internal.CBLAS_ICAMAX(N, X_, incX)
 }
 
 // Returns the index of the element with the largest absolute value in vector X.
@@ -179,7 +178,7 @@ func ICAMAX(X []complex64, incX int) int {
 func IZAMAX(X []complex128, incX int) int {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	return cblas.CBLAS_IZAMAX(N, X_, incX)
+	return internal.CBLAS_IZAMAX(N, X_, incX)
 }
 
 // Exchanges the elements of vectors X and Y.
@@ -188,7 +187,7 @@ func SSWAP(X []float32, incX int, Y []float32, incY int) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SSWAP(N, X_, incX, Y_, incY)
+	internal.CBLAS_SSWAP(N, X_, incX, Y_, incY)
 }
 
 // Copies X to Y.
@@ -197,7 +196,7 @@ func SCOPY(X []float32, incX int, Y []float32, incY int) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SCOPY(N, X_, incX, Y_, incY)
+	internal.CBLAS_SCOPY(N, X_, incX, Y_, incY)
 }
 
 // Replaces Y by (alpha*X) + Y.
@@ -206,7 +205,7 @@ func SAXPY(alpha float32, X []float32, incX int, Y []float32, incY int) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SAXPY(N, alpha, X_, incX, Y_, incY)
+	internal.CBLAS_SAXPY(N, alpha, X_, incX, Y_, incY)
 }
 
 // Exchanges the elements of vectors X and Y.
@@ -215,7 +214,7 @@ func DSWAP(X []float64, incX int, Y []float64, incY int) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DSWAP(N, X_, incX, Y_, incY)
+	internal.CBLAS_DSWAP(N, X_, incX, Y_, incY)
 }
 
 // Copies X to Y.
@@ -224,7 +223,7 @@ func DCOPY(X []float64, incX int, Y []float64, incY int) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DCOPY(N, X_, incX, Y_, incY)
+	internal.CBLAS_DCOPY(N, X_, incX, Y_, incY)
 }
 
 // Replaces Y by (alpha*X) + Y.
@@ -233,7 +232,7 @@ func DAXPY(alpha float64, X []float64, incX int, Y []float64, incY int) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DAXPY(N, alpha, X_, incX, Y_, incY)
+	internal.CBLAS_DAXPY(N, alpha, X_, incX, Y_, incY)
 }
 
 // Exchanges the elements of vectors X and Y.
@@ -242,7 +241,7 @@ func CSWAP(X []complex64, incX int, Y []complex64, incY int) {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_CSWAP(N, X_, incX, Y_, incY)
+	internal.CBLAS_CSWAP(N, X_, incX, Y_, incY)
 }
 
 // Copies X to Y.
@@ -251,7 +250,7 @@ func CCOPY(X []complex64, incX int, Y []complex64, incY int) {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_CCOPY(N, X_, incX, Y_, incY)
+	internal.CBLAS_CCOPY(N, X_, incX, Y_, incY)
 }
 
 // Replaces Y by (alpha*X) + Y.
@@ -260,7 +259,7 @@ func CAXPY(alpha complex64, X []complex64, incX int, Y []complex64, incY int) {
 	var N int = checkIncC(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_CAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
+	internal.CBLAS_CAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
 }
 
 // Exchanges the elements of vectors X and Y.
@@ -269,7 +268,7 @@ func ZSWAP(X []complex128, incX int, Y []complex128, incY int) {
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_ZSWAP(N, X_, incX, Y_, incY)
+	internal.CBLAS_ZSWAP(N, X_, incX, Y_, incY)
 }
 
 // Copies X to Y.
@@ -278,7 +277,7 @@ func ZCOPY(X []complex128, incX int, Y []complex128, incY int) {
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_ZCOPY(N, X_, incX, Y_, incY)
+	internal.CBLAS_ZCOPY(N, X_, incX, Y_, incY)
 }
 
 // Replaces Y by (alpha*X) + Y.
@@ -287,7 +286,7 @@ func ZAXPY(alpha complex128, X []complex128, incX int, Y []complex128, incY int)
 	var N int = checkIncZ(X, incX, Y, incY)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_ZAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
+	internal.CBLAS_ZAXPY(N, unsafe.Pointer(&alpha), X_, incX, Y_, incY)
 }
 
 // Constructs a Givens rotation matrix.
@@ -302,7 +301,7 @@ func SROTG(a float32, b float32) (r, c, s float32) {
 	var b_ float32 = b
 	var c_ float32 = 0
 	var s_ float32 = 0
-	cblas.CBLAS_SROTG(&a_, &b_, &c_, &s_)
+	internal.CBLAS_SROTG(&a_, &b_, &c_, &s_)
 	return a_, c_, s_
 }
 
@@ -334,7 +333,7 @@ func SROTMG(d1 float32, d2 float32, b1 float32, b2 float32) [5]float32 {
 	var d2_ float32 = d2
 	var b1_ float32 = b1
 	var P [5]float32
-	cblas.CBLAS_SROTMG(&d1_, &d2_, &b1_, b2, &P[0])
+	internal.CBLAS_SROTMG(&d1_, &d2_, &b1_, b2, &P[0])
 	return P
 }
 
@@ -349,7 +348,7 @@ func SROT(X []float32, incX int, Y []float32, incY int, c float32, s float32) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SROT(N, X_, incX, Y_, incY, c, s)
+	internal.CBLAS_SROT(N, X_, incX, Y_, incY, c, s)
 }
 
 // Applies the modified-Givens rotation of the vectors X and Y:
@@ -363,7 +362,7 @@ func SROTM(X []float32, incX int, Y []float32, incY int, P [5]float32) {
 	var N int = checkIncS(X, incX, Y, incY)
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SROTM(N, X_, incX, Y_, incY, &P[0])
+	internal.CBLAS_SROTM(N, X_, incX, Y_, incY, &P[0])
 }
 
 // Constructs a Givens rotation matrix.
@@ -378,7 +377,7 @@ func DROTG(a float64, b float64) (r, c, s float64) {
 	var b_ float64 = b
 	var c_ float64 = 0
 	var s_ float64 = 0
-	cblas.CBLAS_DROTG(&a_, &b_, &c_, &s_)
+	internal.CBLAS_DROTG(&a_, &b_, &c_, &s_)
 	return a_, c_, s_
 }
 
@@ -410,7 +409,7 @@ func DROTMG(d1 float64, d2 float64, b1 float64, b2 float64) [5]float64 {
 	var d2_ float64 = d2
 	var b1_ float64 = b1
 	var P [5]float64
-	cblas.CBLAS_DROTMG(&d1_, &d2_, &b1_, b2, &P[0])
+	internal.CBLAS_DROTMG(&d1_, &d2_, &b1_, b2, &P[0])
 	return P
 }
 
@@ -424,7 +423,7 @@ func DROT(X []float64, incX int, Y []float64, incY int, c float64, s float64) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DROT(N, X_, incX, Y_, incY, c, s)
+	internal.CBLAS_DROT(N, X_, incX, Y_, incY, c, s)
 }
 
 // Applies the modified-Givens rotation of the vectors X and Y:
@@ -439,7 +438,7 @@ func DROTM(X []float64, incX int, Y []float64, incY int, P [5]float64) {
 	var N int = checkIncD(X, incX, Y, incY)
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DROTM(N, X_, incX, Y_, incY, &P[0])
+	internal.CBLAS_DROTM(N, X_, incX, Y_, incY, &P[0])
 }
 
 // Multiply X by alpha.
@@ -447,7 +446,7 @@ func DROTM(X []float64, incX int, Y []float64, incY int, P [5]float64) {
 func SSCAL(alpha float32, X []float32, incX int) {
 	var N int = len(X) / incX
 	var X_ *float32 = &X[0]
-	cblas.CBLAS_SSCAL(N, alpha, X_, incX)
+	internal.CBLAS_SSCAL(N, alpha, X_, incX)
 }
 
 // Multiply X by alpha.
@@ -455,7 +454,7 @@ func SSCAL(alpha float32, X []float32, incX int) {
 func DSCAL(alpha float64, X []float64, incX int) {
 	var N int = len(X) / incX
 	var X_ *float64 = &X[0]
-	cblas.CBLAS_DSCAL(N, alpha, X_, incX)
+	internal.CBLAS_DSCAL(N, alpha, X_, incX)
 }
 
 // Multiply X by alpha.
@@ -463,7 +462,7 @@ func DSCAL(alpha float64, X []float64, incX int) {
 func CSCAL(alpha complex64, X []complex64, incX int) {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_CSCAL(N, unsafe.Pointer(&alpha), X_, incX)
+	internal.CBLAS_CSCAL(N, unsafe.Pointer(&alpha), X_, incX)
 }
 
 // Multiply X by alpha.
@@ -471,7 +470,7 @@ func CSCAL(alpha complex64, X []complex64, incX int) {
 func ZSCAL(alpha complex128, X []complex128, incX int) {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_ZSCAL(N, unsafe.Pointer(&alpha), X_, incX)
+	internal.CBLAS_ZSCAL(N, unsafe.Pointer(&alpha), X_, incX)
 }
 
 // Multiply X by alpha.
@@ -479,7 +478,7 @@ func ZSCAL(alpha complex128, X []complex128, incX int) {
 func CSSCAL(alpha float32, X []complex64, incX int) {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_CSSCAL(N, alpha, X_, incX)
+	internal.CBLAS_CSSCAL(N, alpha, X_, incX)
 }
 
 // Multiply X by alpha.
@@ -487,7 +486,7 @@ func CSSCAL(alpha float32, X []complex64, incX int) {
 func ZDSCAL(alpha float64, X []complex128, incX int) {
 	var N int = len(X) / incX
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_ZDSCAL(N, alpha, X_, incX)
+	internal.CBLAS_ZDSCAL(N, alpha, X_, incX)
 }
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
@@ -504,7 +503,7 @@ func SGEMV(transA Transpose, alpha float32, A [][]float32, X []float32, incX int
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
+	internal.CBLAS_SGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
 // Triangular matrix-vector multiplication plus vector with optional matrix transpose.
@@ -523,7 +522,7 @@ func STRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
-	cblas.CBLAS_STRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_STRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Computes
@@ -536,7 +535,7 @@ func STRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float32, X []float32, i
 	checkSquare(rows, cols)
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
-	cblas.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_STRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
@@ -553,7 +552,7 @@ func DGEMV(transA Transpose, alpha float64, A [][]float64, X []float64, incX int
 	var A_ *float64 = &A[0][0]
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
+	internal.CBLAS_DGEMV(uint32(RowMajor), uint32(transA), rows, cols, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
 // Triangular matrix-vector multiplication plus vector with optional matrix transpose.
@@ -572,7 +571,7 @@ func DTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
 	var X_ *float64 = &X[0]
-	cblas.CBLAS_DTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_DTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Computes
@@ -585,7 +584,7 @@ func DTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]float64, X []float64, i
 	checkSquare(rows, cols)
 	var A_ *float64 = &A[0][0]
 	var X_ *float64 = &X[0]
-	cblas.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_DTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
@@ -602,7 +601,7 @@ func CGEMV(transA Transpose, alpha complex64, A [][]complex64, X []complex64, in
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_CGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
+	internal.CBLAS_CGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
 // Triangular matrix-vector multiplication plus vector with optional matrix transpose.
@@ -621,7 +620,7 @@ func CTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_CTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_CTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Computes
@@ -634,7 +633,7 @@ func CTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex64, X []complex6
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_CTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Matrix-vector multiplication plus vector with optional matrix transpose.
@@ -651,7 +650,7 @@ func ZGEMV(transA Transpose, alpha complex128, A [][]complex128, X []complex128,
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_ZGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
+	internal.CBLAS_ZGEMV(uint32(RowMajor), uint32(transA), rows, cols, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
 // Triangular matrix-vector multiplication plus vector with optional matrix transpose.
@@ -670,7 +669,7 @@ func ZTRMV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_ZTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_ZTRMV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Computes
@@ -682,7 +681,7 @@ func ZTRSV(uplo Uplo, transA Transpose, diag Diag, A [][]complex128, X []complex
 	checkSquare(rows, cols)
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
-	cblas.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
+	internal.CBLAS_ZTRSV(uint32(RowMajor), uint32(uplo), uint32(transA), uint32(diag), rows, A_, lda, X_, incX)
 }
 
 // Symmetric matrix-vector multiplication:
@@ -697,7 +696,7 @@ func SSYMV(uplo Uplo, alpha float32, A [][]float32, X []float32, incX int, beta 
 	var A_ *float32 = &A[0][0]
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
-	cblas.CBLAS_SSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
+	internal.CBLAS_SSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
 // Computes
@@ -713,7 +712,7 @@ func SGER(alpha float32, X []float32, incX int, Y []float32, incY int, A [][]flo
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
 	var A_ *float32 = &A[0][0]
-	cblas.CBLAS_SGER(uint32(RowMajor), M, N, alpha, X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_SGER(uint32(RowMajor), M, N, alpha, X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes
@@ -726,7 +725,7 @@ func SSYR(uplo Uplo, alpha float32, X []float32, incX int, A [][]float32) {
 	checkGER(rows, cols, N, N)
 	var X_ *float32 = &X[0]
 	var A_ *float32 = &A[0][0]
-	cblas.CBLAS_SSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
+	internal.CBLAS_SSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
 }
 
 // Computes the symmetric rank-2 update
@@ -742,7 +741,7 @@ func SSYR2(uplo Uplo, alpha float32, X []float32, incX int, Y []float32, incY in
 	var X_ *float32 = &X[0]
 	var Y_ *float32 = &Y[0]
 	var A_ *float32 = &A[0][0]
-	cblas.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_SSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
 }
 
 // Symmetric matrix-vector multiplication:
@@ -755,7 +754,7 @@ func DSYMV(uplo Uplo, alpha float64, A [][]float64, X []float64, incX int, beta 
 	var A_ *float64 = &A[0][0]
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
-	cblas.CBLAS_DSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
+	internal.CBLAS_DSYMV(uint32(RowMajor), uint32(uplo), rows, alpha, A_, lda, X_, incX, beta, Y_, incY)
 }
 
 // Computes
@@ -771,7 +770,7 @@ func DGER(alpha float64, X []float64, incX int, Y []float64, incY int, A [][]flo
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
 	var A_ *float64 = &A[0][0]
-	cblas.CBLAS_DGER(uint32(RowMajor), M, N, alpha, X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_DGER(uint32(RowMajor), M, N, alpha, X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes
@@ -784,7 +783,7 @@ func DSYR(uplo Uplo, alpha float64, X []float64, incX int, A [][]float64) {
 	checkGER(rows, cols, N, N)
 	var X_ *float64 = &X[0]
 	var A_ *float64 = &A[0][0]
-	cblas.CBLAS_DSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
+	internal.CBLAS_DSYR(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, A_, lda)
 }
 
 // Computes the symmetric rank-2 update
@@ -800,7 +799,7 @@ func DSYR2(uplo Uplo, alpha float64, X []float64, incX int, Y []float64, incY in
 	var X_ *float64 = &X[0]
 	var Y_ *float64 = &Y[0]
 	var A_ *float64 = &A[0][0]
-	cblas.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_DSYR2(uint32(RowMajor), uint32(uplo), N, alpha, X_, incX, Y_, incY, A_, lda)
 }
 
 // Hermitian matrix-vector product:
@@ -814,7 +813,7 @@ func CHEMV(uplo Uplo, alpha complex64, A [][]complex64, X []complex64, incX int,
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_CHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
+	internal.CBLAS_CHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
 // Computes the rank-1 update:
@@ -830,7 +829,7 @@ func CGERU(alpha complex64, X []complex64, incX int, Y []complex64, incY int, A 
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_CGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_CGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes the conjugate rank-1 update:
@@ -846,7 +845,7 @@ func CGERC(alpha complex64, X []complex64, incX int, Y []complex64, incY int, A 
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_CGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_CGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes the hermitian rank-1 update:
@@ -860,7 +859,7 @@ func CHER(uplo Uplo, alpha float32, X []complex64, incX int, A [][]complex64) {
 	checkGER(rows, cols, M, M)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_CHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
+	internal.CBLAS_CHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
 }
 
 // Computes the hermitian rank-2 update:
@@ -876,7 +875,7 @@ func CHER2(uplo Uplo, alpha complex64, X []complex64, incX int, Y []complex64, i
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_CHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // Hermitian matrix-vector product:
@@ -890,7 +889,7 @@ func ZHEMV(uplo Uplo, alpha complex128, A [][]complex128, X []complex128, incX i
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
-	cblas.CBLAS_ZHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
+	internal.CBLAS_ZHEMV(uint32(RowMajor), uint32(uplo), rows, unsafe.Pointer(&alpha), A_, lda, X_, incX, unsafe.Pointer(&beta), Y_, incY)
 }
 
 // Computes the rank-1 update:
@@ -906,7 +905,7 @@ func ZGERU(alpha complex128, X []complex128, incX int, Y []complex128, incY int,
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_ZGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_ZGERU(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes the conjugate rank-1 update
@@ -922,7 +921,7 @@ func ZGERC(alpha complex128, X []complex128, incX int, Y []complex128, incY int,
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&Y[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_ZGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_ZGERC(uint32(RowMajor), M, N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // Computes the hermitian rank-1 update:
@@ -936,7 +935,7 @@ func ZHER(uplo Uplo, alpha float64, X []complex128, incX int, A [][]complex128) 
 	checkGER(rows, cols, M, M)
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
+	internal.CBLAS_ZHER(uint32(RowMajor), uint32(uplo), rows, alpha, X_, incX, A_, lda)
 }
 
 // Computes the hermitian rank-2 update:
@@ -952,7 +951,7 @@ func ZHER2(uplo Uplo, alpha complex128, X []complex128, incX int, Y []complex128
 	var X_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var Y_ unsafe.Pointer = unsafe.Pointer(&X[0])
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
-	cblas.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
+	internal.CBLAS_ZHER2(uint32(RowMajor), uint32(uplo), N, unsafe.Pointer(&alpha), X_, incX, Y_, incY, A_, lda)
 }
 
 // General matrix-matrix multiplication:
@@ -969,7 +968,7 @@ func SGEMM(transA Transpose, transB Transpose, alpha float32, A [][]float32, B [
 	var B_ *float32 = &B[0][0]
 	var C_ *float32 = &C[0][0]
 
-	cblas.CBLAS_SGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_SGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -991,7 +990,7 @@ func SSYMM(side Side, uplo Uplo, alpha float32, A [][]float32, B [][]float32, be
 	var B_ *float32 = &B[0][0]
 	var C_ *float32 = &C[0][0]
 
-	cblas.CBLAS_SSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_SSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes a rank-k update of the symmetric matrix C:
@@ -1017,7 +1016,7 @@ func SSYRK(uplo Uplo, trans Transpose, alpha float32, A [][]float32, beta float3
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
+	internal.CBLAS_SSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
 // Computes a rank-2k update of the symmetric matrix C:
@@ -1045,7 +1044,7 @@ func SSYR2K(uplo Uplo, trans Transpose, alpha float32, A [][]float32, B [][]floa
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_SSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1066,7 +1065,7 @@ func STRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 	}
 	var A_ *float32 = &A[0][0]
 	var B_ *float32 = &B[0][0]
-	cblas.CBLAS_STRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
+	internal.CBLAS_STRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
 
 // Computes the inverse-matrix matrix product
@@ -1087,7 +1086,7 @@ func STRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float32, A [
 	}
 	var A_ *float32 = &A[0][0]
 	var B_ *float32 = &B[0][0]
-	cblas.CBLAS_STRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
+	internal.CBLAS_STRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
 
 // General matrix-matrix multiplication:
@@ -1105,7 +1104,7 @@ func DGEMM(transA Transpose, transB Transpose, alpha float64, A [][]float64, B [
 	var B_ *float64 = &B[0][0]
 	var C_ *float64 = &C[0][0]
 
-	cblas.CBLAS_DGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_DGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1127,7 +1126,7 @@ func DSYMM(side Side, uplo Uplo, alpha float64, A [][]float64, B [][]float64, be
 	var B_ *float64 = &B[0][0]
 	var C_ *float64 = &C[0][0]
 
-	cblas.CBLAS_DSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_DSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes a rank-k update of the symmetric matrix C:
@@ -1153,7 +1152,7 @@ func DSYRK(uplo Uplo, trans Transpose, alpha float64, A [][]float64, beta float6
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
+	internal.CBLAS_DSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
 // Computes a rank-2k update of the symmetric matrix C:
@@ -1181,7 +1180,7 @@ func DSYR2K(uplo Uplo, trans Transpose, alpha float64, A [][]float64, B [][]floa
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_DSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1202,7 +1201,7 @@ func DTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 	}
 	var A_ *float64 = &A[0][0]
 	var B_ *float64 = &B[0][0]
-	cblas.CBLAS_DTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
+	internal.CBLAS_DTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
 
 // Computes the inverse-matrix matrix product
@@ -1223,7 +1222,7 @@ func DTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha float64, A [
 	}
 	var A_ *float64 = &A[0][0]
 	var B_ *float64 = &B[0][0]
-	cblas.CBLAS_DTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
+	internal.CBLAS_DTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, alpha, A_, lda, B_, ldb)
 }
 
 // General matrix-matrix multiplication:
@@ -1240,7 +1239,7 @@ func CGEMM(transA Transpose, transB Transpose, alpha complex64, A [][]complex64,
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
 
-	cblas.CBLAS_CGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_CGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1262,7 +1261,7 @@ func CSYMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
 
-	cblas.CBLAS_CSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_CSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-k update of the symmetric matrix C:
@@ -1288,7 +1287,7 @@ func CSYRK(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, beta co
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_CSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-2k update of the symmetric matrix C:
@@ -1316,7 +1315,7 @@ func CSYR2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_CSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_CSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1336,7 +1335,7 @@ func CTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 	}
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
-	cblas.CBLAS_CTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
+	internal.CBLAS_CTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
 // Computes the inverse-matrix matrix product
@@ -1356,7 +1355,7 @@ func CTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex64, A
 	}
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
-	cblas.CBLAS_CTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
+	internal.CBLAS_CTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
 // General matrix-matrix multiplication:
@@ -1374,7 +1373,7 @@ func ZGEMM(transA Transpose, transB Transpose, alpha complex128, A [][]complex12
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
 
-	cblas.CBLAS_ZGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_ZGEMM(uint32(RowMajor), uint32(transA), uint32(transB), rowsC, colsC, colsA, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1396,7 +1395,7 @@ func ZSYMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
 
-	cblas.CBLAS_ZSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_ZSYMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-k update of the symmetric matrix C:
@@ -1422,7 +1421,7 @@ func ZSYRK(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, beta 
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_ZSYRK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-2k update of the symmetric matrix C:
@@ -1450,7 +1449,7 @@ func ZSYR2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_ZSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_ZSYR2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes the matrix-matrix product
@@ -1470,7 +1469,7 @@ func ZTRMM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 	}
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
-	cblas.CBLAS_ZTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
+	internal.CBLAS_ZTRMM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
 // Computes the inverse-matrix matrix product
@@ -1490,7 +1489,7 @@ func ZTRSM(side Side, uplo Uplo, transA Transpose, diag Diag, alpha complex128, 
 	}
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
-	cblas.CBLAS_ZTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
+	internal.CBLAS_ZTRSM(uint32(RowMajor), uint32(side), uint32(uplo), uint32(transA), uint32(diag), rowsB, colsB, unsafe.Pointer(&alpha), A_, lda, B_, ldb)
 }
 
 // Computes the matrix-matrix product and sum
@@ -1510,7 +1509,7 @@ func CHEMM(side Side, uplo Uplo, alpha complex64, A [][]complex64, B [][]complex
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
-	cblas.CBLAS_CHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_CHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-k update of the hermitian matrix C
@@ -1537,7 +1536,7 @@ func CHERK(uplo Uplo, trans Transpose, alpha float32, A [][]complex64, beta floa
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
+	internal.CBLAS_CHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
 // Computes a rank-2k update of the hermitian matrix C,
@@ -1566,7 +1565,7 @@ func CHER2K(uplo Uplo, trans Transpose, alpha complex64, A [][]complex64, B [][]
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_CHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
 }
 
 // Computes the matrix-matrix product and sum
@@ -1586,7 +1585,7 @@ func ZHEMM(side Side, uplo Uplo, alpha complex128, A [][]complex128, B [][]compl
 	var A_ unsafe.Pointer = unsafe.Pointer(&A[0][0])
 	var B_ unsafe.Pointer = unsafe.Pointer(&B[0][0])
 	var C_ unsafe.Pointer = unsafe.Pointer(&C[0][0])
-	cblas.CBLAS_ZHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
+	internal.CBLAS_ZHEMM(uint32(RowMajor), uint32(side), uint32(uplo), rowsC, colsC, unsafe.Pointer(&alpha), A_, lda, B_, ldb, unsafe.Pointer(&beta), C_, ldc)
 }
 
 // Computes a rank-k update of the hermitian matrix C
@@ -1613,7 +1612,7 @@ func ZHERK(uplo Uplo, trans Transpose, alpha float64, A [][]complex128, beta flo
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
+	internal.CBLAS_ZHERK(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, alpha, A_, lda, beta, C_, ldc)
 }
 
 // Computes a rank-2k update of the hermitian matrix C,
@@ -1642,5 +1641,5 @@ func ZHER2K(uplo Uplo, trans Transpose, alpha complex128, A [][]complex128, B []
 	} else {
 		K = rowsA
 	}
-	cblas.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
+	internal.CBLAS_ZHER2K(uint32(RowMajor), uint32(uplo), uint32(trans), rowsC, K, unsafe.Pointer(&alpha), A_, lda, B_, ldb, beta, C_, ldc)
 }

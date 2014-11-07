@@ -2,7 +2,7 @@
 #set -e
 
 src="gsl-1.16" #original source
-dst="cblas"
+dst="internal"
 
 rm -f $dst/*.c $dst/*.h $dst/*.o
 
