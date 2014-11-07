@@ -1,0 +1,44 @@
+#include "config.h"
+#include <stdlib.h>
+#include "gsl_gsl_vector.h"
+
+#include "vector_view.h"
+
+#define BASE_GSL_COMPLEX_LONG
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX_LONG
+
+#define BASE_GSL_COMPLEX
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX
+
+#define BASE_GSL_COMPLEX_FLOAT
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX_FLOAT
+
+#define USE_QUALIFIER
+#define QUALIFIER const
+
+#define BASE_GSL_COMPLEX_LONG
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX_LONG
+
+#define BASE_GSL_COMPLEX
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX
+
+#define BASE_GSL_COMPLEX_FLOAT
+#include "templates_on.h"
+#include "vector_reim_source.c.inc"
+#include "templates_off.h"
+#undef  BASE_GSL_COMPLEX_FLOAT
