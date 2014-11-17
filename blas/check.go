@@ -2,6 +2,7 @@ package blas
 
 import (
 	"fmt"
+	"github.com/barnex/matrix"
 )
 
 // check if X and Y have the some number of elements (considering their stride),
@@ -74,28 +75,28 @@ func checkMV(trans Transpose, rows, cols, Nx, Ny int) {
 
 // return and check sizes for matrix-vector multiplication
 func checkSMV(trans Transpose, A [][]float32, X []float32, incX int, Y []float32, incY int) (rows, cols, lda int) {
-	rows, cols, lda = SSize(A)
+	rows, cols, lda = matrix.SSize(A)
 	checkMV(trans, rows, cols, len(X)/incX, len(Y)/incY)
 	return
 }
 
 // return and check sizes for matrix-vector multiplication
 func checkDMV(trans Transpose, A [][]float64, X []float64, incX int, Y []float64, incY int) (rows, cols, lda int) {
-	rows, cols, lda = DSize(A)
+	rows, cols, lda = matrix.DSize(A)
 	checkMV(trans, rows, cols, len(X)/incX, len(Y)/incY)
 	return
 }
 
 // return and check sizes for matrix-vector multiplication
 func checkCMV(trans Transpose, A [][]complex64, X []complex64, incX int, Y []complex64, incY int) (rows, cols, lda int) {
-	rows, cols, lda = CSize(A)
+	rows, cols, lda = matrix.CSize(A)
 	checkMV(trans, rows, cols, len(X)/incX, len(Y)/incY)
 	return
 }
 
 // return and check sizes for matrix-vector multiplication
 func checkZMV(trans Transpose, A [][]complex128, X []complex128, incX int, Y []complex128, incY int) (rows, cols, lda int) {
-	rows, cols, lda = ZSize(A)
+	rows, cols, lda = matrix.ZSize(A)
 	checkMV(trans, rows, cols, len(X)/incX, len(Y)/incY)
 	return
 }

@@ -3,6 +3,7 @@ package blas
 //THIS FILE IS AUTO-GENERATED, EDITING IS FUTILE.
 
 import (
+	. "github.com/barnex/matrix"
 	"testing"
 )
 
@@ -67,10 +68,10 @@ func BenchmarkCGEMM(b *testing.B) {
 	arg0 := NoTrans
 	arg1 := NoTrans
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
-	arg4 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
+	arg4 := MakeComplex64(N, N)
 	arg5 := complex64(1)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CGEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -82,7 +83,7 @@ func BenchmarkCGEMV(b *testing.B) {
 
 	arg0 := NoTrans
 	arg1 := complex64(1)
-	arg2 := MakeComplex64Matrix(N, N)
+	arg2 := MakeComplex64(N, N)
 	arg3 := make([]complex64, N)
 	arg4 := 1
 	arg5 := complex64(1)
@@ -102,7 +103,7 @@ func BenchmarkCGERC(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]complex64, N)
 	arg4 := 1
-	arg5 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CGERC(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -117,7 +118,7 @@ func BenchmarkCGERU(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]complex64, N)
 	arg4 := 1
-	arg5 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CGERU(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -130,10 +131,10 @@ func BenchmarkCHEMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
-	arg4 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
+	arg4 := MakeComplex64(N, N)
 	arg5 := complex64(1)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CHEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -145,7 +146,7 @@ func BenchmarkCHEMV(b *testing.B) {
 
 	arg0 := Upper
 	arg1 := complex64(1)
-	arg2 := MakeComplex64Matrix(N, N)
+	arg2 := MakeComplex64(N, N)
 	arg3 := make([]complex64, N)
 	arg4 := 1
 	arg5 := complex64(1)
@@ -164,7 +165,7 @@ func BenchmarkCHER(b *testing.B) {
 	arg1 := float32(1)
 	arg2 := make([]complex64, N)
 	arg3 := 1
-	arg4 := MakeComplex64Matrix(N, N)
+	arg4 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CHER(arg0, arg1, arg2, arg3, arg4)
@@ -180,7 +181,7 @@ func BenchmarkCHER2(b *testing.B) {
 	arg3 := 1
 	arg4 := make([]complex64, N)
 	arg5 := 1
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CHER2(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -193,10 +194,10 @@ func BenchmarkCHER2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
-	arg4 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
+	arg4 := MakeComplex64(N, N)
 	arg5 := float32(1)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CHER2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -209,9 +210,9 @@ func BenchmarkCHERK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float32(1)
-	arg3 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
 	arg4 := float32(1)
-	arg5 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CHERK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -261,10 +262,10 @@ func BenchmarkCSYMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
-	arg4 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
+	arg4 := MakeComplex64(N, N)
 	arg5 := complex64(1)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CSYMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -277,10 +278,10 @@ func BenchmarkCSYR2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
-	arg4 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
+	arg4 := MakeComplex64(N, N)
 	arg5 := complex64(1)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CSYR2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -293,9 +294,9 @@ func BenchmarkCSYRK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex64(1)
-	arg3 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
 	arg4 := complex64(1)
-	arg5 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CSYRK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -305,7 +306,7 @@ func BenchmarkCSYRK(b *testing.B) {
 func BenchmarkCSize(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeComplex64Matrix(N, N)
+	arg0 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CSize(arg0)
@@ -315,7 +316,7 @@ func BenchmarkCSize(b *testing.B) {
 func BenchmarkCSubmatrix(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeComplex64Matrix(N, N)
+	arg0 := MakeComplex64(N, N)
 	arg1 := 1
 	arg2 := 1
 	arg3 := 1
@@ -334,8 +335,8 @@ func BenchmarkCTRMM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := complex64(1)
-	arg5 := MakeComplex64Matrix(N, N)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CTRMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -348,7 +349,7 @@ func BenchmarkCTRMV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
 	arg4 := make([]complex64, N)
 	arg5 := 1
 	b.StartTimer()
@@ -365,8 +366,8 @@ func BenchmarkCTRSM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := complex64(1)
-	arg5 := MakeComplex64Matrix(N, N)
-	arg6 := MakeComplex64Matrix(N, N)
+	arg5 := MakeComplex64(N, N)
+	arg6 := MakeComplex64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		CTRSM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -379,7 +380,7 @@ func BenchmarkCTRSV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeComplex64Matrix(N, N)
+	arg3 := MakeComplex64(N, N)
 	arg4 := make([]complex64, N)
 	arg5 := 1
 	b.StartTimer()
@@ -445,10 +446,10 @@ func BenchmarkDGEMM(b *testing.B) {
 	arg0 := NoTrans
 	arg1 := NoTrans
 	arg2 := float64(1)
-	arg3 := MakeFloat64Matrix(N, N)
-	arg4 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
+	arg4 := MakeFloat64(N, N)
 	arg5 := float64(1)
-	arg6 := MakeFloat64Matrix(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DGEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -460,7 +461,7 @@ func BenchmarkDGEMV(b *testing.B) {
 
 	arg0 := NoTrans
 	arg1 := float64(1)
-	arg2 := MakeFloat64Matrix(N, N)
+	arg2 := MakeFloat64(N, N)
 	arg3 := make([]float64, N)
 	arg4 := 1
 	arg5 := float64(1)
@@ -480,7 +481,7 @@ func BenchmarkDGER(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]float64, N)
 	arg4 := 1
-	arg5 := MakeFloat64Matrix(N, N)
+	arg5 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DGER(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -542,10 +543,10 @@ func BenchmarkDSYMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := float64(1)
-	arg3 := MakeFloat64Matrix(N, N)
-	arg4 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
+	arg4 := MakeFloat64(N, N)
 	arg5 := float64(1)
-	arg6 := MakeFloat64Matrix(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSYMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -557,7 +558,7 @@ func BenchmarkDSYMV(b *testing.B) {
 
 	arg0 := Upper
 	arg1 := float64(1)
-	arg2 := MakeFloat64Matrix(N, N)
+	arg2 := MakeFloat64(N, N)
 	arg3 := make([]float64, N)
 	arg4 := 1
 	arg5 := float64(1)
@@ -576,7 +577,7 @@ func BenchmarkDSYR(b *testing.B) {
 	arg1 := float64(1)
 	arg2 := make([]float64, N)
 	arg3 := 1
-	arg4 := MakeFloat64Matrix(N, N)
+	arg4 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSYR(arg0, arg1, arg2, arg3, arg4)
@@ -592,7 +593,7 @@ func BenchmarkDSYR2(b *testing.B) {
 	arg3 := 1
 	arg4 := make([]float64, N)
 	arg5 := 1
-	arg6 := MakeFloat64Matrix(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSYR2(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -605,10 +606,10 @@ func BenchmarkDSYR2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float64(1)
-	arg3 := MakeFloat64Matrix(N, N)
-	arg4 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
+	arg4 := MakeFloat64(N, N)
 	arg5 := float64(1)
-	arg6 := MakeFloat64Matrix(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSYR2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -621,9 +622,9 @@ func BenchmarkDSYRK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float64(1)
-	arg3 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
 	arg4 := float64(1)
-	arg5 := MakeFloat64Matrix(N, N)
+	arg5 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSYRK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -633,7 +634,7 @@ func BenchmarkDSYRK(b *testing.B) {
 func BenchmarkDSize(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeFloat64Matrix(N, N)
+	arg0 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DSize(arg0)
@@ -643,7 +644,7 @@ func BenchmarkDSize(b *testing.B) {
 func BenchmarkDSubmatrix(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeFloat64Matrix(N, N)
+	arg0 := MakeFloat64(N, N)
 	arg1 := 1
 	arg2 := 1
 	arg3 := 1
@@ -662,8 +663,8 @@ func BenchmarkDTRMM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := float64(1)
-	arg5 := MakeFloat64Matrix(N, N)
-	arg6 := MakeFloat64Matrix(N, N)
+	arg5 := MakeFloat64(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DTRMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -676,7 +677,7 @@ func BenchmarkDTRMV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
 	arg4 := make([]float64, N)
 	arg5 := 1
 	b.StartTimer()
@@ -693,8 +694,8 @@ func BenchmarkDTRSM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := float64(1)
-	arg5 := MakeFloat64Matrix(N, N)
-	arg6 := MakeFloat64Matrix(N, N)
+	arg5 := MakeFloat64(N, N)
+	arg6 := MakeFloat64(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		DTRSM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -707,7 +708,7 @@ func BenchmarkDTRSV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeFloat64Matrix(N, N)
+	arg3 := MakeFloat64(N, N)
 	arg4 := make([]float64, N)
 	arg5 := 1
 	b.StartTimer()
@@ -782,47 +783,47 @@ func BenchmarkIZAMAX(b *testing.B) {
 	}
 }
 
-func BenchmarkMakeComplex128Matrix(b *testing.B) {
+func BenchmarkMakeComplex128(b *testing.B) {
 	b.StopTimer()
 
 	arg0 := 1
 	arg1 := 1
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		MakeComplex128Matrix(arg0, arg1)
+		MakeComplex128(arg0, arg1)
 	}
 }
 
-func BenchmarkMakeComplex64Matrix(b *testing.B) {
+func BenchmarkMakeComplex64(b *testing.B) {
 	b.StopTimer()
 
 	arg0 := 1
 	arg1 := 1
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		MakeComplex64Matrix(arg0, arg1)
+		MakeComplex64(arg0, arg1)
 	}
 }
 
-func BenchmarkMakeFloat32Matrix(b *testing.B) {
+func BenchmarkMakeFloat32(b *testing.B) {
 	b.StopTimer()
 
 	arg0 := 1
 	arg1 := 1
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		MakeFloat32Matrix(arg0, arg1)
+		MakeFloat32(arg0, arg1)
 	}
 }
 
-func BenchmarkMakeFloat64Matrix(b *testing.B) {
+func BenchmarkMakeFloat64(b *testing.B) {
 	b.StopTimer()
 
 	arg0 := 1
 	arg1 := 1
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		MakeFloat64Matrix(arg0, arg1)
+		MakeFloat64(arg0, arg1)
 	}
 }
 
@@ -919,10 +920,10 @@ func BenchmarkSGEMM(b *testing.B) {
 	arg0 := NoTrans
 	arg1 := NoTrans
 	arg2 := float32(1)
-	arg3 := MakeFloat32Matrix(N, N)
-	arg4 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
+	arg4 := MakeFloat32(N, N)
 	arg5 := float32(1)
-	arg6 := MakeFloat32Matrix(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SGEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -934,7 +935,7 @@ func BenchmarkSGEMV(b *testing.B) {
 
 	arg0 := NoTrans
 	arg1 := float32(1)
-	arg2 := MakeFloat32Matrix(N, N)
+	arg2 := MakeFloat32(N, N)
 	arg3 := make([]float32, N)
 	arg4 := 1
 	arg5 := float32(1)
@@ -954,7 +955,7 @@ func BenchmarkSGER(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]float32, N)
 	arg4 := 1
-	arg5 := MakeFloat32Matrix(N, N)
+	arg5 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SGER(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1003,10 +1004,10 @@ func BenchmarkSSYMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := float32(1)
-	arg3 := MakeFloat32Matrix(N, N)
-	arg4 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
+	arg4 := MakeFloat32(N, N)
 	arg5 := float32(1)
-	arg6 := MakeFloat32Matrix(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSYMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1018,7 +1019,7 @@ func BenchmarkSSYMV(b *testing.B) {
 
 	arg0 := Upper
 	arg1 := float32(1)
-	arg2 := MakeFloat32Matrix(N, N)
+	arg2 := MakeFloat32(N, N)
 	arg3 := make([]float32, N)
 	arg4 := 1
 	arg5 := float32(1)
@@ -1037,7 +1038,7 @@ func BenchmarkSSYR(b *testing.B) {
 	arg1 := float32(1)
 	arg2 := make([]float32, N)
 	arg3 := 1
-	arg4 := MakeFloat32Matrix(N, N)
+	arg4 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSYR(arg0, arg1, arg2, arg3, arg4)
@@ -1053,7 +1054,7 @@ func BenchmarkSSYR2(b *testing.B) {
 	arg3 := 1
 	arg4 := make([]float32, N)
 	arg5 := 1
-	arg6 := MakeFloat32Matrix(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSYR2(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1066,10 +1067,10 @@ func BenchmarkSSYR2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float32(1)
-	arg3 := MakeFloat32Matrix(N, N)
-	arg4 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
+	arg4 := MakeFloat32(N, N)
 	arg5 := float32(1)
-	arg6 := MakeFloat32Matrix(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSYR2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1082,9 +1083,9 @@ func BenchmarkSSYRK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float32(1)
-	arg3 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
 	arg4 := float32(1)
-	arg5 := MakeFloat32Matrix(N, N)
+	arg5 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSYRK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1094,7 +1095,7 @@ func BenchmarkSSYRK(b *testing.B) {
 func BenchmarkSSize(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeFloat32Matrix(N, N)
+	arg0 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		SSize(arg0)
@@ -1104,7 +1105,7 @@ func BenchmarkSSize(b *testing.B) {
 func BenchmarkSSubmatrix(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeFloat32Matrix(N, N)
+	arg0 := MakeFloat32(N, N)
 	arg1 := 1
 	arg2 := 1
 	arg3 := 1
@@ -1123,8 +1124,8 @@ func BenchmarkSTRMM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := float32(1)
-	arg5 := MakeFloat32Matrix(N, N)
-	arg6 := MakeFloat32Matrix(N, N)
+	arg5 := MakeFloat32(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		STRMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1137,7 +1138,7 @@ func BenchmarkSTRMV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
 	arg4 := make([]float32, N)
 	arg5 := 1
 	b.StartTimer()
@@ -1154,8 +1155,8 @@ func BenchmarkSTRSM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := float32(1)
-	arg5 := MakeFloat32Matrix(N, N)
-	arg6 := MakeFloat32Matrix(N, N)
+	arg5 := MakeFloat32(N, N)
+	arg6 := MakeFloat32(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		STRSM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1168,7 +1169,7 @@ func BenchmarkSTRSV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeFloat32Matrix(N, N)
+	arg3 := MakeFloat32(N, N)
 	arg4 := make([]float32, N)
 	arg5 := 1
 	b.StartTimer()
@@ -1248,10 +1249,10 @@ func BenchmarkZGEMM(b *testing.B) {
 	arg0 := NoTrans
 	arg1 := NoTrans
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
-	arg4 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
+	arg4 := MakeComplex128(N, N)
 	arg5 := complex128(1)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZGEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1263,7 +1264,7 @@ func BenchmarkZGEMV(b *testing.B) {
 
 	arg0 := NoTrans
 	arg1 := complex128(1)
-	arg2 := MakeComplex128Matrix(N, N)
+	arg2 := MakeComplex128(N, N)
 	arg3 := make([]complex128, N)
 	arg4 := 1
 	arg5 := complex128(1)
@@ -1283,7 +1284,7 @@ func BenchmarkZGERC(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]complex128, N)
 	arg4 := 1
-	arg5 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZGERC(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1298,7 +1299,7 @@ func BenchmarkZGERU(b *testing.B) {
 	arg2 := 1
 	arg3 := make([]complex128, N)
 	arg4 := 1
-	arg5 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZGERU(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1311,10 +1312,10 @@ func BenchmarkZHEMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
-	arg4 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
+	arg4 := MakeComplex128(N, N)
 	arg5 := complex128(1)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZHEMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1326,7 +1327,7 @@ func BenchmarkZHEMV(b *testing.B) {
 
 	arg0 := Upper
 	arg1 := complex128(1)
-	arg2 := MakeComplex128Matrix(N, N)
+	arg2 := MakeComplex128(N, N)
 	arg3 := make([]complex128, N)
 	arg4 := 1
 	arg5 := complex128(1)
@@ -1345,7 +1346,7 @@ func BenchmarkZHER(b *testing.B) {
 	arg1 := float64(1)
 	arg2 := make([]complex128, N)
 	arg3 := 1
-	arg4 := MakeComplex128Matrix(N, N)
+	arg4 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZHER(arg0, arg1, arg2, arg3, arg4)
@@ -1361,7 +1362,7 @@ func BenchmarkZHER2(b *testing.B) {
 	arg3 := 1
 	arg4 := make([]complex128, N)
 	arg5 := 1
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZHER2(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1374,10 +1375,10 @@ func BenchmarkZHER2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
-	arg4 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
+	arg4 := MakeComplex128(N, N)
 	arg5 := float64(1)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZHER2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1390,9 +1391,9 @@ func BenchmarkZHERK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := float64(1)
-	arg3 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
 	arg4 := float64(1)
-	arg5 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZHERK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1430,10 +1431,10 @@ func BenchmarkZSYMM(b *testing.B) {
 	arg0 := Left
 	arg1 := Upper
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
-	arg4 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
+	arg4 := MakeComplex128(N, N)
 	arg5 := complex128(1)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZSYMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1446,10 +1447,10 @@ func BenchmarkZSYR2K(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
-	arg4 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
+	arg4 := MakeComplex128(N, N)
 	arg5 := complex128(1)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZSYR2K(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1462,9 +1463,9 @@ func BenchmarkZSYRK(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := complex128(1)
-	arg3 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
 	arg4 := complex128(1)
-	arg5 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZSYRK(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -1474,7 +1475,7 @@ func BenchmarkZSYRK(b *testing.B) {
 func BenchmarkZSize(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeComplex128Matrix(N, N)
+	arg0 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZSize(arg0)
@@ -1484,7 +1485,7 @@ func BenchmarkZSize(b *testing.B) {
 func BenchmarkZSubmatrix(b *testing.B) {
 	b.StopTimer()
 
-	arg0 := MakeComplex128Matrix(N, N)
+	arg0 := MakeComplex128(N, N)
 	arg1 := 1
 	arg2 := 1
 	arg3 := 1
@@ -1503,8 +1504,8 @@ func BenchmarkZTRMM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := complex128(1)
-	arg5 := MakeComplex128Matrix(N, N)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZTRMM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1517,7 +1518,7 @@ func BenchmarkZTRMV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
 	arg4 := make([]complex128, N)
 	arg5 := 1
 	b.StartTimer()
@@ -1534,8 +1535,8 @@ func BenchmarkZTRSM(b *testing.B) {
 	arg2 := NoTrans
 	arg3 := NonUnit
 	arg4 := complex128(1)
-	arg5 := MakeComplex128Matrix(N, N)
-	arg6 := MakeComplex128Matrix(N, N)
+	arg5 := MakeComplex128(N, N)
+	arg6 := MakeComplex128(N, N)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		ZTRSM(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -1548,7 +1549,7 @@ func BenchmarkZTRSV(b *testing.B) {
 	arg0 := Upper
 	arg1 := NoTrans
 	arg2 := NonUnit
-	arg3 := MakeComplex128Matrix(N, N)
+	arg3 := MakeComplex128(N, N)
 	arg4 := make([]complex128, N)
 	arg5 := 1
 	b.StartTimer()
